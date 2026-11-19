@@ -18,6 +18,7 @@
   <ItemGroup>
     <!-- Yjs-generated compatibility fixtures (tests/fixtures-generator); read from the output folder. -->
     <None Include="Compat\Fixtures\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Core\Assets\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>
