@@ -116,7 +116,9 @@ public sealed class SyncProtocolTests
         var replies = protocol.Handle(server, protocol.Start(client), "client");
         Assert.AreEqual(1, replies.Count);
         Assert.IsInstanceOfType(replies[0], typeof(SyncStep2Message));
-        Assert.AreEqual("{}", server.GetState(2));
+        // like y-protocols, the initial {} state has clock 0, which a peer that never heard of the client ignores
+        Assert.IsNull(server.GetState(2));
+        Assert.AreEqual(0UL, server.Meta.ContainsKey(2) ? 1UL : 0UL);
 
         // client applies the answer and the server's own start
         Assert.AreEqual(0, protocol.Handle(client, replies[0].ToArray(), "server").Count);
@@ -232,7 +234,7 @@ public sealed class SyncProtocolTests
         CollectionAssert.AreEqual(server.Doc.EncodeStateVector(), client.Doc.EncodeStateVector());
         Assert.AreEqual(2, client.Doc.GetArray("a").Length);
         Assert.AreEqual("{\"user\":\"c\"}", server.GetState(20));
-        Assert.AreEqual("{}", client.GetState(10));
+        Assert.IsNull(client.GetState(10)); // clock 0: never sent with a newer clock
     }
 
     [TestMethod]
