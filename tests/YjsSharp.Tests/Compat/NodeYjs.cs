@@ -58,6 +58,11 @@ internal sealed class NodeYjs : IDisposable
 
     private static string? FindGeneratorDirectory()
     {
+        var configured = Environment.GetEnvironmentVariable("YJSSHARP_FIXTURES_GENERATOR");
+        if (!string.IsNullOrEmpty(configured))
+        {
+            return File.Exists(Path.Combine(configured, "runner.mjs")) ? configured : null;
+        }
         var dir = new DirectoryInfo(AppContext.BaseDirectory);
         while (dir != null)
         {

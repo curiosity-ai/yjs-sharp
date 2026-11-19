@@ -72,6 +72,7 @@ public sealed class LiveRoundTripTests
     [DataRow(1, 300)]
     [DataRow(2, 300)]
     [DataRow(3, 300)]
+    [DataRow(4, 1000)]
     public void Fuzz_ThreePeersAlternatingJsAndCSharp(int seed, int steps)
     {
         var node  = Node;
@@ -206,6 +207,16 @@ public sealed class LiveRoundTripTests
         Assert.AreEqual(jsContent, ScenarioRunner.ContentOf(fromJs, roots), "Yjs v1 state applied in C#");
     }
 
+    /// <summary>Moves a UTF-16 index off the middle of a surrogate pair (down, or up when <paramref name="up"/>).</summary>
+    private static int Snap(string s, int index, bool up = false)
+    {
+        if (index > 0 && index < s.Length && char.IsLowSurrogate(s[index]) && char.IsHighSurrogate(s[index - 1]))
+        {
+            return up ? index + 1 : index - 1;
+        }
+        return index;
+    }
+
     private static readonly string[] Words = { "a", "b", "hello", " ", "world", "ä", "ß", "漢字", "😀", "👩‍👩‍👧", "x\ny", "é", "🇩🇪", "Ω" };
 
     /// <summary>A random operation that is valid for the current state of <paramref name="doc"/>.</summary>
@@ -215,21 +226,26 @@ public sealed class LiveRoundTripTests
         {
             case 0:
             {
-                var len = doc.GetText("t").Length;
+                // Edits never cut a surrogate pair in half. Yjs replaces the halves of a split pair with U+FFFD
+                // on the peer that splits the item only (a remote peer applying the same update may not split
+                // there), so even two Yjs peers stop converging when a range ends inside a pair.
+                var str = doc.GetText("t").ToString();
+                var len = str.Length;
                 var r   = rng.NextDouble();
                 if (r < 0.55 || len == 0)
                 {
-                    var op = new JsonObject { ["op"] = "textInsert", ["peer"] = peer, ["target"] = "t", ["index"] = rng.Next(len + 1), ["text"] = Words[rng.Next(Words.Length)] + Words[rng.Next(Words.Length)] };
+                    var op = new JsonObject { ["op"] = "textInsert", ["peer"] = peer, ["target"] = "t", ["index"] = Snap(str, rng.Next(len + 1)), ["text"] = Words[rng.Next(Words.Length)] + Words[rng.Next(Words.Length)] };
                     if (rng.NextDouble() < 0.2)
                     {
                         op["attrs"] = new JsonObject { ["bold"] = true };
                     }
                     return op;
                 }
-                var index = rng.Next(len);
+                var index = Snap(str, rng.Next(len));
+                var end   = Snap(str, index + 1 + rng.Next(Math.Min(r < 0.85 ? 4 : 5, len - index)), up: true);
                 if (r < 0.85)
                 {
-                    return new JsonObject { ["op"] = "textDelete", ["peer"] = peer, ["target"] = "t", ["index"] = index, ["length"] = 1 + rng.Next(Math.Min(4, len - index)) };
+                    return new JsonObject { ["op"] = "textDelete", ["peer"] = peer, ["target"] = "t", ["index"] = index, ["length"] = end - index };
                 }
                 var attrs = rng.Next(4) switch
                 {
@@ -238,7 +254,7 @@ public sealed class LiveRoundTripTests
                     2 => new JsonObject { ["bold"] = null },
                     _ => new JsonObject { ["color"] = "#ff0000" }
                 };
-                return new JsonObject { ["op"] = "textFormat", ["peer"] = peer, ["target"] = "t", ["index"] = index, ["length"] = 1 + rng.Next(Math.Min(5, len - index)), ["attrs"] = attrs };
+                return new JsonObject { ["op"] = "textFormat", ["peer"] = peer, ["target"] = "t", ["index"] = index, ["length"] = end - index, ["attrs"] = attrs };
             }
             case 1:
             {
