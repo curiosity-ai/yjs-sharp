@@ -447,6 +447,30 @@ public sealed class Doc : IDisposable
         }, null, true);
     }
 
+    /// <summary>
+    /// Removes the pending (not yet applicable) structs and deletions from the document and returns them as one
+    /// update (v1), or null when nothing is pending.
+    /// </summary>
+    public byte[]? PrunePending()
+    {
+        var parts = new List<byte[]>();
+        if (Store.PendingStructs != null)
+        {
+            parts.Add(Store.PendingStructs.Update);
+        }
+        if (Store.PendingDs != null)
+        {
+            parts.Add(Store.PendingDs);
+        }
+        Store.PendingStructs = null;
+        Store.PendingDs      = null;
+        if (parts.Count == 0)
+        {
+            return null;
+        }
+        return UpdateUtils.ConvertUpdateFormatV2ToV1(UpdateUtils.MergeUpdatesV2(parts));
+    }
+
     /// <summary>Whether the document holds updates that could not be applied yet (missing dependencies).</summary>
     public bool HasPendingUpdates => Store.PendingStructs != null || Store.PendingDs != null;
 

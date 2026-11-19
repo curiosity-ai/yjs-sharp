@@ -79,6 +79,10 @@ internal static class UpdateCodec
                     case 0:
                         {
                             var len = decoder.ReadLen();
+                            if (len == 0)
+                            {
+                                throw new FormatException("Malformed update: empty block");
+                            }
                             refs.Add(new GC(new ID(client, clock), len));
                             clock += len;
                             break;
@@ -86,6 +90,10 @@ internal static class UpdateCodec
                     case 10:
                         {
                             var len = decoder.RestDecoder.ReadVarUInt32();
+                            if (len == 0)
+                            {
+                                throw new FormatException("Malformed update: empty block");
+                            }
                             refs.Add(new Skip(new ID(client, clock), len));
                             clock += len;
                             break;
@@ -93,8 +101,12 @@ internal static class UpdateCodec
                     default:
                         {
                             var item = ReadItem(decoder, info, client, clock, doc);
-                            refs.Add(item);
-                            clock += item.Length;
+                            if (item.Length > 0)
+                            {
+                                // Yjs never encodes empty items; a malformed one is dropped
+                                refs.Add(item);
+                                clock += item.Length;
+                            }
                             break;
                         }
                 }

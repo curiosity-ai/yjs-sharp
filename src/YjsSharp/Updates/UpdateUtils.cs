@@ -29,6 +29,22 @@ internal sealed class LazyStructReader
 
     private AbstractStruct? ReadNext()
     {
+        while (true)
+        {
+            var s = ReadNextRaw();
+            if (s == null || s.Length > 0)
+            {
+                return s;
+            }
+            if (s is not Item)
+            {
+                throw new FormatException("Malformed update: empty block");
+            }
+        }
+    }
+
+    private AbstractStruct? ReadNextRaw()
+    {
         while (_structsLeft == 0)
         {
             if (_stateUpdateIndex >= _numOfStateUpdates)
