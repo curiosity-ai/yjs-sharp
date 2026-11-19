@@ -9,6 +9,7 @@ trigger:
     include:
       - src/*
       - tests/*
+      - README.md
       - .azure-devops/build-nuget.yml
 
 pool:
@@ -47,8 +48,20 @@ steps:
 
 - task: NuGetToolInstaller@1
 
-# The compatibility tests replay updates produced by the real Yjs library (fixtures generated with node);
-# node is only needed to regenerate them, the fixtures themselves are committed.
+# The compatibility tests replay updates produced by the real Yjs library. The fixtures are committed, so node
+# is not needed for them; it is installed so the live round-trip and fuzz tests (which talk to real Yjs through
+# tests/fixtures-generator/runner.mjs) run too instead of being reported as skipped.
+- task: NodeTool@0
+  displayName: 'Use node 22'
+  inputs:
+    versionSpec: '22.x'
+
+- task: CmdLine@2
+  displayName: 'npm ci (Yjs for the live compatibility tests)'
+  inputs:
+    script: 'npm ci --no-audit --no-fund'
+    workingDirectory: '$(Build.SourcesDirectory)/tests/fixtures-generator'
+
 - task: CmdLine@2
   displayName: 'restore'
   inputs:
