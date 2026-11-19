@@ -200,7 +200,8 @@ public sealed class Encoder
     public void WriteFloat32(float value)
     {
         Ensure(4);
-        BinaryPrimitives.WriteInt32BigEndian(_buffer.AsSpan(_position), BitConverter.SingleToInt32Bits(value));
+        var bits = float.IsNaN(value) ? 0x7FC00000 : BitConverter.SingleToInt32Bits(value);
+        BinaryPrimitives.WriteInt32BigEndian(_buffer.AsSpan(_position), bits);
         _position += 4;
     }
 
@@ -208,7 +209,9 @@ public sealed class Encoder
     public void WriteFloat64(double value)
     {
         Ensure(8);
-        BinaryPrimitives.WriteInt64BigEndian(_buffer.AsSpan(_position), BitConverter.DoubleToInt64Bits(value));
+        // NaN is written in its canonical form, like JavaScript engines do
+        var bits = double.IsNaN(value) ? 0x7FF8000000000000L : BitConverter.DoubleToInt64Bits(value);
+        BinaryPrimitives.WriteInt64BigEndian(_buffer.AsSpan(_position), bits);
         _position += 8;
     }
 

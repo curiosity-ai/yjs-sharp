@@ -96,6 +96,40 @@ public static class Y
     /// <summary>Encodes a state vector.</summary>
     public static byte[] EncodeStateVector(IReadOnlyDictionary<ulong, uint> sv) => UpdateCodec.EncodeStateVector(sv);
 
+    /// <summary>
+    /// Compares two state vectors: 0 when equal, -1 when <paramref name="a"/> is strictly behind <paramref name="b"/>,
+    /// 1 when it is strictly ahead, and null when they are concurrent (each has something the other lacks).
+    /// </summary>
+    public static int? CompareStateVectors(IReadOnlyDictionary<ulong, uint> a, IReadOnlyDictionary<ulong, uint> b)
+    {
+        var less    = false;
+        var greater = false;
+        foreach (var kv in a)
+        {
+            b.TryGetValue(kv.Key, out var other);
+            if (kv.Value < other)
+            {
+                less = true;
+            }
+            else if (kv.Value > other)
+            {
+                greater = true;
+            }
+        }
+        foreach (var kv in b)
+        {
+            if (!a.ContainsKey(kv.Key) && kv.Value > 0)
+            {
+                less = true;
+            }
+        }
+        if (less && greater)
+        {
+            return null;
+        }
+        return less ? -1 : greater ? 1 : 0;
+    }
+
     /// <summary>Encodes the state vector of a document.</summary>
     public static byte[] EncodeStateVector(Doc doc) => doc.EncodeStateVector();
 
