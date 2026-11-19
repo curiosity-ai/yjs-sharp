@@ -16,7 +16,7 @@ namespace YjsSharp.Sync;
 /// </summary>
 /// <remarks>
 /// A minimal relay: on connect send <see cref="EncodeSyncStep1"/> (and, when there are any, the awareness
-/// states); for every frame received call <see cref="Handle(byte[], Awareness, object?)"/> and send the reply
+/// states); for every frame received call <see cref="Handle(byte[], Awareness, object?, Action{string}?)"/> and send the reply
 /// back to the sender when it is not null; forward every <see cref="Doc.Update"/> as
 /// <see cref="EncodeUpdate"/> and every <see cref="Awareness.Update"/> as <see cref="EncodeAwarenessUpdate(Awareness, IEnumerable{ulong})"/>
 /// to all connections.
