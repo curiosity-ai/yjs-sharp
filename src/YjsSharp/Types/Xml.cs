@@ -259,7 +259,12 @@ public class XmlElement : XmlFragment
     internal OrderedMap<string, object?>? _prelimAttrs = new OrderedMap<string, object?>();
 
     /// <summary>Creates an element that is not attached to a document yet.</summary>
-    public XmlElement(string nodeName = "UNDEFINED")
+    public XmlElement() : this("UNDEFINED")
+    {
+    }
+
+    /// <summary>Creates an element with the given node name that is not attached to a document yet.</summary>
+    public XmlElement(string nodeName)
     {
         NodeName = nodeName;
     }
@@ -401,7 +406,12 @@ public sealed class XmlText : TextBase
     internal const uint TypeRefId = 6;
 
     /// <summary>Creates a text node that is not attached to a document yet.</summary>
-    public XmlText(string? initial = null) : base(initial)
+    public XmlText() : base(null)
+    {
+    }
+
+    /// <summary>Creates a text node that is not attached to a document yet, with initial content.</summary>
+    public XmlText(string? initial) : base(initial)
     {
     }
 

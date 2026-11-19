@@ -1236,7 +1236,12 @@ public sealed class Text : TextBase
     internal const uint TypeRefId = 2;
 
     /// <summary>Creates a text that is not attached to a document yet, optionally with initial content.</summary>
-    public Text(string? initial = null) : base(initial)
+    public Text() : base(null)
+    {
+    }
+
+    /// <summary>Creates a text that is not attached to a document yet, with initial content.</summary>
+    public Text(string? initial) : base(initial)
     {
     }
 

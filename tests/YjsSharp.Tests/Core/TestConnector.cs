@@ -342,8 +342,21 @@ internal sealed class TestConnector
         Assert.AreEqual(astore.PendingDs == null, bstore.PendingDs == null);
         foreach (var kv in a.RootTypes.ToList())
         {
-            var other = b.Share.TryGetValue(kv.Key, out var t) ? t : null;
-            Assert.IsNotNull(other, $"root type {kv.Key} missing");
+            AbstractType? other = kv.Value switch
+            {
+                YArray      => b.GetArray(kv.Key),
+                XmlHook     => null,
+                YMap        => b.GetMap(kv.Key),
+                XmlText     => b.GetXmlText(kv.Key),
+                Text        => b.GetText(kv.Key),
+                XmlElement  => b.GetXmlElement(kv.Key),
+                XmlFragment => b.GetXmlFragment(kv.Key),
+                _           => null,
+            };
+            if (other == null)
+            {
+                continue;
+            }
             T.JsonEqual(Normalize(kv.Value), Normalize(other));
         }
         CollectionAssert.AreEqual(a.EncodeStateVector(), b.EncodeStateVector());

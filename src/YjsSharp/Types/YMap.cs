@@ -159,8 +159,40 @@ public class YMap : AbstractType, IEnumerable<KeyValuePair<string, object?>>
         }
     }
 
-    /// <summary>Deletes a key (alias of <see cref="Delete(string)"/>).</summary>
-    public void Remove(string key) => Delete(key);
+    /// <summary>Deletes a key and returns the value it had (null when it was not set).</summary>
+    public object? Remove(string key)
+    {
+        TryGet(key, out var previous);
+        Delete(key);
+        return previous;
+    }
+
+    /// <summary>
+    /// Returns the shared type stored under <paramref name="key"/>, creating (and storing) a new one when the key
+    /// is not set or holds a value of another kind.
+    /// </summary>
+    public T GetOrInit<T>(string key)
+        where T : AbstractType, new()
+    {
+        if (TryGet(key, out var existing) && existing is T typed)
+        {
+            return typed;
+        }
+        var created = new T();
+        Set(key, created);
+        return created;
+    }
+
+    /// <summary>Sets the key only when its current value differs. Returns whether the map changed.</summary>
+    public bool TryUpdate(string key, object? value)
+    {
+        if (TryGet(key, out var existing) && existing is not AbstractType && value is not AbstractType && Encoding.AnyValues.DeepEquals(existing, value))
+        {
+            return false;
+        }
+        Set(key, value);
+        return true;
+    }
 
     /// <summary>Sets a key to a value and returns the value.</summary>
     public T Set<T>(string key, T value) => Set(null, key, value);

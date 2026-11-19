@@ -84,7 +84,7 @@ public class YArray : AbstractType, IEnumerable<object?>
     /// <summary>Inserts elements at <paramref name="index"/> within the given transaction.</summary>
     public void Insert(Transaction? transaction, int index, IEnumerable<object?> content)
     {
-        var list = content as IList ?? new List<object?>(content);
+        var list = AsContentList(content);
         if (_doc != null)
         {
             Transact(transaction, t => TypeListInsertGenerics(t, this, index, list));
@@ -104,6 +104,16 @@ public class YArray : AbstractType, IEnumerable<object?>
         }
     }
 
+    // A shared type passed as content is one element, even though YArray itself is enumerable.
+    private static IList AsContentList(IEnumerable<object?> content)
+    {
+        if (content is AbstractType)
+        {
+            return new object?[] { content };
+        }
+        return content as IList ?? new List<object?>(content);
+    }
+
     /// <summary>Appends elements.</summary>
     public void Push(IEnumerable<object?> content) => Push(null, content);
 
@@ -113,7 +123,7 @@ public class YArray : AbstractType, IEnumerable<object?>
     /// <summary>Appends elements within the given transaction.</summary>
     public void Push(Transaction? transaction, IEnumerable<object?> content)
     {
-        var list = content as IList ?? new List<object?>(content);
+        var list = AsContentList(content);
         if (_doc != null)
         {
             Transact(transaction, t => TypeListPushGenerics(t, this, list));
