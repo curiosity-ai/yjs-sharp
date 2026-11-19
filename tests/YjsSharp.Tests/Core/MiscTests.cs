@@ -156,7 +156,7 @@ public class MiscTests
         txt.Observe(_ => other = true);
         byte[]? update = null;
         doc.Update += (_, e) => update = e.Update;
-        Assert.ThrowsException<InvalidOperationException>(() => txt.Insert(0, "x"));
+        Assert.ThrowsExactly<InvalidOperationException>(() => txt.Insert(0, "x"));
         Assert.IsTrue(other);
         Assert.IsNotNull(update);
         Assert.IsNull(doc.CurrentTransaction);
@@ -214,7 +214,7 @@ public class MiscTests
     {
         foreach (var bytes in new[] { new byte[] { 0x80, 0xFF }, new byte[] { 0x00, 0xFF }, new byte[] { 0x00, 0x80 }, new byte[] { 0x00, 0xFF, 0xFF, 0xFF } })
         {
-            Assert.ThrowsException<EndOfDataException>(() => new Doc().ApplyUpdateV2(bytes));
+            Assert.ThrowsExactly<EndOfDataException>(() => new Doc().ApplyUpdateV2(bytes));
         }
     }
 
@@ -250,9 +250,9 @@ public class MiscTests
     public void DecoderReadVarUIntBounds()
     {
         static ulong Read(params byte[] b) => new Decoder(b).ReadVarUInt();
-        Assert.ThrowsException<EndOfDataException>(() => Read());
-        Assert.ThrowsException<EndOfDataException>(() => Read(0xFF));
-        Assert.ThrowsException<EndOfDataException>(() => Read(0xFF, 0xFF));
+        Assert.ThrowsExactly<EndOfDataException>(() => Read());
+        Assert.ThrowsExactly<EndOfDataException>(() => Read(0xFF));
+        Assert.ThrowsExactly<EndOfDataException>(() => Read(0xFF, 0xFF));
         Assert.AreEqual(0ul, Read(0x00));
         Assert.AreEqual(127ul, Read(0x7F));
         Assert.AreEqual(128ul, Read(0x80, 0x01));

@@ -741,7 +741,7 @@ public class TextTests
         });
         t.Start();
         entered.Wait();
-        Assert.ThrowsException<ConcurrentDocumentAccessException>(() => txt.Insert(0, "b"));
+        Assert.ThrowsExactly<ConcurrentDocumentAccessException>(() => txt.Insert(0, "b"));
         release.Set();
         t.Join();
         txt.Insert(0, "b");

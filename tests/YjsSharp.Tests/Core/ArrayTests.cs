@@ -394,7 +394,7 @@ public class ArrayTests
         var a1 = d1.GetArray("array");
         a1.Insert(0, "A");
         a1.Delete(0, 1);
-        Assert.ThrowsException<ArgumentOutOfRangeException>(() => a1.Get(0));
+        Assert.ThrowsExactly<ArgumentOutOfRangeException>(() => a1.Get(0));
         Assert.AreEqual(0, a1.Length);
     }
 

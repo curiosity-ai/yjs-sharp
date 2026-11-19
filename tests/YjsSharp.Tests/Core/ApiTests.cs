@@ -32,7 +32,7 @@ public class ApiTests
         JsonEqual(Map(("a", 1)), restored.GetMap("m").ToJson());
         JsonEqual(Map(("a", 1)), map.ToDictionary(s1));
         Assert.AreEqual("llo", Y.CreateDocFromSnapshot(doc, s2).GetText("t").ToString());
-        Assert.ThrowsException<InvalidOperationException>(() => Y.CreateDocFromSnapshot(new Doc(), s1));
+        Assert.ThrowsExactly<InvalidOperationException>(() => Y.CreateDocFromSnapshot(new Doc(), s1));
         Assert.IsTrue(Y.SnapshotContainsUpdate(s2, doc.EncodeStateAsUpdate()));
         Assert.IsFalse(Y.SnapshotContainsUpdate(s1, doc.EncodeStateAsUpdate()));
         Assert.IsTrue(Y.SnapshotContainsUpdateV2(s2, doc.EncodeStateAsUpdateV2()));
@@ -128,7 +128,7 @@ public class ApiTests
         d2.ApplyUpdate(d1.EncodeStateAsUpdate());
         Assert.AreEqual("x", d2.GetText("t").ToString());
         Assert.AreEqual("v", d2.GetMap("m").Get("k"));
-        Assert.ThrowsException<InvalidOperationException>(() => d2.GetArray("t"));
+        Assert.ThrowsExactly<InvalidOperationException>(() => d2.GetArray("t"));
     }
 
     [TestMethod]
@@ -157,7 +157,7 @@ public class ApiTests
         JsonEqual(List(2, 3), arr.ToArray());
         JsonEqual(Map(("x", 1)), map.ToJson());
         var other = new Doc();
-        Assert.ThrowsException<ArgumentException>(() => other.Transact(t => txt.Insert(t, 0, "z")));
+        Assert.ThrowsExactly<ArgumentException>(() => other.Transact(t => txt.Insert(t, 0, "z")));
     }
 
     [TestMethod]

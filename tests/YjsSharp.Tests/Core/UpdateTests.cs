@@ -517,13 +517,13 @@ public class UpdateTests
     [TestMethod]
     public void ZeroLengthGcBlockIsRejected()
     {
-        Assert.ThrowsException<FormatException>(() => new Doc().ApplyUpdate(new byte[] { 1, 1, 96, 0, 0, 0, 0 }));
+        Assert.ThrowsExactly<FormatException>(() => new Doc().ApplyUpdate(new byte[] { 1, 1, 96, 0, 0, 0, 0 }));
     }
 
     // yrs: malformed_input::zero_length_skip_block_is_rejected
     [TestMethod]
     public void ZeroLengthSkipBlockIsRejected()
     {
-        Assert.ThrowsException<FormatException>(() => new Doc().ApplyUpdate(new byte[] { 1, 1, 96, 0, 10, 0, 0 }));
+        Assert.ThrowsExactly<FormatException>(() => new Doc().ApplyUpdate(new byte[] { 1, 1, 96, 0, 10, 0, 0 }));
     }
 }

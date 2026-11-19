@@ -218,7 +218,7 @@ public class EncodingTests
         foreach (var tag in new byte[] { 118, 117, 119, 116 })
         {
             var adversarial = new byte[] { tag, 0xFF, 0xFF, 0xFF, 0x7A };
-            Assert.ThrowsException<EndOfDataException>(() => new Decoder(adversarial).ReadAny());
+            Assert.ThrowsExactly<EndOfDataException>(() => new Decoder(adversarial).ReadAny());
         }
     }
 
@@ -226,7 +226,7 @@ public class EncodingTests
     [TestMethod]
     public void StateVectorDecodeRejectsLengthAmplification()
     {
-        Assert.ThrowsException<EndOfDataException>(() => Y.DecodeStateVector(new byte[] { 255, 255, 255, 122 }));
+        Assert.ThrowsExactly<EndOfDataException>(() => Y.DecodeStateVector(new byte[] { 255, 255, 255, 122 }));
     }
 
     private static Dictionary<ulong, uint> Sv(params (ulong Client, uint Clock)[] entries) => entries.ToDictionary(e => e.Client, e => e.Clock);

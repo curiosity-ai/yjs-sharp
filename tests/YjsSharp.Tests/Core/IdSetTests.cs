@@ -43,7 +43,7 @@ public class IdSetTests
     public void DecodeRejectsRangeLengthAmplification()
     {
         var adversarial = new byte[] { 0x01, 0x01, 0xFF, 0xFF, 0xFF, 0x7A };
-        Assert.ThrowsException<YjsSharp.Encoding.EndOfDataException>(() => DeleteSet.Decode(adversarial));
+        Assert.ThrowsExactly<YjsSharp.Encoding.EndOfDataException>(() => DeleteSet.Decode(adversarial));
     }
 
     // yrs: id_range_merge_continous
