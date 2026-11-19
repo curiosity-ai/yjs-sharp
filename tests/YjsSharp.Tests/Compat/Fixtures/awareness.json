@@ -1,0 +1,317 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "awareness-local-states",
+   "description": "Setting, changing, re-setting and clearing the local state",
+   "clientId": 30,
+   "steps": [
+    {
+     "action": {
+      "kind": "set",
+      "state": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"}}"
+     },
+     "update": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "change": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "encoded": "AR4BS3sidXNlciI6eyJuYW1lIjoiQW5vbnltb3VzIDUwIiwiY29sb3IiOiIjMzBiY2VkIiwiY29sb3JMaWdodCI6IiMzMGJjZWQzMyJ9fQ==",
+     "localState": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"}}",
+     "localClock": 1,
+     "remoteChange": {
+      "added": [
+       30
+      ],
+      "updated": [],
+      "removed": []
+     },
+     "remoteStates": {
+      "30": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"}}",
+      "1030": "{}"
+     },
+     "remoteClocks": {
+      "30": 1,
+      "1030": 0
+     }
+    },
+    {
+     "action": {
+      "kind": "set",
+      "state": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"}}"
+     },
+     "update": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "change": null,
+     "encoded": "AR4CS3sidXNlciI6eyJuYW1lIjoiQW5vbnltb3VzIDUwIiwiY29sb3IiOiIjMzBiY2VkIiwiY29sb3JMaWdodCI6IiMzMGJjZWQzMyJ9fQ==",
+     "localState": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"}}",
+     "localClock": 2,
+     "remoteChange": null,
+     "remoteStates": {
+      "30": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"}}",
+      "1030": "{}"
+     },
+     "remoteClocks": {
+      "30": 2,
+      "1030": 0
+     }
+    },
+    {
+     "action": {
+      "kind": "field",
+      "field": "cursor",
+      "value": "{\"anchor\":3,\"head\":7}"
+     },
+     "update": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "change": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "encoded": "AR4DansidXNlciI6eyJuYW1lIjoiQW5vbnltb3VzIDUwIiwiY29sb3IiOiIjMzBiY2VkIiwiY29sb3JMaWdodCI6IiMzMGJjZWQzMyJ9LCJjdXJzb3IiOnsiYW5jaG9yIjozLCJoZWFkIjo3fX0=",
+     "localState": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"},\"cursor\":{\"anchor\":3,\"head\":7}}",
+     "localClock": 3,
+     "remoteChange": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "remoteStates": {
+      "30": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"},\"cursor\":{\"anchor\":3,\"head\":7}}",
+      "1030": "{}"
+     },
+     "remoteClocks": {
+      "30": 3,
+      "1030": 0
+     }
+    },
+    {
+     "action": {
+      "kind": "field",
+      "field": "cursor",
+      "value": "null"
+     },
+     "update": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "change": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "encoded": "AR4EWXsidXNlciI6eyJuYW1lIjoiQW5vbnltb3VzIDUwIiwiY29sb3IiOiIjMzBiY2VkIiwiY29sb3JMaWdodCI6IiMzMGJjZWQzMyJ9LCJjdXJzb3IiOm51bGx9",
+     "localState": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"},\"cursor\":null}",
+     "localClock": 4,
+     "remoteChange": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "remoteStates": {
+      "30": "{\"user\":{\"name\":\"Anonymous 50\",\"color\":\"#30bced\",\"colorLight\":\"#30bced33\"},\"cursor\":null}",
+      "1030": "{}"
+     },
+     "remoteClocks": {
+      "30": 4,
+      "1030": 0
+     }
+    },
+    {
+     "action": {
+      "kind": "set",
+      "state": "{\"x\":1.5,\"y\":-2,\"z\":1e+21,\"w\":0.000001,\"s\":\"quote \\\" backslash \\\\ newline \\n tab \\t ctrl \\u0001 é 😀\"}"
+     },
+     "update": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "change": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "encoded": "AR4FaXsieCI6MS41LCJ5IjotMiwieiI6MWUrMjEsInciOjAuMDAwMDAxLCJzIjoicXVvdGUgXCIgYmFja3NsYXNoIFxcIG5ld2xpbmUgXG4gdGFiIFx0IGN0cmwgXHUwMDAxIMOpIPCfmIAifQ==",
+     "localState": "{\"x\":1.5,\"y\":-2,\"z\":1e+21,\"w\":0.000001,\"s\":\"quote \\\" backslash \\\\ newline \\n tab \\t ctrl \\u0001 é 😀\"}",
+     "localClock": 5,
+     "remoteChange": {
+      "added": [],
+      "updated": [
+       30
+      ],
+      "removed": []
+     },
+     "remoteStates": {
+      "30": "{\"x\":1.5,\"y\":-2,\"z\":1e+21,\"w\":0.000001,\"s\":\"quote \\\" backslash \\\\ newline \\n tab \\t ctrl \\u0001 é 😀\"}",
+      "1030": "{}"
+     },
+     "remoteClocks": {
+      "30": 5,
+      "1030": 0
+     }
+    },
+    {
+     "action": {
+      "kind": "set",
+      "state": "null"
+     },
+     "update": {
+      "added": [],
+      "updated": [],
+      "removed": [
+       30
+      ]
+     },
+     "change": {
+      "added": [],
+      "updated": [],
+      "removed": [
+       30
+      ]
+     },
+     "encoded": "AR4GBG51bGw=",
+     "localState": null,
+     "localClock": 6,
+     "remoteChange": {
+      "added": [],
+      "updated": [],
+      "removed": [
+       30
+      ]
+     },
+     "remoteStates": {
+      "1030": "{}"
+     },
+     "remoteClocks": {
+      "30": 6,
+      "1030": 0
+     }
+    }
+   ],
+   "all": "AR4GBG51bGw="
+  },
+  {
+   "name": "awareness-big-client",
+   "description": "A client id above 2^31 is written as a var uint",
+   "clientId": 4294967295,
+   "steps": [
+    {
+     "action": {
+      "kind": "set",
+      "state": "{\"n\":[1,2,3],\"nested\":{\"deep\":{\"deeper\":true}}}"
+     },
+     "update": {
+      "added": [],
+      "updated": [
+       4294967295
+      ],
+      "removed": []
+     },
+     "change": {
+      "added": [],
+      "updated": [
+       4294967295
+      ],
+      "removed": []
+     },
+     "encoded": "Af////8PAS97Im4iOlsxLDIsM10sIm5lc3RlZCI6eyJkZWVwIjp7ImRlZXBlciI6dHJ1ZX19fQ==",
+     "localState": "{\"n\":[1,2,3],\"nested\":{\"deep\":{\"deeper\":true}}}",
+     "localClock": 1,
+     "remoteChange": {
+      "added": [
+       4294967295
+      ],
+      "updated": [],
+      "removed": []
+     },
+     "remoteStates": {
+      "4294968295": "{}",
+      "4294967295": "{\"n\":[1,2,3],\"nested\":{\"deep\":{\"deeper\":true}}}"
+     },
+     "remoteClocks": {
+      "4294968295": 0,
+      "4294967295": 1
+     }
+    },
+    {
+     "action": {
+      "kind": "set",
+      "state": "{}"
+     },
+     "update": {
+      "added": [],
+      "updated": [
+       4294967295
+      ],
+      "removed": []
+     },
+     "change": {
+      "added": [],
+      "updated": [
+       4294967295
+      ],
+      "removed": []
+     },
+     "encoded": "Af////8PAgJ7fQ==",
+     "localState": "{}",
+     "localClock": 2,
+     "remoteChange": {
+      "added": [],
+      "updated": [
+       4294967295
+      ],
+      "removed": []
+     },
+     "remoteStates": {
+      "4294968295": "{}",
+      "4294967295": "{}"
+     },
+     "remoteClocks": {
+      "4294968295": 0,
+      "4294967295": 2
+     }
+    }
+   ],
+   "all": "Af////8PAgJ7fQ=="
+  }
+ ]
+}

@@ -1,0 +1,316 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "apply-sequence",
+   "localClientId": 1,
+   "steps": [
+    {
+     "label": "new client",
+     "update": "AQIBB3siYSI6MX0=",
+     "updateEvent": {
+      "added": [
+       2
+      ],
+      "updated": [],
+      "removed": []
+     },
+     "changeEvent": {
+      "added": [
+       2
+      ],
+      "updated": [],
+      "removed": []
+     },
+     "states": {
+      "1": "{}",
+      "2": "{\"a\":1}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 1
+     },
+     "reencoded": "AgEAAnt9AgEHeyJhIjoxfQ=="
+    },
+    {
+     "label": "same clock is ignored",
+     "update": "AQIBB3siYSI6Mn0=",
+     "updateEvent": null,
+     "changeEvent": null,
+     "states": {
+      "1": "{}",
+      "2": "{\"a\":1}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 1
+     },
+     "reencoded": "AgEAAnt9AgEHeyJhIjoxfQ=="
+    },
+    {
+     "label": "newer clock, same state",
+     "update": "AQICB3siYSI6MX0=",
+     "updateEvent": {
+      "added": [],
+      "updated": [
+       2
+      ],
+      "removed": []
+     },
+     "changeEvent": null,
+     "states": {
+      "1": "{}",
+      "2": "{\"a\":1}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 2
+     },
+     "reencoded": "AgEAAnt9AgIHeyJhIjoxfQ=="
+    },
+    {
+     "label": "newer clock, other state",
+     "update": "AQIDB3siYSI6Mn0=",
+     "updateEvent": {
+      "added": [],
+      "updated": [
+       2
+      ],
+      "removed": []
+     },
+     "changeEvent": {
+      "added": [],
+      "updated": [
+       2
+      ],
+      "removed": []
+     },
+     "states": {
+      "1": "{}",
+      "2": "{\"a\":2}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 3
+     },
+     "reencoded": "AgEAAnt9AgMHeyJhIjoyfQ=="
+    },
+    {
+     "label": "older clock is ignored",
+     "update": "AQIBB3siYSI6M30=",
+     "updateEvent": null,
+     "changeEvent": null,
+     "states": {
+      "1": "{}",
+      "2": "{\"a\":2}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 3
+     },
+     "reencoded": "AgEAAnt9AgMHeyJhIjoyfQ=="
+    },
+    {
+     "label": "null with the same clock removes",
+     "update": "AQIDBG51bGw=",
+     "updateEvent": {
+      "added": [],
+      "updated": [],
+      "removed": [
+       2
+      ]
+     },
+     "changeEvent": {
+      "added": [],
+      "updated": [],
+      "removed": [
+       2
+      ]
+     },
+     "states": {
+      "1": "{}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 3
+     },
+     "reencoded": "AgEAAnt9AgMEbnVsbA=="
+    },
+    {
+     "label": "null again does nothing",
+     "update": "AQIDBG51bGw=",
+     "updateEvent": null,
+     "changeEvent": null,
+     "states": {
+      "1": "{}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 3
+     },
+     "reencoded": "AgEAAnt9AgMEbnVsbA=="
+    },
+    {
+     "label": "comes back",
+     "update": "AQIEEXsgImJhY2siIDogdHJ1ZSB9",
+     "updateEvent": {
+      "added": [],
+      "updated": [
+       2
+      ],
+      "removed": []
+     },
+     "changeEvent": {
+      "added": [],
+      "updated": [
+       2
+      ],
+      "removed": []
+     },
+     "states": {
+      "1": "{}",
+      "2": "{\"back\":true}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 4
+     },
+     "reencoded": "AgEAAnt9AgQNeyJiYWNrIjp0cnVlfQ=="
+    },
+    {
+     "label": "several clients at once",
+     "update": "AwMBB3siYyI6M30EAAd7ImMiOjR9AgUEbnVsbA==",
+     "updateEvent": {
+      "added": [
+       3
+      ],
+      "updated": [],
+      "removed": [
+       2
+      ]
+     },
+     "changeEvent": {
+      "added": [
+       3
+      ],
+      "updated": [],
+      "removed": [
+       2
+      ]
+     },
+     "states": {
+      "1": "{}",
+      "3": "{\"c\":3}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 5,
+      "3": 1
+     },
+     "reencoded": "AwEAAnt9AgUEbnVsbAMBB3siYyI6M30="
+    },
+    {
+     "label": "unknown client removed",
+     "update": "AQUHBG51bGw=",
+     "updateEvent": null,
+     "changeEvent": null,
+     "states": {
+      "1": "{}",
+      "3": "{\"c\":3}"
+     },
+     "clocks": {
+      "1": 0,
+      "2": 5,
+      "3": 1,
+      "5": 7
+     },
+     "reencoded": "BAEAAnt9AgUEbnVsbAMBB3siYyI6M30FBwRudWxs"
+    },
+    {
+     "label": "remote removes the local state",
+     "update": "AQEABG51bGw=",
+     "updateEvent": {
+      "added": [],
+      "updated": [],
+      "removed": [
+       1
+      ]
+     },
+     "changeEvent": {
+      "added": [],
+      "updated": [],
+      "removed": [
+       1
+      ]
+     },
+     "states": {
+      "1": "{}",
+      "3": "{\"c\":3}"
+     },
+     "clocks": {
+      "1": 1,
+      "2": 5,
+      "3": 1,
+      "5": 7
+     },
+     "reencoded": "BAEBAnt9AgUEbnVsbAMBB3siYyI6M30FBwRudWxs"
+    },
+    {
+     "label": "remote overrides the local state",
+     "update": "AQEFD3siaGlqYWNrIjp0cnVlfQ==",
+     "updateEvent": {
+      "added": [],
+      "updated": [
+       1
+      ],
+      "removed": []
+     },
+     "changeEvent": {
+      "added": [],
+      "updated": [
+       1
+      ],
+      "removed": []
+     },
+     "states": {
+      "1": "{\"hijack\":true}",
+      "3": "{\"c\":3}"
+     },
+     "clocks": {
+      "1": 5,
+      "2": 5,
+      "3": 1,
+      "5": 7
+     },
+     "reencoded": "BAEFD3siaGlqYWNrIjp0cnVlfQIFBG51bGwDAQd7ImMiOjN9BQcEbnVsbA=="
+    }
+   ],
+   "removeAwarenessStates": {
+    "clients": [
+     3,
+     1,
+     99
+    ],
+    "updateEvent": {
+     "added": [],
+     "updated": [],
+     "removed": [
+      3,
+      1
+     ]
+    },
+    "states": {},
+    "clocks": {
+     "1": 6,
+     "2": 5,
+     "3": 1,
+     "5": 7
+    },
+    "encoded": "AgMBBG51bGwBBgRudWxs"
+   }
+  }
+ ]
+}

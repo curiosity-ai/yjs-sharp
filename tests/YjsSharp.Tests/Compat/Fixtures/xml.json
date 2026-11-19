@@ -1,0 +1,417 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "xml-basic",
+   "description": "Elements, attributes and formatted xml text",
+   "gc": true,
+   "clientIds": [
+    1
+   ],
+   "roots": {
+    "x": "xmlFragment"
+   },
+   "ops": [
+    {
+     "op": "xmlInsert",
+     "peer": 0,
+     "target": "x",
+     "index": 0,
+     "nodes": [
+      {
+       "$y": "xmlElement",
+       "name": "p"
+      },
+      {
+       "$y": "xmlElement",
+       "name": "div"
+      }
+     ]
+    },
+    {
+     "op": "xmlInsert",
+     "peer": 0,
+     "target": [
+      "x",
+      0
+     ],
+     "index": 0,
+     "nodes": [
+      {
+       "$y": "xmlText"
+      }
+     ]
+    },
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": [
+      "x",
+      0,
+      0
+     ],
+     "index": 0,
+     "text": "Hello xml"
+    },
+    {
+     "op": "textFormat",
+     "peer": 0,
+     "target": [
+      "x",
+      0,
+      0
+     ],
+     "index": 0,
+     "length": 5,
+     "attrs": {
+      "bold": {}
+     }
+    },
+    {
+     "op": "xmlSetAttribute",
+     "peer": 0,
+     "target": [
+      "x",
+      0
+     ],
+     "name": "class",
+     "value": "para"
+    },
+    {
+     "op": "xmlSetAttribute",
+     "peer": 0,
+     "target": [
+      "x",
+      1
+     ],
+     "name": "id",
+     "value": "main"
+    },
+    {
+     "op": "xmlSetAttribute",
+     "peer": 0,
+     "target": [
+      "x",
+      1
+     ],
+     "name": "data-a",
+     "value": "1"
+    },
+    {
+     "op": "xmlInsert",
+     "peer": 0,
+     "target": [
+      "x",
+      1
+     ],
+     "index": 0,
+     "nodes": [
+      {
+       "$y": "xmlElement",
+       "name": "span"
+      },
+      {
+       "$y": "xmlText"
+      }
+     ]
+    },
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": [
+      "x",
+      1,
+      1
+     ],
+     "index": 0,
+     "text": "tail"
+    },
+    {
+     "op": "xmlRemoveAttribute",
+     "peer": 0,
+     "target": [
+      "x",
+      1
+     ],
+     "name": "data-a"
+    },
+    {
+     "op": "xmlInsert",
+     "peer": 0,
+     "target": "x",
+     "index": 2,
+     "nodes": [
+      {
+       "$y": "xmlText"
+      }
+     ]
+    },
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": [
+      "x",
+      2
+     ],
+     "index": 0,
+     "text": "root text"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [
+      {
+       "v1": "AQIBAAcBAXgDAXCHAQADA2RpdgA=",
+       "v2": "AAIAAgJBAAEAAAMHAIcJBXhwZGl2QQADAQECQwAAAQIAAA=="
+      },
+      {
+       "v1": "AQEBAgcAAQAGAA==",
+       "v2": "AAACQQABAAABBwEAAQABBgABAQIA"
+      },
+      {
+       "v1": "AQEBAwQAAQIJSGVsbG8geG1sAA==",
+       "v2": "AAACQQABBAABBAsJSGVsbG8geG1sCQEAAAABAQMA"
+      },
+      {
+       "v1": "AQIBDEYBAwRib2xkAnt9xgEHAQgEYm9sZARudWxsAA==",
+       "v2": "AAIAAgJBAgEOAgYKA0YAxgsIYm9sZGJvbGREAAAAAAECDHYAfgA="
+      },
+      {
+       "v1": "AQEBDigAAQAFY2xhc3MBdwRwYXJhAA==",
+       "v2": "AAACQQABAAABKAcFY2xhc3MFAQAAAQEBAQ53BHBhcmEA"
+      },
+      {
+       "v1": "AQEBDygAAQECaWQBdwRtYWluAA==",
+       "v2": "AAACQQABAgABKAQCaWQCAQAAAQEBAQ93BG1haW4A"
+      },
+      {
+       "v1": "AQEBECgAAQEGZGF0YS1hAXcBMQA=",
+       "v2": "AAACQQABAgABKAgGZGF0YS1hBgEAAAEBAQEQdwExAA=="
+      },
+      {
+       "v1": "AQIBEQcAAQEDBHNwYW6HAREGAA==",
+       "v2": "AAEAAkEBAgIgAAMHAIcGBHNwYW4EAQACAwYAAQIRAA=="
+      },
+      {
+       "v1": "AQEBEwQAARIEdGFpbAA=",
+       "v2": "AAACQQABJAABBAYEdGFpbAQBAAAAAQETAA=="
+      },
+      {
+       "v1": "AAEBARAB",
+       "v2": "AAAAAAAAAQAAAAAAAQEBEAA="
+      },
+      {
+       "v1": "AQEBF4cBAQYA",
+       "v2": "AAACQQABAgABhwEAAAEGAAEBFwA="
+      },
+      {
+       "v1": "AQEBGAQAARcJcm9vdCB0ZXh0AA==",
+       "v2": "AAACQQABLgABBAsJcm9vdCB0ZXh0CQEAAAABARgA"
+      }
+     ],
+     "stateVector": "AQEh",
+     "update": "AQ8BAAcBAXgDAXCHAQADA2RpdgcAAQAGBAABAgVIZWxsb4QBBwQgeG1sRgEDBGJvbGQCe33GAQcBCARib2xkBG51bGwoAAEABWNsYXNzAXcEcGFyYSgAAQECaWQBdwRtYWluIQABAQZkYXRhLWEBBwABAQMEc3BhbocBEQYEAAESBHRhaWyHAQEGBAABFwlyb290IHRleHQBAQEQAQ==",
+     "updateV2": "AAMAAwICQQ4NAQAECgBOAgEAIAJiLAIGChsHAIcABwAEAIQARgDGACgBIQAHAIcABACHAARBNHhwZGl2SGVsbG8geG1sYm9sZGJvbGRjbGFzc2lkZGF0YS1hc3BhbnRhaWxyb290IHRleHRBAAMFRAEFAgZEAAkDAQAABkMABgNGAAJBAQEPAHYAfncEcGFyYXcEbWFpbgEBARAA",
+     "content": {
+      "x": "<p class=\"para\"><bold>Hello</bold> xml</p><div id=\"main\"><span></span>tail</div>root text"
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AQ4BAAcBAXgDAXCHAQADA2RpdgcAAQAGBAABAglIZWxsbyB4bWxGAQMEYm9sZAJ7fcYBBwEIBGJvbGQEbnVsbCgAAQAFY2xhc3MBdwRwYXJhKAABAQJpZAF3BG1haW4oAAEBBmRhdGEtYQF3ATEHAAEBAwRzcGFuhwERBgQAARIEdGFpbIcBAQYEAAEXCXJvb3QgdGV4dAEBARAB",
+    "v2": "AAMAAwICQQ0MAQAECk4CAQAgAmIsAgYKFwcAhwAHAAQARgDGACgCBwCHAAQAhwAEQTR4cGRpdkhlbGxvIHhtbGJvbGRib2xkY2xhc3NpZGRhdGEtYXNwYW50YWlscm9vdCB0ZXh0QQADCUQABQIGRAAJAwEAAAZDAAYDRgACQQEBDgB2AH53BHBhcmF3BG1haW53ATEBAQEQAA==",
+    "stateVector": "AQEh",
+    "stateVectorV2": "AQEh",
+    "v1ToV2": "AAMAAwICQQ0MAQAECk4CAQAgAmIsAgYKFwcAhwAHAAQARgDGACgCBwCHAAQAhwAEQTR4cGRpdkhlbGxvIHhtbGJvbGRib2xkY2xhc3NpZGRhdGEtYXNwYW50YWlscm9vdCB0ZXh0QQADCUQABQIGRAAJAwEAAAZDAAYDRgACQQEBDgB2AH53BHBhcmF3BG1haW53ATEBAQEQAA==",
+    "v2ToV1": "AQ4BAAcBAXgDAXCHAQADA2RpdgcAAQAGBAABAglIZWxsbyB4bWxGAQMEYm9sZAJ7fcYBBwEIBGJvbGQEbnVsbCgAAQAFY2xhc3MBdwRwYXJhKAABAQJpZAF3BG1haW4oAAEBBmRhdGEtYQF3ATEHAAEBAwRzcGFuhwERBgQAARIEdGFpbIcBAQYEAAEXCXJvb3QgdGV4dAEBARAB",
+    "content": {
+     "x": "<p class=\"para\"><bold>Hello</bold> xml</p><div id=\"main\"><span></span>tail</div>root text"
+    },
+    "contentV2": {
+     "x": "<p class=\"para\"><bold>Hello</bold> xml</p><div id=\"main\"><span></span>tail</div>root text"
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAMAAwICQQ4NAQAECgBOAgEAIAJiLAIGChsHAIcABwAEAIQARgDGACgBIQAHAIcABACHAARBNHhwZGl2SGVsbG8geG1sYm9sZGJvbGRjbGFzc2lkZGF0YS1hc3BhbnRhaWxyb290IHRleHRBAAMFRAEFAgZEAAkDAQAABkMABgNGAAJBAQEPAHYAfncEcGFyYXcEbWFpbgEBARAA",
+    "v2ToV1": "AQ8BAAcBAXgDAXCHAQADA2RpdgcAAQAGBAABAgVIZWxsb4QBBwQgeG1sRgEDBGJvbGQCe33GAQcBCARib2xkBG51bGwoAAEABWNsYXNzAXcEcGFyYSgAAQECaWQBdwRtYWluIQABAQZkYXRhLWEBBwABAQMEc3BhbocBEQYEAAESBHRhaWyHAQEGBAABFwlyb290IHRleHQBAQEQAQ=="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "xml-concurrent",
+   "description": "Two peers edit an xml tree concurrently, including deleting elements",
+   "gc": true,
+   "clientIds": [
+    3,
+    4
+   ],
+   "roots": {
+    "x": "xmlFragment"
+   },
+   "ops": [
+    {
+     "op": "xmlInsert",
+     "peer": 0,
+     "target": "x",
+     "index": 0,
+     "nodes": [
+      {
+       "$y": "xmlElement",
+       "name": "ul"
+      }
+     ]
+    },
+    {
+     "op": "xmlInsert",
+     "peer": 0,
+     "target": [
+      "x",
+      0
+     ],
+     "index": 0,
+     "nodes": [
+      {
+       "$y": "xmlElement",
+       "name": "li"
+      },
+      {
+       "$y": "xmlElement",
+       "name": "li"
+      }
+     ]
+    },
+    {
+     "op": "sync",
+     "from": 0,
+     "to": 1
+    },
+    {
+     "op": "xmlInsert",
+     "peer": 1,
+     "target": [
+      "x",
+      0
+     ],
+     "index": 1,
+     "nodes": [
+      {
+       "$y": "xmlElement",
+       "name": "li"
+      }
+     ]
+    },
+    {
+     "op": "xmlSetAttribute",
+     "peer": 1,
+     "target": [
+      "x",
+      0
+     ],
+     "name": "type",
+     "value": "disc"
+    },
+    {
+     "op": "xmlDelete",
+     "peer": 0,
+     "target": [
+      "x",
+      0
+     ],
+     "index": 0,
+     "length": 1
+    },
+    {
+     "op": "xmlSetAttribute",
+     "peer": 0,
+     "target": [
+      "x",
+      0
+     ],
+     "name": "type",
+     "value": "square"
+    },
+    {
+     "op": "syncAll"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 3,
+     "updates": [
+      {
+       "v1": "AQEDAAcBAXgDAnVsAA==",
+       "v2": "AAEAAQMAAAEHBgN4dWwBAgEBAQMAAQEAAA=="
+      },
+      {
+       "v1": "AQIDAQcAAwADAmxphwMBAwJsaQA=",
+       "v2": "AAIAAgJDAQIAAgADBwCHBwRsaWxpQgABAAJDAAABAgEA"
+      },
+      {
+       "v1": "AAEDAQEB",
+       "v2": "AAAAAAAAAQAAAAAAAQMBAQA="
+      },
+      {
+       "v1": "AQEDAygAAwAEdHlwZQF3BnNxdWFyZQA=",
+       "v2": "AAACQwABAAABKAYEdHlwZQQBAAABAQEBA3cGc3F1YXJlAA=="
+      }
+     ],
+     "stateVector": "AgQCAwQ=",
+     "update": "AgIEAMcDAQMCAwJsaSgAAwAEdHlwZQF3BGRpc2MEAwAHAQF4AwJ1bAEAAwABhwMBAwJsaSEAAwAEdHlwZQEBAwIBAQMB",
+     "updateV2": "AAMAAwADBEMFBQJCAAJCAQQLxwAoAAcAAQCHACEWD2xpdHlwZXh1bGxpdHlwZQIEAUIABAUAAAEAAAJDAQJBAQICAHcEZGlzYwQAAQMCAQABAA==",
+     "content": {
+      "x": "<ul type=\"disc\"><li></li><li></li></ul>"
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 4,
+     "updates": [
+      {
+       "v1": "AQEEAMcDAQMCAwJsaQA=",
+       "v2": "AAEAAwRDAAECAQQBxwQCbGkCAAEDAAEBAAA="
+      },
+      {
+       "v1": "AQEEASgAAwAEdHlwZQF3BGRpc2MA",
+       "v2": "AAACBAMBAAABKAYEdHlwZQQBAAABAQEBAXcEZGlzYwA="
+      }
+     ],
+     "stateVector": "AgQCAwQ=",
+     "update": "AgIEAMcDAQMCAwJsaSgAAwAEdHlwZQF3BGRpc2MEAwAHAQF4AwJ1bAEAAwABhwMBAwJsaSEAAwAEdHlwZQEBAwIBAQMB",
+     "updateV2": "AAMAAwADBEMFBQJCAAJCAQQLxwAoAAcAAQCHACEWD2xpdHlwZXh1bGxpdHlwZQIEAUIABAUAAAEAAAJDAQJBAQICAHcEZGlzYwQAAQMCAQABAA==",
+     "content": {
+      "x": "<ul type=\"disc\"><li></li><li></li></ul>"
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AgIEAMcDAQMCAwJsaSgAAwAEdHlwZQF3BGRpc2MEAwAHAQF4AwJ1bAcAAwADAmxphwMBAwJsaSgAAwAEdHlwZQF3BnNxdWFyZQEDAQEB",
+    "v2": "AAMAAwEDBEMFBQJCAAJCAQQJxwAoAAcBhwAoGBFsaXR5cGV4dWxsaWxpdHlwZQIEAUIBBAUAAAEAAAJDAgJBAAICAHcEZGlzYwQAdwZzcXVhcmUBAwEBAA==",
+    "stateVector": "AgQCAwQ=",
+    "stateVectorV2": "AgQCAwQ=",
+    "v1ToV2": "AAMAAwEDBEMFBQJCAAJCAQQJxwAoAAcBhwAoGBFsaXR5cGV4dWxsaWxpdHlwZQIEAUIBBAUAAAEAAAJDAgJBAAICAHcEZGlzYwQAdwZzcXVhcmUBAwEBAA==",
+    "v2ToV1": "AgIEAMcDAQMCAwJsaSgAAwAEdHlwZQF3BGRpc2MEAwAHAQF4AwJ1bAcAAwADAmxphwMBAwJsaSgAAwAEdHlwZQF3BnNxdWFyZQEDAQEB",
+    "content": {
+     "x": "<ul type=\"disc\"><li></li><li></li></ul>"
+    },
+    "contentV2": {
+     "x": "<ul type=\"disc\"><li></li><li></li></ul>"
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAMAAwADBEMFBQJCAAJCAQQLxwAoAAcAAQCHACEWD2xpdHlwZXh1bGxpdHlwZQIEAUIABAUAAAEAAAJDAQJBAQICAHcEZGlzYwQAAQMCAQABAA==",
+    "v2ToV1": "AgIEAMcDAQMCAwJsaSgAAwAEdHlwZQF3BGRpc2MEAwAHAQF4AwJ1bAEAAwABhwMBAwJsaSEAAwAEdHlwZQEBAwIBAQMB"
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
+    <EnableMSTestRunner>true</EnableMSTestRunner>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MSTest" Version="3.10.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Yjs-generated compatibility fixtures (tests/fixtures-generator); read from the output folder. -->
+    <None Include="Compat\Fixtures\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="Core\Assets\*" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\YjsSharp\YjsSharp.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,594 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "snapshot-text",
+   "description": "Snapshots of a gc-disabled text taken between edits, restored with createDocFromSnapshot",
+   "gc": false,
+   "clientIds": [
+    1,
+    2
+   ],
+   "roots": {
+    "t": "text"
+   },
+   "ops": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": "version one"
+    },
+    {
+     "op": "snapshot",
+     "peer": 0,
+     "id": "s1"
+    },
+    {
+     "op": "textDelete",
+     "peer": 0,
+     "target": "t",
+     "index": 8,
+     "length": 3
+    },
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 8,
+     "text": "two",
+     "attrs": {
+      "bold": true
+     }
+    },
+    {
+     "op": "snapshot",
+     "peer": 0,
+     "id": "s2"
+    },
+    {
+     "op": "sync",
+     "from": 0,
+     "to": 1
+    },
+    {
+     "op": "textInsert",
+     "peer": 1,
+     "target": "t",
+     "index": 0,
+     "text": "B: "
+    },
+    {
+     "op": "sync",
+     "from": 1,
+     "to": 0
+    },
+    {
+     "op": "textDelete",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "length": 3
+    },
+    {
+     "op": "snapshot",
+     "peer": 0,
+     "id": "s3"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [
+      {
+       "v1": "AQEBAAQBAXQLdmVyc2lvbiBvbmUA",
+       "v2": "AAABAQAAAQQPDHR2ZXJzaW9uIG9uZQELAQEAAAEBAAA="
+      },
+      {
+       "v1": "AAEBAQgD",
+       "v2": "AAAAAAAAAQAAAAAAAQEBCAI="
+      },
+      {
+       "v1": "AQMBC4YBCgRib2xkBHRydWWEAQsDdHdvhgEOBGJvbGQEbnVsbAA=",
+       "v2": "AAIAAgJBAgMUAgYABYYAhACGDwtib2xkdHdvYm9sZAQDBAAAAAEDC3h+AA=="
+      },
+      {
+       "v1": "AAECAQAD",
+       "v2": "AAAAAAAAAQAAAAAAAQIBAAI="
+      }
+     ],
+     "stateVector": "AgIDARA=",
+     "update": "AgECAEQBAANCOiAFAQAEAQF0CHZlcnNpb24ghAEHA29uZYYBCgRib2xkBHRydWWEAQsDdHdvhgEOBGJvbGQEbnVsbAICAQADAQEIAw==",
+     "updateV2": "AAIAAgMCQQQEDgYCBgEAC0QABACEAIYAhACGIhpCOiB0dmVyc2lvbiBvbmVib2xkdHdvYm9sZAMBCAMEAwQBAQAAAgEABQB4fgICAQACAQEIAg==",
+     "content": {
+      "t": "version two"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "version "
+       },
+       {
+        "insert": "two",
+        "attributes": {
+         "bold": true
+        }
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 2,
+     "updates": [
+      {
+       "v1": "AQECAEQBAANCOiAA",
+       "v2": "AAACAgEAAQABRAUDQjogAwAAAAEBAAA="
+      }
+     ],
+     "stateVector": "AgIDARA=",
+     "update": "AgECAEQBAANCOiAFAQAEAQF0CHZlcnNpb24ghAEHA29uZYYBCgRib2xkBHRydWWEAQsDdHdvhgEOBGJvbGQEbnVsbAEBAQgD",
+     "updateV2": "AAIAAgMCQQQEDgYCBgEAC0QABACEAIYAhACGIhpCOiB0dmVyc2lvbiBvbmVib2xkdHdvYm9sZAMBCAMEAwQBAQAAAgEABQB4fgEBAQgC",
+     "content": {
+      "t": "B: version two"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "B: version "
+       },
+       {
+        "insert": "two",
+        "attributes": {
+         "bold": true
+        }
+       }
+      ]
+     }
+    }
+   ],
+   "merged": {
+    "v1": "AgECAEQBAANCOiAEAQAEAQF0C3ZlcnNpb24gb25lhgEKBGJvbGQEdHJ1ZYQBCwN0d2+GAQ4EYm9sZARudWxsAgIBAAMBAQgD",
+    "v2": "AAIAAgMCQQMDFAIGAQAJRAAEAIYAhACGIRpCOiB0dmVyc2lvbiBvbmVib2xkdHdvYm9sZAMBCwQDBAEBAAACAQAEAHh+AgIBAAIBAQgC",
+    "stateVector": "AgIDARA=",
+    "stateVectorV2": "AgIDARA=",
+    "v1ToV2": "AAIAAgMCQQMDFAIGAQAJRAAEAIYAhACGIRpCOiB0dmVyc2lvbiBvbmVib2xkdHdvYm9sZAMBCwQDBAEBAAACAQAEAHh+AgIBAAIBAQgC",
+    "v2ToV1": "AgECAEQBAANCOiAEAQAEAQF0C3ZlcnNpb24gb25lhgEKBGJvbGQEdHJ1ZYQBCwN0d2+GAQ4EYm9sZARudWxsAgIBAAMBAQgD",
+    "content": {
+     "t": "version two"
+    },
+    "contentV2": {
+     "t": "version two"
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAIAAgMCQQQEDgYCBgEAC0QABACEAIYAhACGIhpCOiB0dmVyc2lvbiBvbmVib2xkdHdvYm9sZAMBCAMEAwQBAQAAAgEABQB4fgICAQACAQEIAg==",
+    "v2ToV1": "AgECAEQBAANCOiAFAQAEAQF0CHZlcnNpb24ghAEHA29uZYYBCgRib2xkBHRydWWEAQsDdHdvhgEOBGJvbGQEbnVsbAICAQADAQEIAw=="
+   },
+   "diffs": [],
+   "snapshots": [
+    {
+     "id": "s1",
+     "peer": 0,
+     "v1": "AAEBCw==",
+     "v2": "AAEBCw==",
+     "restored": {
+      "t": "version one"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "version one"
+       }
+      ]
+     }
+    },
+    {
+     "id": "s2",
+     "peer": 0,
+     "v1": "AQEBCAMBARA=",
+     "v2": "AQEBCAIBARA=",
+     "restored": {
+      "t": "version two"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "version "
+       },
+       {
+        "insert": "two",
+        "attributes": {
+         "bold": true
+        }
+       }
+      ]
+     }
+    },
+    {
+     "id": "s3",
+     "peer": 0,
+     "v1": "AgIBAAMBAQgDAgIDARA=",
+     "v2": "AgIBAAIBAQgCAgIDARA=",
+     "restored": {
+      "t": "version two"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "version "
+       },
+       {
+        "insert": "two",
+        "attributes": {
+         "bold": true
+        }
+       }
+      ]
+     }
+    }
+   ],
+   "relPositions": []
+  },
+  {
+   "name": "snapshot-map-array",
+   "description": "Snapshots of a gc-disabled map and array",
+   "gc": false,
+   "clientIds": [
+    5
+   ],
+   "roots": {
+    "m": "map",
+    "a": "array"
+   },
+   "ops": [
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "k",
+     "value": 1
+    },
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "op": "snapshot",
+     "peer": 0,
+     "id": "s1"
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "k",
+     "value": 2
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "l",
+     "value": "x"
+    },
+    {
+     "op": "arrayDelete",
+     "peer": 0,
+     "target": "a",
+     "index": 0,
+     "length": 2
+    },
+    {
+     "op": "snapshot",
+     "peer": 0,
+     "id": "s2"
+    },
+    {
+     "op": "mapDelete",
+     "peer": 0,
+     "target": "m",
+     "key": "k"
+    },
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      4
+     ]
+    },
+    {
+     "op": "snapshot",
+     "peer": 0,
+     "id": "s3"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 5,
+     "updates": [
+      {
+       "v1": "AQEFACgBAW0BawF9AQA=",
+       "v2": "AAABBQAAASgFAm1rQQABAQABAQEBAH0BAA=="
+      },
+      {
+       "v1": "AQEFAQgBAWEDfQF9An0DAA==",
+       "v2": "AAABBQAAAQgDAWEBAQEAAQMBAQF9AX0CfQMA"
+      },
+      {
+       "v1": "AQEFBKgFAAF9AgEFAQAB",
+       "v2": "AAACRQABAAABqAEAAAABAQEBBH0CAQUBAAA="
+      },
+      {
+       "v1": "AQEFBSgBAW0BbAF3AXgA",
+       "v2": "AAABBQAAASgFAm1sQQABAQABAQEBBXcBeAA="
+      },
+      {
+       "v1": "AAEFAQEC",
+       "v2": "AAAAAAAAAQAAAAAAAQUBAQE="
+      },
+      {
+       "v1": "AAEFAQQB",
+       "v2": "AAAAAAAAAQAAAAAAAQUBBAA="
+      },
+      {
+       "v1": "AQEFBogFAwF9BAA=",
+       "v2": "AAACRQABBgABiAEAAAABAQEBBn0EAA=="
+      }
+     ],
+     "stateVector": "AQUH",
+     "update": "AQYFACgBAW0BawF9AQgBAWECfQF9AogFAgF9A6gFAAF9AigBAW0BbAF3AXiIBQMBfQQBBQIAAwQB",
+     "updateV2": "AAACRQIDBEQGAAsoAAgAiACoACgAiAgFbWthbWxBAwEBAAQBAkECAQYAfQF9AX0CfQN9AncBeH0EAQUCAAIBAA==",
+     "content": {
+      "a": [
+       3,
+       4
+      ],
+      "m": {
+       "l": "x"
+      }
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AQUFACgBAW0BawF9AQgBAWEDfQF9An0DiAUAAX0CKAEBbQFsAXcBeIgFAwF9BAEFAgADBAE=",
+    "v2": "AAACRQECAAYACSgACACIACgAiAgFbWthbWxBAwEBAAQBA0EBAQUAfQF9AX0CfQN9AncBeH0EAQUCAAIBAA==",
+    "stateVector": "AQUH",
+    "stateVectorV2": "AQUH",
+    "v1ToV2": "AAACRQECAAYACSgACACIACgAiAgFbWthbWxBAwEBAAQBA0EBAQUAfQF9AX0CfQN9AncBeH0EAQUCAAIBAA==",
+    "v2ToV1": "AQUFACgBAW0BawF9AQgBAWEDfQF9An0DiAUAAX0CKAEBbQFsAXcBeIgFAwF9BAEFAgADBAE=",
+    "content": {
+     "a": [
+      3,
+      4
+     ],
+     "m": {
+      "l": "x"
+     }
+    },
+    "contentV2": {
+     "a": [
+      3,
+      4
+     ],
+     "m": {
+      "l": "x"
+     }
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAACRQIDBEQGAAkoAAgAiAEoAIgIBW1rYW1sQQMBAQAEAQJBAgEGAH0BfQF9An0DfQJ3AXh9BAEFAgACAQA=",
+    "v2ToV1": "AQYFACgBAW0BawF9AQgBAWECfQF9AogFAgF9A4gFAAF9AigBAW0BbAF3AXiIBQMBfQQBBQIAAwQB"
+   },
+   "diffs": [],
+   "snapshots": [
+    {
+     "id": "s1",
+     "peer": 0,
+     "v1": "AAEFBA==",
+     "v2": "AAEFBA==",
+     "restored": {
+      "a": [
+       1,
+       2,
+       3
+      ],
+      "m": {
+       "k": 1
+      }
+     },
+     "deltas": {}
+    },
+    {
+     "id": "s2",
+     "peer": 0,
+     "v1": "AQUBAAMBBQY=",
+     "v2": "AQUBAAIBBQY=",
+     "restored": {
+      "a": [
+       3
+      ],
+      "m": {
+       "k": 2,
+       "l": "x"
+      }
+     },
+     "deltas": {}
+    },
+    {
+     "id": "s3",
+     "peer": 0,
+     "v1": "AQUCAAMEAQEFBw==",
+     "v2": "AQUCAAIBAAEFBw==",
+     "restored": {
+      "a": [
+       3,
+       4
+      ],
+      "m": {
+       "l": "x"
+      }
+     },
+     "deltas": {}
+    }
+   ],
+   "relPositions": []
+  },
+  {
+   "name": "snapshot-gc",
+   "description": "Snapshot encodings of a gc-enabled document",
+   "gc": true,
+   "clientIds": [
+    9,
+    10
+   ],
+   "roots": {
+    "t": "text"
+   },
+   "ops": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": "abc"
+    },
+    {
+     "op": "snapshot",
+     "peer": 0,
+     "id": "empty-ds"
+    },
+    {
+     "op": "textDelete",
+     "peer": 0,
+     "target": "t",
+     "index": 1,
+     "length": 1
+    },
+    {
+     "op": "snapshot",
+     "peer": 0,
+     "id": "with-ds"
+    },
+    {
+     "op": "sync",
+     "from": 0,
+     "to": 1
+    },
+    {
+     "op": "textInsert",
+     "peer": 1,
+     "target": "t",
+     "index": 0,
+     "text": "x"
+    },
+    {
+     "op": "snapshot",
+     "peer": 1,
+     "id": "peer1"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 9,
+     "updates": [
+      {
+       "v1": "AQEJAAQBAXQDYWJjAA==",
+       "v2": "AAABCQAAAQQHBHRhYmMBAwEBAAABAQAA"
+      },
+      {
+       "v1": "AAEJAQEB",
+       "v2": "AAAAAAAAAQAAAAAAAQkBAQA="
+      }
+     ],
+     "stateVector": "AQkD",
+     "update": "AQMJAAQBAXQBYYEJAAGECQEBYwEJAQEB",
+     "updateV2": "AAACSQECAAIABQQAgQCEBgN0YWNBAQEBAAEBAQMAAQkBAQA=",
+     "content": {
+      "t": "ac"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "ac"
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 10,
+     "updates": [
+      {
+       "v1": "AQEKAEQJAAF4AA==",
+       "v2": "AAACCgkAAQABRAMBeAEAAAABAQAA"
+      }
+     ],
+     "stateVector": "AgoBCQM=",
+     "update": "AgEKAEQJAAF4AwkABAEBdAFhgQkAAYQJAQFjAQkBAQE=",
+     "updateV2": "AAADCkkCAgACAQAHRAAEAIEAhAcEeHRhY0ECAQEAAQECAQADAAEJAQEA",
+     "content": {
+      "t": "xac"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "xac"
+       }
+      ]
+     }
+    }
+   ],
+   "merged": {
+    "v1": "AgEKAEQJAAF4AQkABAEBdANhYmMBCQEBAQ==",
+    "v2": "AAADCkkAAAEAA0QABAkFeHRhYmNBAAMBAQAAAgEAAQABCQEBAA==",
+    "stateVector": "AgoBCQM=",
+    "stateVectorV2": "AgoBCQM=",
+    "v1ToV2": "AAADCkkAAAEAA0QABAkFeHRhYmNBAAMBAQAAAgEAAQABCQEBAA==",
+    "v2ToV1": "AgEKAEQJAAF4AQkABAEBdANhYmMBCQEBAQ==",
+    "content": {
+     "t": "xac"
+    },
+    "contentV2": {
+     "t": "xac"
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAACSQECAAIABQQAgQCEBgN0YWNBAQEBAAEBAQMAAQkBAQA=",
+    "v2ToV1": "AQMJAAQBAXQBYYEJAAGECQEBYwEJAQEB"
+   },
+   "diffs": [],
+   "snapshots": [
+    {
+     "id": "empty-ds",
+     "peer": 0,
+     "v1": "AAEJAw==",
+     "v2": "AAEJAw=="
+    },
+    {
+     "id": "with-ds",
+     "peer": 0,
+     "v1": "AQkBAQEBCQM=",
+     "v2": "AQkBAQABCQM="
+    },
+    {
+     "id": "peer1",
+     "peer": 1,
+     "v1": "AQkBAQECCgEJAw==",
+     "v2": "AQkBAQACCgEJAw=="
+    }
+   ],
+   "relPositions": []
+  }
+ ]
+}

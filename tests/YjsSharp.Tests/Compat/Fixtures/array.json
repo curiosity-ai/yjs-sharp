@@ -1,0 +1,696 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "array-basic",
+   "description": "Insert, push and delete of every kind of Any value",
+   "gc": true,
+   "clientIds": [
+    1
+   ],
+   "roots": {
+    "a": "array"
+   },
+   "ops": [
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      1,
+      2,
+      3
+     ]
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 0,
+     "target": "a",
+     "index": 1,
+     "values": [
+      "string",
+      true,
+      false,
+      null
+     ]
+    },
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      {
+       "key": "value",
+       "n": 1,
+       "nested": {
+        "arr": [
+         1,
+         "two",
+         {
+          "three": 3
+         }
+        ]
+       }
+      },
+      [
+       1,
+       [
+        2,
+        [
+         3
+        ]
+       ]
+      ]
+     ]
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 0,
+     "target": "a",
+     "index": 0,
+     "values": [
+      1.5,
+      -42,
+      0,
+      2147483647,
+      -2147483648,
+      2147483648,
+      9007199254740991,
+      0.1,
+      1e-7,
+      3.4028234663852886e+38,
+      1e+300
+     ]
+    },
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      {
+       "$y": "bytes",
+       "b64": "AAEC/w=="
+      }
+     ]
+    },
+    {
+     "op": "arrayDelete",
+     "peer": 0,
+     "target": "a",
+     "index": 3,
+     "length": 4
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 0,
+     "target": "a",
+     "index": 2,
+     "values": [
+      "ü漢😀"
+     ]
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [
+      {
+       "v1": "AQEBAAgBAWEDfQF9An0DAA==",
+       "v2": "AAABAQAAAQgDAWEBAQEAAQMBAQB9AX0CfQMA"
+      },
+      {
+       "v1": "AQEBA8gBAAEBBHcGc3RyaW5neHl+AA==",
+       "v2": "AAACQQEBAAECAcgBAAAAAQQBAQN3BnN0cmluZ3h5fgA="
+      },
+      {
+       "v1": "AQEBB4gBAgJ2AwNrZXl3BXZhbHVlAW59AQZuZXN0ZWR2AQNhcnJ1A30BdwN0d292AQV0aHJlZX0DdQJ9AXUCfQJ1AX0DAA==",
+       "v2": "AAACQQABBAABiAEAAAABAgEBB3YDA2tleXcFdmFsdWUBbn0BBm5lc3RlZHYBA2FycnUDfQF3A3R3b3YBBXRocmVlfQN1An0BdQJ9AnUBfQMA"
+      },
+      {
+       "v1": "AQEBCUgBAAt8P8AAAH1qfQB9v////w98zwAAAHxPAAAAe0M/////////ez+5mZmZmZmaez561/KavK9IfH9///97fjfkPIgAdZwA",
+       "v2": "AAACQQAAAQABSAEAAAABCwEBCXw/wAAAfWp9AH2/////D3zPAAAAfE8AAAB7Qz////////97P7mZmZmZmZp7PnrX8pq8r0h8f3///3t+N+Q8iAB1nAA="
+      },
+      {
+       "v1": "AQEBFIMBCAQAAQL/AA==",
+       "v2": "AAACQQABEAABgwEAAAAAAQEUBAABAv8A"
+      },
+      {
+       "v1": "AAEBAQwE",
+       "v2": "AAAAAAAAAQAAAAAAAQEBDAM="
+      },
+      {
+       "v1": "AQEBFcgBCgELAXcJw7zmvKLwn5iAAA==",
+       "v2": "AAACQQEBFAEWAcgBAAAAAQEBARV3CcO85ryi8J+YgAA="
+      }
+     ],
+     "stateVector": "AQEW",
+     "update": "AQoBAAgBAWEBfQGIAQACfQJ9A8gBAAEBBHcGc3RyaW5neHl+iAECAnYDA2tleXcFdmFsdWUBbn0BBm5lc3RlZHYBA2FycnUDfQF3A3R3b3YBBXRocmVlfQN1An0BdQJ9AnUBfQNIAQACfD/AAAB9asgBCgEAAX0AwQELAQAEyAEPAQAEez+5mZmZmZmaez561/KavK9IfH9///97fjfkPIgAdZyDAQgEAAEC/8gBCgELAXcJw7zmvKLwn5iAAQEBDAQ=",
+     "updateV2": "AAACQQ0IAQAEEAIITgQFAkIBARYTCACIAMgAiABIAMgAwQDIAIMAyAMBYQEBAQAJAQIEQgABRAABAQoAfQF9An0DdwZzdHJpbmd4eX52AwNrZXl3BXZhbHVlAW59AQZuZXN0ZWR2AQNhcnJ1A30BdwN0d292AQV0aHJlZX0DdQJ9AXUCfQJ1AX0DfD/AAAB9an0Aez+5mZmZmZmaez561/KavK9IfH9///97fjfkPIgAdZwEAAEC/3cJw7zmvKLwn5iAAQEBDAM=",
+     "content": {
+      "a": [
+       1.5,
+       -42,
+       "ü漢😀",
+       0,
+       0.1,
+       1e-7,
+       3.4028234663852886e+38,
+       1e+300,
+       1,
+       "string",
+       true,
+       false,
+       null,
+       2,
+       3,
+       {
+        "key": "value",
+        "n": 1,
+        "nested": {
+         "arr": [
+          1,
+          "two",
+          {
+           "three": 3
+          }
+         ]
+        }
+       },
+       [
+        1,
+        [
+         2,
+         [
+          3
+         ]
+        ]
+       ],
+       {
+        "$bytes": "AAEC/w=="
+       }
+      ]
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AQYBAAgBAWEDfQF9An0DyAEAAQEEdwZzdHJpbmd4eX6IAQICdgMDa2V5dwV2YWx1ZQFufQEGbmVzdGVkdgEDYXJydQN9AXcDdHdvdgEFdGhyZWV9A3UCfQF1An0CdQF9A0gBAAt8P8AAAH1qfQB9v////w98zwAAAHxPAAAAe0M/////////ez+5mZmZmZmaez561/KavK9IfH9///97fjfkPIgAdZyDAQgEAAEC/8gBCgELAXcJw7zmvKLwn5iAAQEBDAQ=",
+    "v2": "AAACQQYEAAQMBAMCQhYLCADIAIgASACDAMgDAWEBAQEABQMEAgsBAQYAfQF9An0DdwZzdHJpbmd4eX52AwNrZXl3BXZhbHVlAW59AQZuZXN0ZWR2AQNhcnJ1A30BdwN0d292AQV0aHJlZX0DdQJ9AXUCfQJ1AX0DfD/AAAB9an0Afb////8PfM8AAAB8TwAAAHtDP////////3s/uZmZmZmZmns+etfymryvSHx/f///e3435DyIAHWcBAABAv93CcO85ryi8J+YgAEBAQwD",
+    "stateVector": "AQEW",
+    "stateVectorV2": "AQEW",
+    "v1ToV2": "AAACQQYEAAQMBAMCQhYLCADIAIgASACDAMgDAWEBAQEABQMEAgsBAQYAfQF9An0DdwZzdHJpbmd4eX52AwNrZXl3BXZhbHVlAW59AQZuZXN0ZWR2AQNhcnJ1A30BdwN0d292AQV0aHJlZX0DdQJ9AXUCfQJ1AX0DfD/AAAB9an0Afb////8PfM8AAAB8TwAAAHtDP////////3s/uZmZmZmZmns+etfymryvSHx/f///e3435DyIAHWcBAABAv93CcO85ryi8J+YgAEBAQwD",
+    "v2ToV1": "AQYBAAgBAWEDfQF9An0DyAEAAQEEdwZzdHJpbmd4eX6IAQICdgMDa2V5dwV2YWx1ZQFufQEGbmVzdGVkdgEDYXJydQN9AXcDdHdvdgEFdGhyZWV9A3UCfQF1An0CdQF9A0gBAAt8P8AAAH1qfQB9v////w98zwAAAHxPAAAAe0M/////////ez+5mZmZmZmaez561/KavK9IfH9///97fjfkPIgAdZyDAQgEAAEC/8gBCgELAXcJw7zmvKLwn5iAAQEBDAQ=",
+    "content": {
+     "a": [
+      1.5,
+      -42,
+      "ü漢😀",
+      0,
+      0.1,
+      1e-7,
+      3.4028234663852886e+38,
+      1e+300,
+      1,
+      "string",
+      true,
+      false,
+      null,
+      2,
+      3,
+      {
+       "key": "value",
+       "n": 1,
+       "nested": {
+        "arr": [
+         1,
+         "two",
+         {
+          "three": 3
+         }
+        ]
+       }
+      },
+      [
+       1,
+       [
+        2,
+        [
+         3
+        ]
+       ]
+      ],
+      {
+       "$bytes": "AAEC/w=="
+      }
+     ]
+    },
+    "contentV2": {
+     "a": [
+      1.5,
+      -42,
+      "ü漢😀",
+      0,
+      0.1,
+      1e-7,
+      3.4028234663852886e+38,
+      1e+300,
+      1,
+      "string",
+      true,
+      false,
+      null,
+      2,
+      3,
+      {
+       "key": "value",
+       "n": 1,
+       "nested": {
+        "arr": [
+         1,
+         "two",
+         {
+          "three": 3
+         }
+        ]
+       }
+      },
+      [
+       1,
+       [
+        2,
+        [
+         3
+        ]
+       ]
+      ],
+      {
+       "$bytes": "AAEC/w=="
+      }
+     ]
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAACQQ0IAQAEEAIITgQFAkIBARYTCACIAMgAiABIAMgAwQDIAIMAyAMBYQEBAQAJAQIEQgABRAABAQoAfQF9An0DdwZzdHJpbmd4eX52AwNrZXl3BXZhbHVlAW59AQZuZXN0ZWR2AQNhcnJ1A30BdwN0d292AQV0aHJlZX0DdQJ9AXUCfQJ1AX0DfD/AAAB9an0Aez+5mZmZmZmaez561/KavK9IfH9///97fjfkPIgAdZwEAAEC/3cJw7zmvKLwn5iAAQEBDAM=",
+    "v2ToV1": "AQoBAAgBAWEBfQGIAQACfQJ9A8gBAAEBBHcGc3RyaW5neHl+iAECAnYDA2tleXcFdmFsdWUBbn0BBm5lc3RlZHYBA2FycnUDfQF3A3R3b3YBBXRocmVlfQN1An0BdQJ9AnUBfQNIAQACfD/AAAB9asgBCgEAAX0AwQELAQAEyAEPAQAEez+5mZmZmZmaez561/KavK9IfH9///97fjfkPIgAdZyDAQgEAAEC/8gBCgELAXcJw7zmvKLwn5iAAQEBDAQ="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "array-concurrent-3peers",
+   "description": "Three peers insert and delete concurrently",
+   "gc": true,
+   "clientIds": [
+    11,
+    22,
+    33
+   ],
+   "roots": {
+    "a": "array"
+   },
+   "ops": [
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      "x",
+      "y",
+      "z"
+     ]
+    },
+    {
+     "op": "syncAll"
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 0,
+     "target": "a",
+     "index": 1,
+     "values": [
+      1,
+      2
+     ]
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 1,
+     "target": "a",
+     "index": 1,
+     "values": [
+      3,
+      4
+     ]
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 2,
+     "target": "a",
+     "index": 1,
+     "values": [
+      5
+     ]
+    },
+    {
+     "op": "arrayDelete",
+     "peer": 0,
+     "target": "a",
+     "index": 0,
+     "length": 1
+    },
+    {
+     "op": "arrayDelete",
+     "peer": 1,
+     "target": "a",
+     "index": 3,
+     "length": 2
+    },
+    {
+     "op": "arrayPush",
+     "peer": 2,
+     "target": "a",
+     "values": [
+      "end"
+     ]
+    },
+    {
+     "op": "checkpoint",
+     "peer": 0,
+     "id": "c0"
+    },
+    {
+     "op": "checkpoint",
+     "peer": 2,
+     "id": "c2"
+    },
+    {
+     "op": "syncAll"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 11,
+     "updates": [
+      {
+       "v1": "AQELAAgBAWEDdwF4dwF5dwF6AA==",
+       "v2": "AAABCwAAAQgDAWEBAQEAAQMBAQB3AXh3AXl3AXoA"
+      },
+      {
+       "v1": "AQELA8gLAAsBAn0BfQIA",
+       "v2": "AAACSwEBAAECAcgBAAAAAQIBAQN9AX0CAA=="
+      },
+      {
+       "v1": "AAELAQAB",
+       "v2": "AAAAAAAAAQAAAAAAAQsBAAA="
+      }
+     ],
+     "stateVector": "AyECFgILBQ==",
+     "update": "AwIhAMgLAAsBAX0FiAsCAXcDZW5kARYAyAsACwECfQN9BAMLAAEBAWEBgQsAAsgLAAsBAn0BfQIBCwEAAw==",
+     "updateV2": "AAAGIUsBFksEBQAERAEAAwIBAAvIAIgAyAABAIEAyAMBYQEBAQAGQQACAUIAAwIAfQV3A2VuZAEAfQN9BAMAfQF9AgELAQAC",
+     "content": {
+      "a": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       "end"
+      ]
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 22,
+     "updates": [
+      {
+       "v1": "AQEWAMgLAAsBAn0DfQQA",
+       "v2": "AAADFksAAQABAgHIAQAAAAECAQEAfQN9BAA="
+      },
+      {
+       "v1": "AAELAQEC",
+       "v2": "AAAAAAAAAQAAAAAAAQsBAQE="
+      }
+     ],
+     "stateVector": "AyECFgILBQ==",
+     "update": "AwIhAMgLAAsBAX0FiAsCAXcDZW5kARYAyAsACwECfQN9BAMLAAEBAWEBgQsAAsgLAAsBAn0BfQIBCwEAAw==",
+     "updateV2": "AAAGIUsBFksEBQAERAEAAwIBAAvIAIgAyAABAIEAyAMBYQEBAQAGQQACAUIAAwIAfQV3A2VuZAEAfQN9BAMAfQF9AgELAQAC",
+     "content": {
+      "a": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       "end"
+      ]
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 33,
+     "updates": [
+      {
+       "v1": "AQEhAMgLAAsBAX0FAA==",
+       "v2": "AAADIUsAAQABAgHIAQAAAAEBAQEAfQUA"
+      },
+      {
+       "v1": "AQEhAYgLAgF3A2VuZAA=",
+       "v2": "AAACIQsBBAABiAEAAAABAQEBAXcDZW5kAA=="
+      }
+     ],
+     "stateVector": "AyECFgILBQ==",
+     "update": "AwIhAMgLAAsBAX0FiAsCAXcDZW5kARYAyAsACwECfQN9BAMLAAEBAWEBgQsAAsgLAAsBAn0BfQIBCwEAAw==",
+     "updateV2": "AAAGIUsBFksEBQAERAEAAwIBAAvIAIgAyAABAIEAyAMBYQEBAQAGQQACAUIAAwIAfQV3A2VuZAEAfQN9BAMAfQF9AgELAQAC",
+     "content": {
+      "a": [
+       1,
+       2,
+       3,
+       4,
+       5,
+       "end"
+      ]
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AwIhAMgLAAsBAX0FiAsCAXcDZW5kARYAyAsACwECfQN9BAILAAgBAWEDdwF4dwF5dwF6yAsACwECfQF9AgELAQAD",
+    "v2": "AAAGIUsBFksDBAAERAADAgEACcgAiADIAAgAyAMBYQEBAQAFQQACAwIDAgB9BXcDZW5kAQB9A30EAgB3AXh3AXl3AXp9AX0CAQsBAAI=",
+    "stateVector": "AyECFgILBQ==",
+    "stateVectorV2": "AyECFgILBQ==",
+    "v1ToV2": "AAAGIUsBFksDBAAERAADAgEACcgAiADIAAgAyAMBYQEBAQAFQQACAwIDAgB9BXcDZW5kAQB9A30EAgB3AXh3AXl3AXp9AX0CAQsBAAI=",
+    "v2ToV1": "AwIhAMgLAAsBAX0FiAsCAXcDZW5kARYAyAsACwECfQN9BAILAAgBAWEDdwF4dwF5dwF6yAsACwECfQF9AgELAQAD",
+    "content": {
+     "a": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      "end"
+     ]
+    },
+    "contentV2": {
+     "a": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      "end"
+     ]
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAAGIUsBFksEBQAERAEAAwIBAAvIAIgAyAABAIEAyAMBYQEBAQAGQQACAUIAAwIAfQV3A2VuZAEAfQN9BAMAfQF9AgELAQAC",
+    "v2ToV1": "AwIhAMgLAAsBAX0FiAsCAXcDZW5kARYAyAsACwECfQN9BAMLAAEBAWEBgQsAAsgLAAsBAn0BfQIBCwEAAw=="
+   },
+   "diffs": [
+    {
+     "id": "c0",
+     "peer": 0,
+     "stateVector": "AQsF",
+     "v1": "AgIhAMgLAAsBAX0FiAsCAXcDZW5kARYAyAsACwECfQN9BAELAQAD",
+     "v2": "AAAGIUsBFksAAwAERAICAAXIAIgAyAEAAAADQQACAgIAfQV3A2VuZAEAfQN9BAELAQAC",
+     "fromDoc": "AgIhAMgLAAsBAX0FiAsCAXcDZW5kARYAyAsACwECfQN9BAELAQAD",
+     "fromDocV2": "AAAGIUsBFksAAwAERAICAAXIAIgAyAEAAAADQQACAgIAfQV3A2VuZAEAfQN9BAELAQAC"
+    },
+    {
+     "id": "c2",
+     "peer": 2,
+     "stateVector": "AiECCwM=",
+     "v1": "AgEWAMgLAAsBAn0DfQQBCwPICwALAQJ9AX0CAQsBAAM=",
+     "v2": "AAADFksDAgEAAgIAAcgBAAAAAkIAAgEAfQN9BAEDfQF9AgELAQAC",
+     "fromDoc": "AgEWAMgLAAsBAn0DfQQBCwPICwALAQJ9AX0CAQsBAAM=",
+     "fromDocV2": "AAADFksDAgEAAgIAAcgBAAAAAkIAAgEAfQN9BAEDfQF9AgELAQAC"
+    }
+   ],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "array-out-of-order-v2",
+   "description": "Array updates delivered out of order as v2",
+   "gc": true,
+   "clientIds": [
+    5,
+    6
+   ],
+   "roots": {
+    "a": "array"
+   },
+   "ops": [
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      1
+     ]
+    },
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      2
+     ]
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 0,
+     "target": "a",
+     "index": 0,
+     "values": [
+      0
+     ]
+    },
+    {
+     "op": "arrayDelete",
+     "peer": 0,
+     "target": "a",
+     "index": 1,
+     "length": 1
+    },
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      3,
+      4,
+      5
+     ]
+    },
+    {
+     "op": "deliver",
+     "from": 0,
+     "to": 1,
+     "indices": [
+      2,
+      4,
+      0,
+      3,
+      1
+     ],
+     "v2": true
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 5,
+     "updates": [
+      {
+       "v1": "AQEFAAgBAWEBfQEA",
+       "v2": "AAABBQAAAQgDAWEBAQEAAQEBAQB9AQA="
+      },
+      {
+       "v1": "AQEFAYgFAAF9AgA=",
+       "v2": "AAACRQABAAABiAEAAAABAQEBAX0CAA=="
+      },
+      {
+       "v1": "AQEFAkgFAAF9AAA=",
+       "v2": "AAACRQAAAQABSAEAAAABAQEBAn0AAA=="
+      },
+      {
+       "v1": "AAEFAQAB",
+       "v2": "AAAAAAAAAQAAAAAAAQUBAAA="
+      },
+      {
+       "v1": "AQEFA4gFAQN9A30EfQUA",
+       "v2": "AAACRQABAgABiAEAAAABAwEBA30DfQR9BQA="
+      }
+     ],
+     "stateVector": "AQUG",
+     "update": "AQQFAAEBAWEBiAUAAX0CSAUAAX0AiAUBA30DfQR9BQEFAQAB",
+     "updateV2": "AAACRQICAAIBAAcBAIgASACIAwFhAQEBAANBAQMBBAB9An0AfQN9BH0FAQUBAAA=",
+     "content": {
+      "a": [
+       0,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 6,
+     "updates": [],
+     "stateVector": "AQUG",
+     "update": "AQQFAAEBAWEBiAUAAX0CSAUAAX0AiAUBA30DfQR9BQEFAQAB",
+     "updateV2": "AAACRQICAAIBAAcBAIgASACIAwFhAQEBAANBAQMBBAB9An0AfQN9BH0FAQUBAAA=",
+     "content": {
+      "a": [
+       0,
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AQQFAAgBAWEBfQGIBQABfQJIBQABfQCIBQEDfQN9BH0FAQUBAAE=",
+    "v2": "AAACRQICAAIBAAcIAIgASACIAwFhAQEBAANBAQMBBAB9AX0CfQB9A30EfQUBBQEAAA==",
+    "stateVector": "AQUG",
+    "stateVectorV2": "AQUG",
+    "v1ToV2": "AAACRQICAAIBAAcIAIgASACIAwFhAQEBAANBAQMBBAB9AX0CfQB9A30EfQUBBQEAAA==",
+    "v2ToV1": "AQQFAAgBAWEBfQGIBQABfQJIBQABfQCIBQEDfQN9BH0FAQUBAAE=",
+    "content": {
+     "a": [
+      0,
+      2,
+      3,
+      4,
+      5
+     ]
+    },
+    "contentV2": {
+     "a": [
+      0,
+      2,
+      3,
+      4,
+      5
+     ]
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAACRQICAAIBAAcBAIgASACIAwFhAQEBAANBAQMBBAB9An0AfQN9BH0FAQUBAAA=",
+    "v2ToV1": "AQQFAAEBAWEBiAUAAX0CSAUAAX0AiAUBA30DfQR9BQEFAQAB"
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  }
+ ]
+}

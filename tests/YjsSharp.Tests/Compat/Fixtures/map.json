@@ -1,0 +1,577 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "map-basic",
+   "description": "Set, overwrite and delete keys with every kind of value",
+   "gc": true,
+   "clientIds": [
+    1
+   ],
+   "roots": {
+    "m": "map"
+   },
+   "ops": [
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "number",
+     "value": 1
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "float",
+     "value": 0.25
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "string",
+     "value": "hello"
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "bool",
+     "value": true
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "null",
+     "value": null
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "object",
+     "value": {
+      "a": [
+       1,
+       2
+      ],
+      "b": {
+       "c": "d"
+      }
+     }
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "array",
+     "value": [
+      1,
+      "a",
+      null
+     ]
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "bytes",
+     "value": {
+      "$y": "bytes",
+      "b64": "3q2+7w=="
+     }
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "number",
+     "value": 2
+    },
+    {
+     "op": "mapDelete",
+     "peer": 0,
+     "target": "m",
+     "key": "string"
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "ключ 🔑",
+     "value": "unicode key"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [
+      {
+       "v1": "AQEBACgBAW0GbnVtYmVyAX0BAA==",
+       "v2": "AAABAQAAASgKB21udW1iZXIBBgEBAAEBAQEAfQEA"
+      },
+      {
+       "v1": "AQEBASgBAW0FZmxvYXQBfD6AAAAA",
+       "v2": "AAABAQAAASgJBm1mbG9hdAEFAQEAAQEBAQF8PoAAAAA="
+      },
+      {
+       "v1": "AQEBAigBAW0Gc3RyaW5nAXcFaGVsbG8A",
+       "v2": "AAABAQAAASgKB21zdHJpbmcBBgEBAAEBAQECdwVoZWxsbwA="
+      },
+      {
+       "v1": "AQEBAygBAW0EYm9vbAF4AA==",
+       "v2": "AAABAQAAASgIBW1ib29sAQQBAQABAQEBA3gA"
+      },
+      {
+       "v1": "AQEBBCgBAW0EbnVsbAF+AA==",
+       "v2": "AAABAQAAASgIBW1udWxsAQQBAQABAQEBBH4A"
+      },
+      {
+       "v1": "AQEBBSgBAW0Gb2JqZWN0AXYCAWF1An0BfQIBYnYBAWN3AWQA",
+       "v2": "AAABAQAAASgKB21vYmplY3QBBgEBAAEBAQEFdgIBYXUCfQF9AgFidgEBY3cBZAA="
+      },
+      {
+       "v1": "AQEBBigBAW0FYXJyYXkBdQN9AXcBYX4A",
+       "v2": "AAABAQAAASgJBm1hcnJheQEFAQEAAQEBAQZ1A30BdwFhfgA="
+      },
+      {
+       "v1": "AQEBByMBAW0FYnl0ZXME3q2+7wA=",
+       "v2": "AAABAQAAASMJBm1ieXRlcwEFAQEAAAEBBwTerb7vAA=="
+      },
+      {
+       "v1": "AQEBCKgBAAF9AgEBAQAB",
+       "v2": "AAACQQABAAABqAEAAAABAQEBCH0CAQEBAAA="
+      },
+      {
+       "v1": "AAEBAQIB",
+       "v2": "AAAAAAAAAQAAAAAAAQEBAgA="
+      },
+      {
+       "v1": "AQEBCSgBAW0N0LrQu9GO0Ycg8J+UkQF3C3VuaWNvZGUga2V5AA==",
+       "v2": "AAABAQAAASgRDm3QutC70Y7RhyDwn5SRAQcBAQABAQEBCXcLdW5pY29kZSBrZXkA"
+      }
+     ],
+     "stateVector": "AQEK",
+     "update": "AQoBACEBAW0GbnVtYmVyASgBAW0FZmxvYXQBfD6AAAAhAQFtBnN0cmluZwEoAQFtBGJvb2wBeCgBAW0EbnVsbAF+KAEBbQZvYmplY3QBdgIBYXUCfQF9AgFidgEBY3cBZCgBAW0FYXJyYXkBdQN9AXcBYX4jAQFtBWJ5dGVzBN6tvu+oAQABfQIoAQFtDdC60LvRjtGHIPCflJEBdwt1bmljb2RlIGtleQEBAgABAgE=",
+     "updateV2": "AAACQQABAAANIQAoACEAKAMjAKgAKFI/bW51bWJlcm1mbG9hdG1zdHJpbmdtYm9vbG1udWxsbW9iamVjdG1hcnJheW1ieXRlc23QutC70Y7RhyDwn5SRAQYBBQEGAQQBBAEGAQUBBQEHAQEAAkEHAQoAfD6AAAB4fnYCAWF1An0BfQIBYnYBAWN3AWR1A30BdwFhfgTerb7vfQJ3C3VuaWNvZGUga2V5AQECAAABAA==",
+     "content": {
+      "m": {
+       "array": [
+        1,
+        "a",
+        null
+       ],
+       "bool": true,
+       "bytes": {
+        "$bytes": "3q2+7w=="
+       },
+       "float": 0.25,
+       "null": null,
+       "number": 2,
+       "object": {
+        "a": [
+         1,
+         2
+        ],
+        "b": {
+         "c": "d"
+        }
+       },
+       "ключ 🔑": "unicode key"
+      }
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AQoBACgBAW0GbnVtYmVyAX0BKAEBbQVmbG9hdAF8PoAAACgBAW0Gc3RyaW5nAXcFaGVsbG8oAQFtBGJvb2wBeCgBAW0EbnVsbAF+KAEBbQZvYmplY3QBdgIBYXUCfQF9AgFidgEBY3cBZCgBAW0FYXJyYXkBdQN9AXcBYX4jAQFtBWJ5dGVzBN6tvu+IAQABfQIoAQFtDdC60LvRjtGHIPCflJEBdwt1bmljb2RlIGtleQEBAgABAgE=",
+    "v2": "AAACQQABAAAHKAYjAIgAKFI/bW51bWJlcm1mbG9hdG1zdHJpbmdtYm9vbG1udWxsbW9iamVjdG1hcnJheW1ieXRlc23QutC70Y7RhyDwn5SRAQYBBQEGAQQBBAEGAQUBBQEHAQEAAkEHAQoAfQF8PoAAAHcFaGVsbG94fnYCAWF1An0BfQIBYnYBAWN3AWR1A30BdwFhfgTerb7vfQJ3C3VuaWNvZGUga2V5AQECAAABAA==",
+    "stateVector": "AQEK",
+    "stateVectorV2": "AQEK",
+    "v1ToV2": "AAACQQABAAAHKAYjAIgAKFI/bW51bWJlcm1mbG9hdG1zdHJpbmdtYm9vbG1udWxsbW9iamVjdG1hcnJheW1ieXRlc23QutC70Y7RhyDwn5SRAQYBBQEGAQQBBAEGAQUBBQEHAQEAAkEHAQoAfQF8PoAAAHcFaGVsbG94fnYCAWF1An0BfQIBYnYBAWN3AWR1A30BdwFhfgTerb7vfQJ3C3VuaWNvZGUga2V5AQECAAABAA==",
+    "v2ToV1": "AQoBACgBAW0GbnVtYmVyAX0BKAEBbQVmbG9hdAF8PoAAACgBAW0Gc3RyaW5nAXcFaGVsbG8oAQFtBGJvb2wBeCgBAW0EbnVsbAF+KAEBbQZvYmplY3QBdgIBYXUCfQF9AgFidgEBY3cBZCgBAW0FYXJyYXkBdQN9AXcBYX4jAQFtBWJ5dGVzBN6tvu+IAQABfQIoAQFtDdC60LvRjtGHIPCflJEBdwt1bmljb2RlIGtleQEBAgABAgE=",
+    "content": {
+     "m": {
+      "array": [
+       1,
+       "a",
+       null
+      ],
+      "bool": true,
+      "bytes": {
+       "$bytes": "3q2+7w=="
+      },
+      "float": 0.25,
+      "null": null,
+      "number": 2,
+      "object": {
+       "a": [
+        1,
+        2
+       ],
+       "b": {
+        "c": "d"
+       }
+      },
+      "ключ 🔑": "unicode key"
+     }
+    },
+    "contentV2": {
+     "m": {
+      "array": [
+       1,
+       "a",
+       null
+      ],
+      "bool": true,
+      "bytes": {
+       "$bytes": "3q2+7w=="
+      },
+      "float": 0.25,
+      "null": null,
+      "number": 2,
+      "object": {
+       "a": [
+        1,
+        2
+       ],
+       "b": {
+        "c": "d"
+       }
+      },
+      "ключ 🔑": "unicode key"
+     }
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAACQQABAAANIQAoACEAKAMjAIgAKFI/bW51bWJlcm1mbG9hdG1zdHJpbmdtYm9vbG1udWxsbW9iamVjdG1hcnJheW1ieXRlc23QutC70Y7RhyDwn5SRAQYBBQEGAQQBBAEGAQUBBQEHAQEAAkEHAQoAfD6AAAB4fnYCAWF1An0BfQIBYnYBAWN3AWR1A30BdwFhfgTerb7vfQJ3C3VuaWNvZGUga2V5AQECAAABAA==",
+    "v2ToV1": "AQoBACEBAW0GbnVtYmVyASgBAW0FZmxvYXQBfD6AAAAhAQFtBnN0cmluZwEoAQFtBGJvb2wBeCgBAW0EbnVsbAF+KAEBbQZvYmplY3QBdgIBYXUCfQF9AgFidgEBY3cBZCgBAW0FYXJyYXkBdQN9AXcBYX4jAQFtBWJ5dGVzBN6tvu+IAQABfQIoAQFtDdC60LvRjtGHIPCflJEBdwt1bmljb2RlIGtleQEBAgABAgE="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "map-concurrent",
+   "description": "Concurrent writes to the same key resolve by client id",
+   "gc": true,
+   "clientIds": [
+    50,
+    40,
+    60
+   ],
+   "roots": {
+    "m": "map"
+   },
+   "ops": [
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "k",
+     "value": "from 50"
+    },
+    {
+     "op": "mapSet",
+     "peer": 1,
+     "target": "m",
+     "key": "k",
+     "value": "from 40"
+    },
+    {
+     "op": "mapSet",
+     "peer": 2,
+     "target": "m",
+     "key": "k",
+     "value": "from 60"
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "a",
+     "value": 1
+    },
+    {
+     "op": "mapSet",
+     "peer": 1,
+     "target": "m",
+     "key": "b",
+     "value": 2
+    },
+    {
+     "op": "mapDelete",
+     "peer": 2,
+     "target": "m",
+     "key": "k"
+    },
+    {
+     "op": "mapSet",
+     "peer": 2,
+     "target": "m",
+     "key": "k2",
+     "value": "x"
+    },
+    {
+     "op": "syncAll"
+    },
+    {
+     "op": "mapDelete",
+     "peer": 0,
+     "target": "m",
+     "key": "k"
+    },
+    {
+     "op": "mapSet",
+     "peer": 1,
+     "target": "m",
+     "key": "k",
+     "value": "again"
+    },
+    {
+     "op": "syncAll"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 50,
+     "updates": [
+      {
+       "v1": "AQEyACgBAW0BawF3B2Zyb20gNTAA",
+       "v2": "AAABMgAAASgFAm1rQQABAQABAQEBAHcHZnJvbSA1MAA="
+      },
+      {
+       "v1": "AQEyASgBAW0BYQF9AQA=",
+       "v2": "AAABMgAAASgFAm1hQQABAQABAQEBAX0BAA=="
+      }
+     ],
+     "stateVector": "AzwCMgIoAw==",
+     "update": "AwI8ACEBAW0BawEoAQFtAmsyAXcBeAIyACEBAW0BawEoAQFtAWEBfQEDKAAhAQFtAWsBKAEBbQFiAX0CqDwAAXcFYWdhaW4DPAEAATIBAAEoAQAB",
+     "updateV2": "AAAEPDIoPAEAAA0hACgAIQAoACEAKACoEw1ta21rMm1rbWFta21iQQECQQYBAQACQQUDAgB3AXgCAH0BAwB9AncFYWdhaW4DPAEAADIBAAAoAQAA",
+     "content": {
+      "m": {
+       "a": 1,
+       "b": 2,
+       "k": "again",
+       "k2": "x"
+      }
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 40,
+     "updates": [
+      {
+       "v1": "AQEoACgBAW0BawF3B2Zyb20gNDAA",
+       "v2": "AAABKAAAASgFAm1rQQABAQABAQEBAHcHZnJvbSA0MAA="
+      },
+      {
+       "v1": "AQEoASgBAW0BYgF9AgA=",
+       "v2": "AAABKAAAASgFAm1iQQABAQABAQEBAX0CAA=="
+      },
+      {
+       "v1": "AQEoAqg8AAF3BWFnYWluAA==",
+       "v2": "AAACKDwBAAABqAEAAAABAQEBAncFYWdhaW4A"
+      }
+     ],
+     "stateVector": "AzwCMgIoAw==",
+     "update": "AwI8ACEBAW0BawEoAQFtAmsyAXcBeAIyACEBAW0BawEoAQFtAWEBfQEDKAAhAQFtAWsBKAEBbQFiAX0CqDwAAXcFYWdhaW4DPAEAATIBAAEoAQAB",
+     "updateV2": "AAAEPDIoPAEAAA0hACgAIQAoACEAKACoEw1ta21rMm1rbWFta21iQQECQQYBAQACQQUDAgB3AXgCAH0BAwB9AncFYWdhaW4DPAEAADIBAAAoAQAA",
+     "content": {
+      "m": {
+       "a": 1,
+       "b": 2,
+       "k": "again",
+       "k2": "x"
+      }
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 60,
+     "updates": [
+      {
+       "v1": "AQE8ACgBAW0BawF3B2Zyb20gNjAA",
+       "v2": "AAABPAAAASgFAm1rQQABAQABAQEBAHcHZnJvbSA2MAA="
+      },
+      {
+       "v1": "AAE8AQAB",
+       "v2": "AAAAAAAAAQAAAAAAATwBAAA="
+      },
+      {
+       "v1": "AQE8ASgBAW0CazIBdwF4AA==",
+       "v2": "AAABPAAAASgGA21rMgECAQEAAQEBAQF3AXgA"
+      }
+     ],
+     "stateVector": "AzwCMgIoAw==",
+     "update": "AwI8ACEBAW0BawEoAQFtAmsyAXcBeAIyACEBAW0BawEoAQFtAWEBfQEDKAAhAQFtAWsBKAEBbQFiAX0CqDwAAXcFYWdhaW4DPAEAATIBAAEoAQAB",
+     "updateV2": "AAAEPDIoPAEAAA0hACgAIQAoACEAKACoEw1ta21rMm1rbWFta21iQQECQQYBAQACQQUDAgB3AXgCAH0BAwB9AncFYWdhaW4DPAEAADIBAAAoAQAA",
+     "content": {
+      "m": {
+       "a": 1,
+       "b": 2,
+       "k": "again",
+       "k2": "x"
+      }
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AwI8ACgBAW0BawF3B2Zyb20gNjAoAQFtAmsyAXcBeAIyACgBAW0BawF3B2Zyb20gNTAoAQFtAWEBfQEDKAAoAQFtAWsBdwdmcm9tIDQwKAEBbQFiAX0CiDwAAXcFYWdhaW4BPAEAAQ==",
+    "v2": "AAAEPDIoPAEAAAMoBYgTDW1rbWsybWttYW1rbWJBAQJBBgEBAAJBBQMCAHcHZnJvbSA2MHcBeAIAdwdmcm9tIDUwfQEDAHcHZnJvbSA0MH0CdwVhZ2FpbgE8AQAA",
+    "stateVector": "AzwCMgIoAw==",
+    "stateVectorV2": "AzwCMgIoAw==",
+    "v1ToV2": "AAAEPDIoPAEAAAMoBYgTDW1rbWsybWttYW1rbWJBAQJBBgEBAAJBBQMCAHcHZnJvbSA2MHcBeAIAdwdmcm9tIDUwfQEDAHcHZnJvbSA0MH0CdwVhZ2FpbgE8AQAA",
+    "v2ToV1": "AwI8ACgBAW0BawF3B2Zyb20gNjAoAQFtAmsyAXcBeAIyACgBAW0BawF3B2Zyb20gNTAoAQFtAWEBfQEDKAAoAQFtAWsBdwdmcm9tIDQwKAEBbQFiAX0CiDwAAXcFYWdhaW4BPAEAAQ==",
+    "content": {
+     "m": {
+      "a": 1,
+      "b": 2,
+      "k": "again",
+      "k2": "x"
+     }
+    },
+    "contentV2": {
+     "m": {
+      "a": 1,
+      "b": 2,
+      "k": "again",
+      "k2": "x"
+     }
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAAEPDIoPAEAAA0hACgAIQAoACEAKACIEw1ta21rMm1rbWFta21iQQECQQYBAQACQQUDAgB3AXgCAH0BAwB9AncFYWdhaW4DPAEAADIBAAAoAQAA",
+    "v2ToV1": "AwI8ACEBAW0BawEoAQFtAmsyAXcBeAIyACEBAW0BawEoAQFtAWEBfQEDKAAhAQFtAWsBKAEBbQFiAX0CiDwAAXcFYWdhaW4DPAEAATIBAAEoAQAB"
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "map-clear",
+   "description": "Y.Map.clear removes every key",
+   "gc": true,
+   "clientIds": [
+    3,
+    4
+   ],
+   "roots": {
+    "m": "map"
+   },
+   "ops": [
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "a",
+     "value": 1
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "b",
+     "value": 2
+    },
+    {
+     "op": "sync",
+     "from": 0,
+     "to": 1
+    },
+    {
+     "op": "mapClear",
+     "peer": 1,
+     "target": "m"
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "c",
+     "value": 3
+    },
+    {
+     "op": "syncAll"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 3,
+     "updates": [
+      {
+       "v1": "AQEDACgBAW0BYQF9AQA=",
+       "v2": "AAABAwAAASgFAm1hQQABAQABAQEBAH0BAA=="
+      },
+      {
+       "v1": "AQEDASgBAW0BYgF9AgA=",
+       "v2": "AAABAwAAASgFAm1iQQABAQABAQEBAX0CAA=="
+      },
+      {
+       "v1": "AQEDAigBAW0BYwF9AwA=",
+       "v2": "AAABAwAAASgFAm1jQQABAQABAQEBAn0DAA=="
+      }
+     ],
+     "stateVector": "AQMD",
+     "update": "AQMDACEBAW0BYQEhAQFtAWIBKAEBbQFjAX0DAQMBAAI=",
+     "updateV2": "AAABAwAAAyEBKAkGbWFtYm1jQQQBAQACQQEBAwB9AwEDAQAB",
+     "content": {
+      "m": {
+       "c": 3
+      }
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 4,
+     "updates": [
+      {
+       "v1": "AAEDAQAC",
+       "v2": "AAAAAAAAAQAAAAAAAQMBAAE="
+      }
+     ],
+     "stateVector": "AQMD",
+     "update": "AQMDACEBAW0BYQEhAQFtAWIBKAEBbQFjAX0DAQMBAAI=",
+     "updateV2": "AAABAwAAAyEBKAkGbWFtYm1jQQQBAQACQQEBAwB9AwEDAQAB",
+     "content": {
+      "m": {
+       "c": 3
+      }
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AQMDACgBAW0BYQF9ASgBAW0BYgF9AigBAW0BYwF9AwEDAQAC",
+    "v2": "AAABAwAAASgJBm1hbWJtY0EEAQEAAkEBAQMAfQF9An0DAQMBAAE=",
+    "stateVector": "AQMD",
+    "stateVectorV2": "AQMD",
+    "v1ToV2": "AAABAwAAASgJBm1hbWJtY0EEAQEAAkEBAQMAfQF9An0DAQMBAAE=",
+    "v2ToV1": "AQMDACgBAW0BYQF9ASgBAW0BYgF9AigBAW0BYwF9AwEDAQAC",
+    "content": {
+     "m": {
+      "c": 3
+     }
+    },
+    "contentV2": {
+     "m": {
+      "c": 3
+     }
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAABAwAAAyEBKAkGbWFtYm1jQQQBAQACQQEBAwB9AwEDAQAB",
+    "v2ToV1": "AQMDACEBAW0BYQEhAQFtAWIBKAEBbQFjAX0DAQMBAAI="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  }
+ ]
+}

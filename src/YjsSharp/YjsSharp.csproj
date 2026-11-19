@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>YjsSharp</RootNamespace>
+    <AssemblyName>YjsSharp</AssemblyName>
+    <PackageId>YjsSharp</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Curiosity GmbH</Authors>
+    <Company>Curiosity GmbH</Company>
+    <Description>A pure C# port of Yjs / y-crdt (yrs): CRDT shared types (Text, Array, Map, Xml), binary update encoding (v1 and v2) compatible with Yjs, state vectors, snapshots, undo manager, and the y-sync and awareness protocols.</Description>
+    <PackageTags>yjs;crdt;collaboration;realtime;y-crdt;yrs;concurrent-editing</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/curiosity-ai/yjs-sharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/curiosity-ai/yjs-sharp</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+    <InternalsVisibleTo Include="YjsSharp.Tests" />
+  </ItemGroup>
+
+</Project>
