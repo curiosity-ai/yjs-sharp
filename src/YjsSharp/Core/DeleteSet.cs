@@ -114,6 +114,156 @@ public sealed class DeleteSet
         return -1;
     }
 
+    /// <summary>Adds the range [clock, clock + length) of a client and keeps that client's ranges normalized.</summary>
+    public void Insert(ulong client, uint clock, uint length)
+    {
+        if (length == 0)
+        {
+            return;
+        }
+        Add(client, clock, length);
+        SortAndMergeItems(Clients[client]);
+    }
+
+    /// <summary>Removes the range [clock, clock + length) of a client (the set must be normalized).</summary>
+    public void Remove(ulong client, uint clock, uint length)
+    {
+        if (length == 0 || !Clients.TryGetValue(client, out var list))
+        {
+            return;
+        }
+        var other = new List<DeleteItem> { new DeleteItem(clock, length) };
+        SetList(client, Subtract(list, other));
+    }
+
+    private void SetList(ulong client, List<DeleteItem> list)
+    {
+        if (list.Count == 0)
+        {
+            Clients.Remove(client);
+        }
+        else
+        {
+            Clients[client] = list;
+        }
+    }
+
+    /// <summary>Adds all ranges of another set (union, in place).</summary>
+    public void Merge(DeleteSet other)
+    {
+        foreach (var kv in other.Clients)
+        {
+            if (!Clients.TryGetValue(kv.Key, out var list))
+            {
+                list               = new List<DeleteItem>();
+                Clients[kv.Key] = list;
+            }
+            list.AddRange(kv.Value);
+            SortAndMergeItems(list);
+        }
+    }
+
+    /// <summary>Removes all ranges contained in another set (difference, in place).</summary>
+    public void Exclude(DeleteSet other)
+    {
+        foreach (var client in new List<ulong>(Clients.Keys))
+        {
+            if (other.Clients.TryGetValue(client, out var o))
+            {
+                SetList(client, Subtract(Clients[client], o));
+            }
+        }
+    }
+
+    /// <summary>Keeps only the ranges also contained in another set (intersection, in place).</summary>
+    public void Intersect(DeleteSet other)
+    {
+        foreach (var client in new List<ulong>(Clients.Keys))
+        {
+            if (!other.Clients.TryGetValue(client, out var o))
+            {
+                Clients.Remove(client);
+                continue;
+            }
+            var a      = Clients[client];
+            var result = new List<DeleteItem>();
+            int i = 0, j = 0;
+            while (i < a.Count && j < o.Count)
+            {
+                var start = Math.Max(a[i].Clock, o[j].Clock);
+                var end   = Math.Min(a[i].End, o[j].End);
+                if (start < end)
+                {
+                    result.Add(new DeleteItem(start, end - start));
+                }
+                if (a[i].End < o[j].End)
+                {
+                    i++;
+                }
+                else
+                {
+                    j++;
+                }
+            }
+            SetList(client, result);
+        }
+    }
+
+    /// <summary>Whether every range of this set is contained in <paramref name="other"/> (both normalized).</summary>
+    public bool IsSubsetOf(DeleteSet other)
+    {
+        foreach (var kv in Clients)
+        {
+            if (kv.Value.Count == 0)
+            {
+                continue;
+            }
+            if (!other.Clients.TryGetValue(kv.Key, out var o))
+            {
+                return false;
+            }
+            foreach (var r in kv.Value)
+            {
+                var idx = FindIndex(o, r.Clock);
+                if (idx < 0 || o[idx].End < r.End)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static List<DeleteItem> Subtract(List<DeleteItem> a, List<DeleteItem> b)
+    {
+        var result = new List<DeleteItem>();
+        var j      = 0;
+        foreach (var r in a)
+        {
+            var start = r.Clock;
+            var end   = r.End;
+            while (j < b.Count && b[j].End <= start)
+            {
+                j++;
+            }
+            var k = j;
+            while (k < b.Count && b[k].Clock < end)
+            {
+                if (b[k].Clock > start)
+                {
+                    result.Add(new DeleteItem(start, b[k].Clock - start));
+                }
+                start = Math.Max(start, b[k].End);
+                k++;
+            }
+            if (start < end)
+            {
+                result.Add(new DeleteItem(start, end - start));
+            }
+        }
+        return result;
+    }
+
     /// <summary>Whether the id lies in one of the ranges (the set must be sorted).</summary>
     public bool IsDeleted(ID id)
     {
