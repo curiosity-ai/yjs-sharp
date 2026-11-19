@@ -268,7 +268,11 @@ public sealed class DocumentCompatTests
                 Assert.IsNotNull(abs, $"{id} in peer {i}");
                 Assert.AreEqual((int)resolved[i]!["index"]!, abs.Index, $"{id} index in peer {i}");
                 Assert.AreEqual((int)resolved[i]!["assoc"]!, abs.Assoc, $"{id} assoc in peer {i}");
-                Assert.AreSame(ScenarioRunner.Resolve(runner.Docs[i], roots, expected["target"]!), abs.Type, $"{id} type in peer {i}");
+                if ((bool)resolved[i]!["sameType"]!)
+                {
+                    // the path names the type the position was created in, as long as the edits did not move it
+                    Assert.AreSame(ScenarioRunner.Resolve(runner.Docs[i], roots, expected["target"]!), abs.Type, $"{id} type in peer {i}");
+                }
             }
         }
     }
