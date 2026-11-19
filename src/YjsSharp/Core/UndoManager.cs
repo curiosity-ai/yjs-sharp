@@ -7,10 +7,32 @@ namespace YjsSharp;
 /// <summary>A unit of the undo/redo stacks: the insertions and deletions of one or more captured transactions.</summary>
 public sealed class StackItem
 {
-    internal StackItem(DeleteSet deletions, DeleteSet insertions)
+    /// <summary>Creates a stack item from the ranges it covers.</summary>
+    public StackItem(DeleteSet deletions, DeleteSet insertions)
     {
         Deletions  = deletions;
         Insertions = insertions;
+    }
+
+    /// <summary>
+    /// Encodes the insertions and deletions (not the meta data), so that an undo stack can be persisted and restored
+    /// with <see cref="UndoManagerOptions.InitUndoStack"/> / <see cref="UndoManagerOptions.InitRedoStack"/>.
+    /// </summary>
+    public byte[] Encode()
+    {
+        var encoder = new Encoding.Encoder();
+        encoder.WriteVarUInt8Array(Insertions.Encode());
+        encoder.WriteVarUInt8Array(Deletions.Encode());
+        return encoder.ToArray();
+    }
+
+    /// <summary>Decodes a stack item encoded with <see cref="Encode"/>.</summary>
+    public static StackItem Decode(byte[] data)
+    {
+        var decoder    = new Encoding.Decoder(data);
+        var insertions = DeleteSet.Decode(decoder.ReadVarUInt8Array());
+        var deletions  = DeleteSet.Decode(decoder.ReadVarUInt8Array());
+        return new StackItem(deletions, insertions);
     }
 
     /// <summary>Ranges inserted by the captured changes.</summary>
@@ -102,6 +124,12 @@ public sealed class UndoManagerOptions
 
     /// <summary>The clock (milliseconds) used for the capture timeout; defaults to the system clock.</summary>
     public Func<long>? Clock { get; set; }
+
+    /// <summary>An undo stack to start with (e.g. restored from <see cref="StackItem.Decode"/>).</summary>
+    public IEnumerable<StackItem>? InitUndoStack { get; set; }
+
+    /// <summary>A redo stack to start with.</summary>
+    public IEnumerable<StackItem>? InitRedoStack { get; set; }
 }
 
 /// <summary>
@@ -179,6 +207,14 @@ public sealed class UndoManager : IDisposable
         _trackedOrigins.Add(this);
         IgnoreRemoteMapChanges = options.IgnoreRemoteMapChanges;
         CaptureTimeout         = options.CaptureTimeout;
+        if (options.InitUndoStack != null)
+        {
+            _undoStack.AddRange(options.InitUndoStack);
+        }
+        if (options.InitRedoStack != null)
+        {
+            _redoStack.AddRange(options.InitRedoStack);
+        }
         Doc.AfterTransaction  += OnAfterTransaction;
         Doc.Destroyed         += OnDocDestroyed;
     }
