@@ -85,6 +85,12 @@ public sealed class RelativePosition : IEquatable<RelativePosition>
         return Create(type, null, assoc);
     }
 
+    /// <summary>Creates a relative position from an index in a sequence type (Yjs <c>createRelativePositionFromTypeIndex</c>).</summary>
+    public static RelativePosition CreateRelativePositionFromTypeIndex(AbstractType type, int index, int assoc = 0) => FromTypeIndex(type, index, assoc);
+
+    /// <summary>Resolves a relative position in a document (Yjs <c>createAbsolutePositionFromRelativePosition</c>).</summary>
+    public static AbsolutePosition? CreateAbsolutePositionFromRelativePosition(RelativePosition rpos, Doc doc, bool followUndoneDeletions = true) => rpos.ToAbsolute(doc, followUndoneDeletions);
+
     /// <summary>Writes the position in the Yjs binary format.</summary>
     public void Write(Encoder encoder)
     {
