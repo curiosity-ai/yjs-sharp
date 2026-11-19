@@ -48,6 +48,12 @@ public sealed class RelativePosition : IEquatable<RelativePosition>
         return new RelativePosition(typeid, tname, item, assoc);
     }
 
+    /// <summary>
+    /// Creates a position scoped to the type itself rather than to an element: it resolves to the end of the type
+    /// when <paramref name="assoc"/> &gt;= 0 and to its start otherwise.
+    /// </summary>
+    public static RelativePosition FromType(AbstractType type, int assoc = 0) => Create(type, null, assoc);
+
     /// <summary>Creates a relative position from an index in a sequence type.</summary>
     public static RelativePosition FromTypeIndex(AbstractType type, int index, int assoc = 0)
     {
