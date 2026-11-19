@@ -1,0 +1,82 @@
+variables:
+  buildConfiguration: 'Release'
+
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - src/*
+      - tests/*
+      - .azure-devops/build-nuget.yml
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- checkout: self
+  persistCredentials: true
+
+- task: PowerShell@2
+  displayName: 'Create CalVer Version'
+  inputs:
+    targetType: 'inline'
+    pwsh: true
+    script: |
+      $dottedDate = (Get-Date).ToString("yy.M")
+      $buildID = $($env:BUILD_BUILDID)
+      $modBuildID = [int]$buildID % 65536  # ensure fits in int16
+      $newTargetVersion = "$dottedDate.$modBuildID"
+      Write-Host "##vso[task.setvariable variable=targetVersion;]$newTargetVersion"
+      Write-Host "Updated targetVersion to '$newTargetVersion'"
+
+- task: UseDotNet@2
+  displayName: 'Use .NET 8.0 runtime'
+  inputs:
+    packageType: runtime
+    version: 8.x
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: UseDotNet@2
+  displayName: 'Use .NET 10.0 sdk'
+  inputs:
+    packageType: sdk
+    version: 10.x
+    installationPath: $(Agent.ToolsDirectory)/dotnet
+
+- task: NuGetToolInstaller@1
+
+# The compatibility tests replay updates produced by the real Yjs library (fixtures generated with node);
+# node is only needed to regenerate them, the fixtures themselves are committed.
+- task: CmdLine@2
+  displayName: 'restore'
+  inputs:
+    script: 'dotnet restore YjsSharp.slnx'
+    workingDirectory: '$(Build.SourcesDirectory)'
+
+- task: CmdLine@2
+  displayName: 'build'
+  inputs:
+    script: 'dotnet build YjsSharp.slnx -c $(buildConfiguration) --no-restore /p:Version=$(targetVersion)'
+    workingDirectory: '$(Build.SourcesDirectory)'
+
+- task: CmdLine@2
+  displayName: 'test'
+  inputs:
+    script: 'dotnet run --project tests/YjsSharp.Tests/YjsSharp.Tests.csproj -c $(buildConfiguration) --no-build'
+    workingDirectory: '$(Build.SourcesDirectory)'
+
+- task: CmdLine@2
+  displayName: 'pack'
+  inputs:
+    script: 'dotnet pack src/YjsSharp/YjsSharp.csproj -c $(buildConfiguration) --no-build /p:Version=$(targetVersion) -o $(Build.ArtifactStagingDirectory)'
+    workingDirectory: '$(Build.SourcesDirectory)'
+
+- task: NuGetCommand@2
+  displayName: 'push YjsSharp to nuget'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/YjsSharp.$(targetVersion).nupkg'
+    nuGetFeedType: 'external'
+    publishFeedCredentials: 'nuget-curiosity-org'
