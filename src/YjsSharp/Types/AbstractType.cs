@@ -288,14 +288,9 @@ public class AbstractType
                 pindex -= (int)p.Length;
             }
         }
-        while (p.Left != null && p.Left.Id.Client == p.Id.Client && p.Left.Id.Clock + p.Left.Length == p.Id.Clock)
-        {
-            p = p.Left;
-            if (!p.Deleted && p.Countable)
-            {
-                pindex -= (int)p.Length;
-            }
-        }
+        // Yjs also walks left here until p cannot be merged with its left neighbour. That makes many inserts into
+        // one transaction quadratic, and is not needed for correctness: Item.MergeWith moves markers that point to an
+        // absorbed item onto the item that absorbs it.
         if (marker != null && Math.Abs(marker.Index - pindex) < (double)p.Parent!._length / MaxSearchMarker)
         {
             marker.Overwrite(p, pindex);

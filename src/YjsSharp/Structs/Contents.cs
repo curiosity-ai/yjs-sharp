@@ -171,21 +171,18 @@ public sealed class ContentJson : ItemContent
 
     internal override byte Ref => RefJson;
 
-    internal override ItemContent Copy() => new ContentJson(Arr);
+    internal override ItemContent Copy() => new ContentJson(new List<object?>(Arr));
 
     internal override ItemContent Splice(uint offset)
     {
         var right = new ContentJson(Arr.GetRange((int)offset, Arr.Count - (int)offset));
-        Arr = Arr.GetRange(0, (int)offset);
+        Arr.RemoveRange((int)offset, Arr.Count - (int)offset);
         return right;
     }
 
     internal override bool MergeWith(ItemContent right)
     {
-        var merged = new List<object?>(Arr.Count + ((ContentJson)right).Arr.Count);
-        merged.AddRange(Arr);
-        merged.AddRange(((ContentJson)right).Arr);
-        Arr = merged;
+        Arr.AddRange(((ContentJson)right).Arr);
         return true;
     }
 
@@ -252,18 +249,41 @@ public sealed class ContentBinary : ItemContent
 /// <summary>A run of text (UTF-16 code units).</summary>
 public sealed class ContentString : ItemContent
 {
-    internal string Str;
+    // Appends (merging consecutive items of one client, i.e. typing) go to a builder so that a long run of
+    // text is not copied on every keystroke; the string is materialized when it is read.
+    private string                     _str;
+    private System.Text.StringBuilder? _builder;
+    private bool                       _stale;
 
     internal ContentString(string str)
     {
-        Str = str;
+        _str = str;
+    }
+
+    internal string Str
+    {
+        get
+        {
+            if (_stale)
+            {
+                _str   = _builder!.ToString();
+                _stale = false;
+            }
+            return _str;
+        }
+        set
+        {
+            _str     = value;
+            _builder = null;
+            _stale   = false;
+        }
     }
 
     /// <summary>The text.</summary>
     public string Value => Str;
 
     /// <inheritdoc />
-    public override uint Length => (uint)Str.Length;
+    public override uint Length => (uint)(_builder?.Length ?? _str.Length);
 
     /// <inheritdoc />
     public override bool Countable => true;
@@ -271,16 +291,21 @@ public sealed class ContentString : ItemContent
     /// <inheritdoc />
     public override IReadOnlyList<object?> GetContent()
     {
-        var arr = new object?[Str.Length];
-        for (var i = 0; i < Str.Length; i++)
+        var str = Str;
+        var arr = new object?[str.Length];
+        for (var i = 0; i < str.Length; i++)
         {
-            arr[i] = Str[i].ToString();
+            arr[i] = str[i].ToString();
         }
         return arr;
     }
 
     /// <inheritdoc />
-    public override object? GetLast() => Str.Length == 0 ? null : Str[Str.Length - 1].ToString();
+    public override object? GetLast()
+    {
+        var str = Str;
+        return str.Length == 0 ? null : str[str.Length - 1].ToString();
+    }
 
     internal override byte Ref => RefString;
 
@@ -289,24 +314,37 @@ public sealed class ContentString : ItemContent
     internal override ItemContent Splice(uint offset)
     {
         var o     = (int)offset;
-        var right = new ContentString(Str.Substring(o));
-        Str = Str.Substring(0, o);
+        var str   = Str;
+        var right = new ContentString(str.Substring(o));
+        var left  = str.Substring(0, o);
         if (o > 0)
         {
-            var firstCharCode = Str[o - 1];
+            var firstCharCode = left[o - 1];
             if (firstCharCode >= 0xD800 && firstCharCode <= 0xDBFF)
             {
                 // splitting a surrogate pair: replace both halves with U+FFFD like Yjs does
-                Str       = Str.Substring(0, o - 1) + "�";
-                right.Str = "�" + right.Str.Substring(1);
+                left      = left.Substring(0, o - 1) + "\uFFFD";
+                right.Str = "\uFFFD" + right.Str.Substring(1);
             }
         }
+        Str = left;
         return right;
     }
 
     internal override bool MergeWith(ItemContent right)
     {
-        Str += ((ContentString)right).Str;
+        var r = ((ContentString)right).Str;
+        if (_builder == null)
+        {
+            if (_str.Length + r.Length < 256)
+            {
+                _str += r;
+                return true;
+            }
+            _builder = new System.Text.StringBuilder(_str, Math.Max(_str.Length * 2, _str.Length + r.Length));
+        }
+        _builder.Append(r);
+        _stale = true;
         return true;
     }
 
@@ -522,22 +560,18 @@ public sealed class ContentAny : ItemContent
 
     internal override byte Ref => RefAny;
 
-    internal override ItemContent Copy() => new ContentAny(Arr);
+    internal override ItemContent Copy() => new ContentAny(new List<object?>(Arr));
 
     internal override ItemContent Splice(uint offset)
     {
         var right = new ContentAny(Arr.GetRange((int)offset, Arr.Count - (int)offset));
-        Arr = Arr.GetRange(0, (int)offset);
+        Arr.RemoveRange((int)offset, Arr.Count - (int)offset);
         return right;
     }
 
     internal override bool MergeWith(ItemContent right)
     {
-        var r      = ((ContentAny)right).Arr;
-        var merged = new List<object?>(Arr.Count + r.Count);
-        merged.AddRange(Arr);
-        merged.AddRange(r);
-        Arr = merged;
+        Arr.AddRange(((ContentAny)right).Arr);
         return true;
     }
 

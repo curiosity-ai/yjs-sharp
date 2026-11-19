@@ -25,6 +25,9 @@ public abstract class AbstractStruct
 
     internal virtual bool MergeWith(AbstractStruct right) => false;
 
+    /// <summary>Whether <see cref="MergeWith"/> would succeed (without changing anything).</summary>
+    internal virtual bool CanMergeWith(AbstractStruct right) => false;
+
     internal abstract void Write(IUpdateEncoder encoder, uint offset);
 
     internal abstract void Integrate(Transaction transaction, uint offset);
@@ -43,6 +46,8 @@ public sealed class GC : AbstractStruct
 
     /// <inheritdoc />
     public override bool Deleted => true;
+
+    internal override bool CanMergeWith(AbstractStruct right) => right is GC;
 
     internal override bool MergeWith(AbstractStruct right)
     {
@@ -82,6 +87,8 @@ public sealed class Skip : AbstractStruct
 
     /// <inheritdoc />
     public override bool Deleted => true;
+
+    internal override bool CanMergeWith(AbstractStruct right) => right is Skip;
 
     internal override bool MergeWith(AbstractStruct right)
     {

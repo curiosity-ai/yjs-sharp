@@ -18,12 +18,14 @@ public sealed class Transaction
     internal readonly OrderedMap<AbstractType, HashSet<string?>> _changed = new OrderedMap<AbstractType, HashSet<string?>>(ReferenceEqualityComparer<AbstractType>.Instance);
     internal readonly OrderedMap<AbstractType, List<YEvent>>  _changedParentTypes = new OrderedMap<AbstractType, List<YEvent>>(ReferenceEqualityComparer<AbstractType>.Instance);
     internal readonly List<AbstractStruct>                    _mergeStructs = new List<AbstractStruct>();
-    internal readonly Dictionary<object, object?>             _meta = new Dictionary<object, object?>();
+    private           Dictionary<object, object?>?            _metaStore;
     internal readonly OrderedSet<Doc>                         _subdocsAdded = new OrderedSet<Doc>();
     internal readonly OrderedSet<Doc>                         _subdocsRemoved = new OrderedSet<Doc>();
     internal readonly OrderedSet<Doc>                         _subdocsLoaded = new OrderedSet<Doc>();
     internal          bool                                    _needFormattingCleanup;
     internal          bool                                    _local;
+
+    internal Dictionary<object, object?> _meta => _metaStore ??= new Dictionary<object, object?>();
 
     internal Transaction(Doc doc, object? origin, bool local)
     {
@@ -151,28 +153,41 @@ public sealed class Transaction
         return true;
     }
 
+    // Merges structs[pos] with the mergeable run to its left. The run is merged left to right, which is
+    // equivalent to Yjs' right-to-left merging but appends each piece once instead of re-copying the merged tail.
     private static int TryToMergeWithLefts(List<AbstractStruct> structs, int pos)
     {
-        var i = pos;
-        for (; i > 0; i--)
+        var k = pos;
+        while (k > 0)
         {
-            var right = structs[i];
-            var left  = structs[i - 1];
-            if (left.Deleted == right.Deleted && left.GetType() == right.GetType() && left.MergeWith(right))
+            var left  = structs[k - 1];
+            var right = structs[k];
+            if (left.Deleted == right.Deleted && left.GetType() == right.GetType() && left.CanMergeWith(right))
             {
-                if (right is Item ri && ri.ParentSub != null && ri.Parent!._map.TryGetValue(ri.ParentSub, out var cur) && cur == ri)
-                {
-                    ri.Parent._map[ri.ParentSub] = (Item)left;
-                }
+                k--;
                 continue;
             }
             break;
         }
-        var merged = pos - i;
-        if (merged > 0)
+        var merged = pos - k;
+        if (merged == 0)
         {
-            structs.RemoveRange(pos + 1 - merged, merged);
+            return 0;
         }
+        var target = structs[k];
+        for (var j = k + 1; j <= pos; j++)
+        {
+            var right = structs[j];
+            if (!target.MergeWith(right))
+            {
+                throw new InvalidOperationException("Unexpected case: mergeable structs did not merge");
+            }
+            if (right is Item ri && ri.ParentSub != null && ri.Parent!._map.TryGetValue(ri.ParentSub, out var cur) && cur == ri)
+            {
+                ri.Parent._map[ri.ParentSub] = (Item)target;
+            }
+        }
+        structs.RemoveRange(k + 1, merged);
         return merged;
     }
 

@@ -456,11 +456,13 @@ public sealed class Item : AbstractStruct
                 {
                     o = parent._start;
                 }
-                var conflictingItems = new HashSet<Item>();
-                var itemsBeforeOrigin = new HashSet<Item>();
+                HashSet<Item>? conflictingItems  = null;
+                HashSet<Item>? itemsBeforeOrigin = null;
                 var store = transaction.Doc.Store;
                 while (o != null && o != Right)
                 {
+                    conflictingItems  ??= new HashSet<Item>(ReferenceEqualityComparer<Item>.Instance);
+                    itemsBeforeOrigin ??= new HashSet<Item>(ReferenceEqualityComparer<Item>.Instance);
                     itemsBeforeOrigin.Add(o);
                     conflictingItems.Add(o);
                     if (ID.Equal(Origin, o.Origin))
@@ -543,6 +545,21 @@ public sealed class Item : AbstractStruct
         {
             new GC(_id, _length).Integrate(transaction, 0);
         }
+    }
+
+    internal override bool CanMergeWith(AbstractStruct rightStruct)
+    {
+        return rightStruct is Item right
+               && ID.Equal(right.Origin, LastId)
+               && Right == right
+               && ID.Equal(RightOrigin, right.RightOrigin)
+               && _id.Client == right._id.Client
+               && _id.Clock + _length == right._id.Clock
+               && Deleted == right.Deleted
+               && Redone == null
+               && right.Redone == null
+               && ContentField.GetType() == right.ContentField.GetType()
+               && ContentField is ContentString or ContentAny or ContentJson or ContentDeleted;
     }
 
     internal override bool MergeWith(AbstractStruct rightStruct)
