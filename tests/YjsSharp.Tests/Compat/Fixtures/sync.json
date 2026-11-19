@@ -1,0 +1,409 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "sync-empty",
+   "description": "Handshake between two empty documents",
+   "gc": true,
+   "clientIds": [
+    1,
+    2
+   ],
+   "roots": {
+    "t": "text"
+   },
+   "ops": [],
+   "after": [],
+   "exchange": [
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 0,
+     "message": "AAABAA==",
+     "reply": "AAECAAA="
+    },
+    {
+     "from": 1,
+     "to": 0,
+     "syncType": 1,
+     "message": "AAECAAA=",
+     "reply": null
+    },
+    {
+     "from": 1,
+     "to": 0,
+     "syncType": 0,
+     "message": "AAABAA==",
+     "reply": "AAECAAA="
+    },
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 1,
+     "message": "AAECAAA=",
+     "reply": null
+    }
+   ],
+   "explicitStep2": "AAECAAA=",
+   "fullStep2": "AAECAAA=",
+   "content": [
+    {
+     "t": ""
+    },
+    {
+     "t": ""
+    }
+   ],
+   "stateVectors": [
+    "AA==",
+    "AA=="
+   ]
+  },
+  {
+   "name": "sync-client-server",
+   "description": "Both sides have local edits before the handshake, then the client keeps editing",
+   "gc": true,
+   "clientIds": [
+    1,
+    2
+   ],
+   "roots": {
+    "t": "text",
+    "m": "map"
+   },
+   "ops": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": "client says hi"
+    },
+    {
+     "op": "mapSet",
+     "peer": 1,
+     "target": "m",
+     "key": "server",
+     "value": {
+      "started": true
+     }
+    },
+    {
+     "op": "textInsert",
+     "peer": 1,
+     "target": "t",
+     "index": 0,
+     "text": "server text"
+    }
+   ],
+   "after": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": ">> "
+    },
+    {
+     "op": "textFormat",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "length": 5,
+     "attrs": {
+      "bold": true
+     }
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "client",
+     "value": "connected"
+    }
+   ],
+   "exchange": [
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 0,
+     "message": "AAADAQEO",
+     "reply": "AAEsAQICACgBAW0Gc2VydmVyAXYBB3N0YXJ0ZWR4BAEBdAtzZXJ2ZXIgdGV4dAA="
+    },
+    {
+     "from": 1,
+     "to": 0,
+     "syncType": 1,
+     "message": "AAEsAQICACgBAW0Gc2VydmVyAXYBB3N0YXJ0ZWR4BAEBdAtzZXJ2ZXIgdGV4dAA=",
+     "reply": null
+    },
+    {
+     "from": 1,
+     "to": 0,
+     "syncType": 0,
+     "message": "AAADAQIM",
+     "reply": "AAEYAQEBAAQBAXQOY2xpZW50IHNheXMgaGkA"
+    },
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 1,
+     "message": "AAEYAQEBAAQBAXQOY2xpZW50IHNheXMgaGkA",
+     "reply": null
+    },
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 2,
+     "message": "AAIMAQEBDkQBAAM+PiAA",
+     "reply": null
+    },
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 2,
+     "message": "AAIhAQIBEUYBDgRib2xkBHRydWXGAQEBAgRib2xkBG51bGwA",
+     "reply": null
+    },
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 2,
+     "message": "AAIcAQEBEygBAW0GY2xpZW50AXcJY29ubmVjdGVkAA==",
+     "reply": null
+    }
+   ],
+   "explicitStep2": "AAGAAQICAgAoAQFtBnNlcnZlcgF2AQdzdGFydGVkeAQBAXQLc2VydmVyIHRleHQGAQAEAQF0AmNshAEBDGllbnQgc2F5cyBoaUQBAAM+PiBGAQ4EYm9sZAR0cnVlxgEBAQIEYm9sZARudWxsKAEBbQZjbGllbnQBdwljb25uZWN0ZWQA",
+   "fullStep2": "AAGAAQICAgAoAQFtBnNlcnZlcgF2AQdzdGFydGVkeAQBAXQLc2VydmVyIHRleHQGAQAEAQF0AmNshAEBDGllbnQgc2F5cyBoaUQBAAM+PiBGAQ4EYm9sZAR0cnVlxgEBAQIEYm9sZARudWxsKAEBbQZjbGllbnQBdwljb25uZWN0ZWQA",
+   "content": [
+    {
+     "m": {
+      "client": "connected",
+      "server": {
+       "started": true
+      }
+     },
+     "t": ">> client says hiserver text"
+    },
+    {
+     "m": {
+      "client": "connected",
+      "server": {
+       "started": true
+      }
+     },
+     "t": ">> client says hiserver text"
+    }
+   ],
+   "stateVectors": [
+    "AgIMARQ=",
+    "AgIMARQ="
+   ]
+  },
+  {
+   "name": "sync-partial",
+   "description": "The client already has part of the server state (a delta step 2 with a delete set)",
+   "gc": true,
+   "clientIds": [
+    3,
+    4
+   ],
+   "roots": {
+    "a": "array"
+   },
+   "ops": [
+    {
+     "op": "arrayPush",
+     "peer": 1,
+     "target": "a",
+     "values": [
+      1,
+      2,
+      3,
+      4
+     ]
+    },
+    {
+     "op": "sync",
+     "from": 1,
+     "to": 0
+    },
+    {
+     "op": "arrayDelete",
+     "peer": 1,
+     "target": "a",
+     "index": 1,
+     "length": 2
+    },
+    {
+     "op": "arrayPush",
+     "peer": 1,
+     "target": "a",
+     "values": [
+      "server"
+     ]
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 0,
+     "target": "a",
+     "index": 0,
+     "values": [
+      "client"
+     ]
+    }
+   ],
+   "after": [
+    {
+     "op": "arrayDelete",
+     "peer": 0,
+     "target": "a",
+     "index": 0,
+     "length": 1
+    }
+   ],
+   "exchange": [
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 0,
+     "message": "AAAFAgQEAwE=",
+     "reply": "AAEVAQEEBIgEAwF3BnNlcnZlcgEEAQEC"
+    },
+    {
+     "from": 1,
+     "to": 0,
+     "syncType": 1,
+     "message": "AAEVAQEEBIgEAwF3BnNlcnZlcgEEAQEC",
+     "reply": null
+    },
+    {
+     "from": 1,
+     "to": 0,
+     "syncType": 0,
+     "message": "AAADAQQF",
+     "reply": "AAEVAQEDAEgEAAF3BmNsaWVudAEEAQEC"
+    },
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 1,
+     "message": "AAEVAQEDAEgEAAF3BmNsaWVudAEEAQEC",
+     "reply": null
+    },
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 2,
+     "message": "AAIGAAEDAQAB",
+     "reply": null
+    }
+   ],
+   "explicitStep2": "AAEtAgMEAAgBAWEBfQGBBAACiAQCAn0EdwZzZXJ2ZXIBAwBBBAABAgQBAQIDAQAB",
+   "fullStep2": "AAEtAgMEAAgBAWEBfQGBBAACiAQCAn0EdwZzZXJ2ZXIBAwBBBAABAgQBAQIDAQAB",
+   "content": [
+    {
+     "a": [
+      1,
+      4,
+      "server"
+     ]
+    },
+    {
+     "a": [
+      1,
+      4,
+      "server"
+     ]
+    }
+   ],
+   "stateVectors": [
+    "AgQFAwE=",
+    "AgQFAwE="
+   ]
+  },
+  {
+   "name": "sync-gc-disabled",
+   "description": "Handshake between gc-disabled documents with deleted content",
+   "gc": false,
+   "clientIds": [
+    5,
+    6
+   ],
+   "roots": {
+    "t": "text"
+   },
+   "ops": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": "deleted soon"
+    },
+    {
+     "op": "textDelete",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "length": 8
+    },
+    {
+     "op": "textInsert",
+     "peer": 1,
+     "target": "t",
+     "index": 0,
+     "text": "other"
+    }
+   ],
+   "after": [],
+   "exchange": [
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 0,
+     "message": "AAADAQUM",
+     "reply": "AAEPAQEGAAQBAXQFb3RoZXIA"
+    },
+    {
+     "from": 1,
+     "to": 0,
+     "syncType": 1,
+     "message": "AAEPAQEGAAQBAXQFb3RoZXIA",
+     "reply": null
+    },
+    {
+     "from": 1,
+     "to": 0,
+     "syncType": 0,
+     "message": "AAADAQYF",
+     "reply": "AAEeAQIFAAQBAXQIZGVsZXRlZCCEBQcEc29vbgEFAQAI"
+    },
+    {
+     "from": 0,
+     "to": 1,
+     "syncType": 1,
+     "message": "AAEeAQIFAAQBAXQIZGVsZXRlZCCEBQcEc29vbgEFAQAI",
+     "reply": null
+    }
+   ],
+   "explicitStep2": "AAErAgEGAAQBAXQFb3RoZXICBQAEAQF0CGRlbGV0ZWQghAUHBHNvb24BBQEACA==",
+   "fullStep2": "AAErAgEGAAQBAXQFb3RoZXICBQAEAQF0CGRlbGV0ZWQghAUHBHNvb24BBQEACA==",
+   "content": [
+    {
+     "t": "soonother"
+    },
+    {
+     "t": "soonother"
+    }
+   ],
+   "stateVectors": [
+    "AgYFBQw=",
+    "AgYFBQw="
+   ]
+  }
+ ]
+}

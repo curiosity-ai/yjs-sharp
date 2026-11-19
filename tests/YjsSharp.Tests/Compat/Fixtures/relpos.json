@@ -1,0 +1,578 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "relpos-text",
+   "description": "Relative positions in a text resolved after concurrent edits on both peers",
+   "gc": true,
+   "clientIds": [
+    1,
+    2
+   ],
+   "roots": {
+    "t": "text"
+   },
+   "ops": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": "hello world"
+    },
+    {
+     "op": "sync",
+     "from": 0,
+     "to": 1
+    },
+    {
+     "op": "relPos",
+     "peer": 0,
+     "id": "start",
+     "target": "t",
+     "index": 0,
+     "assoc": 0
+    },
+    {
+     "op": "relPos",
+     "peer": 0,
+     "id": "mid",
+     "target": "t",
+     "index": 5,
+     "assoc": 0
+    },
+    {
+     "op": "relPos",
+     "peer": 0,
+     "id": "mid-before",
+     "target": "t",
+     "index": 5,
+     "assoc": -1
+    },
+    {
+     "op": "relPos",
+     "peer": 0,
+     "id": "end",
+     "target": "t",
+     "index": 11,
+     "assoc": 0
+    },
+    {
+     "op": "relPos",
+     "peer": 0,
+     "id": "end-before",
+     "target": "t",
+     "index": 11,
+     "assoc": -1
+    },
+    {
+     "op": "textInsert",
+     "peer": 1,
+     "target": "t",
+     "index": 0,
+     "text": ">> "
+    },
+    {
+     "op": "textDelete",
+     "peer": 0,
+     "target": "t",
+     "index": 4,
+     "length": 3
+    },
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 8,
+     "text": "!!"
+    },
+    {
+     "op": "syncAll"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [
+      {
+       "v1": "AQEBAAQBAXQLaGVsbG8gd29ybGQA",
+       "v2": "AAABAQAAAQQPDHRoZWxsbyB3b3JsZAELAQEAAAEBAAA="
+      },
+      {
+       "v1": "AAEBAQQD",
+       "v2": "AAAAAAAAAQAAAAAAAQEBBAI="
+      },
+      {
+       "v1": "AQEBC4QBCgIhIQA=",
+       "v2": "AAACQQABFAABhAQCISECAAAAAQELAA=="
+      }
+     ],
+     "stateVector": "AgIDAQ0=",
+     "update": "AgECAEQBAAM+PiADAQAEAQF0BGhlbGyBAQMDhAEGBm9ybGQhIQEBAQQD",
+     "updateV2": "AAADAkECAgcAAQAHRAAEAIEAhBMOPj4gdGhlbGxvcmxkISEDAQQGAQEAAQMCAQADAAEBAQQC",
+     "content": {
+      "t": ">> hellorld!!"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": ">> hellorld!!"
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 2,
+     "updates": [
+      {
+       "v1": "AQECAEQBAAM+PiAA",
+       "v2": "AAACAgEAAQABRAUDPj4gAwAAAAEBAAA="
+      }
+     ],
+     "stateVector": "AgIDAQ0=",
+     "update": "AgECAEQBAAM+PiADAQAEAQF0BGhlbGyBAQMDhAEGBm9ybGQhIQEBAQQD",
+     "updateV2": "AAADAkECAgcAAQAHRAAEAIEAhBMOPj4gdGhlbGxvcmxkISEDAQQGAQEAAQMCAQADAAEBAQQC",
+     "content": {
+      "t": ">> hellorld!!"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": ">> hellorld!!"
+       }
+      ]
+     }
+    }
+   ],
+   "merged": {
+    "v1": "AgECAEQBAAM+PiACAQAEAQF0C2hlbGxvIHdvcmxkhAEKAiEhAQEBBAM=",
+    "v2": "AAADAkEBARQBAAVEAAQAhBYRPj4gdGhlbGxvIHdvcmxkISEDAQsCAQEAAAIBAAIAAQEBBAI=",
+    "stateVector": "AgIDAQ0=",
+    "stateVectorV2": "AgIDAQ0=",
+    "v1ToV2": "AAADAkEBARQBAAVEAAQAhBYRPj4gdGhlbGxvIHdvcmxkISEDAQsCAQEAAAIBAAIAAQEBBAI=",
+    "v2ToV1": "AgECAEQBAAM+PiACAQAEAQF0C2hlbGxvIHdvcmxkhAEKAiEhAQEBBAM=",
+    "content": {
+     "t": ">> hellorld!!"
+    },
+    "contentV2": {
+     "t": ">> hellorld!!"
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAADAkECAgcAAQAHRAAEAIEAhBMOPj4gdGhlbGxvcmxkISEDAQQGAQEAAQMCAQADAAEBAQQC",
+    "v2ToV1": "AgECAEQBAAM+PiADAQAEAQF0BGhlbGyBAQMDhAEGBm9ybGQhIQEBAQQD"
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": [
+    {
+     "id": "start",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "assoc": 0,
+     "encoded": "AAEAAA==",
+     "json": {
+      "tname": "t",
+      "item": {
+       "client": 1,
+       "clock": 0
+      },
+      "assoc": 0
+     },
+     "resolved": [
+      {
+       "index": 3,
+       "assoc": 0,
+       "sameType": true
+      },
+      {
+       "index": 3,
+       "assoc": 0,
+       "sameType": true
+      }
+     ]
+    },
+    {
+     "id": "mid",
+     "peer": 0,
+     "target": "t",
+     "index": 5,
+     "assoc": 0,
+     "encoded": "AAEFAA==",
+     "json": {
+      "tname": "t",
+      "item": {
+       "client": 1,
+       "clock": 5
+      },
+      "assoc": 0
+     },
+     "resolved": [
+      {
+       "index": 7,
+       "assoc": 0,
+       "sameType": true
+      },
+      {
+       "index": 7,
+       "assoc": 0,
+       "sameType": true
+      }
+     ]
+    },
+    {
+     "id": "mid-before",
+     "peer": 0,
+     "target": "t",
+     "index": 5,
+     "assoc": -1,
+     "encoded": "AAEEQQ==",
+     "json": {
+      "tname": "t",
+      "item": {
+       "client": 1,
+       "clock": 4
+      },
+      "assoc": -1
+     },
+     "resolved": [
+      {
+       "index": 7,
+       "assoc": -1,
+       "sameType": true
+      },
+      {
+       "index": 7,
+       "assoc": -1,
+       "sameType": true
+      }
+     ]
+    },
+    {
+     "id": "end",
+     "peer": 0,
+     "target": "t",
+     "index": 11,
+     "assoc": 0,
+     "encoded": "AQF0AA==",
+     "json": {
+      "tname": "t",
+      "assoc": 0
+     },
+     "resolved": [
+      {
+       "index": 13,
+       "assoc": 0,
+       "sameType": true
+      },
+      {
+       "index": 13,
+       "assoc": 0,
+       "sameType": true
+      }
+     ]
+    },
+    {
+     "id": "end-before",
+     "peer": 0,
+     "target": "t",
+     "index": 11,
+     "assoc": -1,
+     "encoded": "AAEKQQ==",
+     "json": {
+      "tname": "t",
+      "item": {
+       "client": 1,
+       "clock": 10
+      },
+      "assoc": -1
+     },
+     "resolved": [
+      {
+       "index": 11,
+       "assoc": -1,
+       "sameType": true
+      },
+      {
+       "index": 11,
+       "assoc": -1,
+       "sameType": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "relpos-array-nested",
+   "description": "Relative positions in an array and in a nested text",
+   "gc": true,
+   "clientIds": [
+    3,
+    4
+   ],
+   "roots": {
+    "a": "array"
+   },
+   "ops": [
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      1,
+      2,
+      3,
+      {
+       "$y": "text"
+      }
+     ]
+    },
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": [
+      "a",
+      3
+     ],
+     "index": 0,
+     "text": "inner"
+    },
+    {
+     "op": "sync",
+     "from": 0,
+     "to": 1
+    },
+    {
+     "op": "relPos",
+     "peer": 0,
+     "id": "arr-2",
+     "target": "a",
+     "index": 2,
+     "assoc": 0
+    },
+    {
+     "op": "relPos",
+     "peer": 0,
+     "id": "arr-end",
+     "target": "a",
+     "index": 4,
+     "assoc": 0
+    },
+    {
+     "op": "relPos",
+     "peer": 0,
+     "id": "nested",
+     "target": [
+      "a",
+      3
+     ],
+     "index": 2,
+     "assoc": 0
+    },
+    {
+     "op": "arrayDelete",
+     "peer": 1,
+     "target": "a",
+     "index": 1,
+     "length": 2
+    },
+    {
+     "op": "arrayInsert",
+     "peer": 0,
+     "target": "a",
+     "index": 0,
+     "values": [
+      "new"
+     ]
+    },
+    {
+     "op": "textInsert",
+     "peer": 1,
+     "target": [
+      "a",
+      1
+     ],
+     "index": 0,
+     "text": "XX"
+    },
+    {
+     "op": "syncAll"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 3,
+     "updates": [
+      {
+       "v1": "AQIDAAgBAWEDfQF9An0DhwMCAgA=",
+       "v2": "AAACQwABBAADCACHAwFhAQEBAQIBAwECAH0BfQJ9AwA="
+      },
+      {
+       "v1": "AQEDBAQAAwMFaW5uZXIA",
+       "v2": "AAACQwABBgABBAcFaW5uZXIFAQAAAAEBBAA="
+      },
+      {
+       "v1": "AQEDCUgDAAF3A25ldwA=",
+       "v2": "AAACQwAAAQABSAEAAAABAQEBCXcDbmV3AA=="
+      }
+     ],
+     "stateVector": "AgQCAwo=",
+     "update": "AgEEAEQDBAJYWAUDAAgBAWEBfQGBAwAChwMCAgQAAwMFaW5uZXJIAwABdwNuZXcBAwEBAg==",
+     "updateV2": "AAADBEMEAwAEAgIISAtEAAgAgQCHAAQASAwIWFhhaW5uZXICAQUDAQAAAQIDAQIBAgEABQB9AXcDbmV3AQMBAQE=",
+     "content": {
+      "a": [
+       "new",
+       1,
+       "XXinner"
+      ]
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 4,
+     "updates": [
+      {
+       "v1": "AAEDAQEC",
+       "v2": "AAAAAAAAAQAAAAAAAQMBAQE="
+      },
+      {
+       "v1": "AQEEAEQDBAJYWAA=",
+       "v2": "AAACBAMAAQgBRAQCWFgCAAAAAQEAAA=="
+      }
+     ],
+     "stateVector": "AgQCAwo=",
+     "update": "AgEEAEQDBAJYWAUDAAgBAWEBfQGBAwAChwMCAgQAAwMFaW5uZXJIAwABdwNuZXcBAwEBAg==",
+     "updateV2": "AAADBEMEAwAEAgIISAtEAAgAgQCHAAQASAwIWFhhaW5uZXICAQUDAQAAAQIDAQIBAgEABQB9AXcDbmV3AQMBAQE=",
+     "content": {
+      "a": [
+       "new",
+       1,
+       "XXinner"
+      ]
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AgEEAEQDBAJYWAQDAAgBAWEDfQF9An0DhwMCAgQAAwMFaW5uZXJIAwABdwNuZXcBAwEBAg==",
+    "v2": "AAADBEMDAgQCAghICUQACACHAAQASAwIWFhhaW5uZXICAQUDAQAAAQICAwECAQAEAH0BfQJ9A3cDbmV3AQMBAQE=",
+    "stateVector": "AgQCAwo=",
+    "stateVectorV2": "AgQCAwo=",
+    "v1ToV2": "AAADBEMDAgQCAghICUQACACHAAQASAwIWFhhaW5uZXICAQUDAQAAAQICAwECAQAEAH0BfQJ9A3cDbmV3AQMBAQE=",
+    "v2ToV1": "AgEEAEQDBAJYWAQDAAgBAWEDfQF9An0DhwMCAgQAAwMFaW5uZXJIAwABdwNuZXcBAwEBAg==",
+    "content": {
+     "a": [
+      "new",
+      1,
+      "XXinner"
+     ]
+    },
+    "contentV2": {
+     "a": [
+      "new",
+      1,
+      "XXinner"
+     ]
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAADBEMEAwAEAgIISAtEAAgAgQCHAAQASAwIWFhhaW5uZXICAQUDAQAAAQIDAQIBAgEABQB9AXcDbmV3AQMBAQE=",
+    "v2ToV1": "AgEEAEQDBAJYWAUDAAgBAWEBfQGBAwAChwMCAgQAAwMFaW5uZXJIAwABdwNuZXcBAwEBAg=="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": [
+    {
+     "id": "arr-2",
+     "peer": 0,
+     "target": "a",
+     "index": 2,
+     "assoc": 0,
+     "encoded": "AAMCAA==",
+     "json": {
+      "tname": "a",
+      "item": {
+       "client": 3,
+       "clock": 2
+      },
+      "assoc": 0
+     },
+     "resolved": [
+      {
+       "index": 2,
+       "assoc": 0,
+       "sameType": true
+      },
+      {
+       "index": 2,
+       "assoc": 0,
+       "sameType": true
+      }
+     ]
+    },
+    {
+     "id": "arr-end",
+     "peer": 0,
+     "target": "a",
+     "index": 4,
+     "assoc": 0,
+     "encoded": "AQFhAA==",
+     "json": {
+      "tname": "a",
+      "assoc": 0
+     },
+     "resolved": [
+      {
+       "index": 3,
+       "assoc": 0,
+       "sameType": true
+      },
+      {
+       "index": 3,
+       "assoc": 0,
+       "sameType": true
+      }
+     ]
+    },
+    {
+     "id": "nested",
+     "peer": 0,
+     "target": [
+      "a",
+      3
+     ],
+     "index": 2,
+     "assoc": 0,
+     "encoded": "AAMGAA==",
+     "json": {
+      "type": {
+       "client": 3,
+       "clock": 3
+      },
+      "item": {
+       "client": 3,
+       "clock": 6
+      },
+      "assoc": 0
+     },
+     "resolved": [
+      {
+       "index": 4,
+       "assoc": 0,
+       "sameType": false
+      },
+      {
+       "index": 4,
+       "assoc": 0,
+       "sameType": false
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

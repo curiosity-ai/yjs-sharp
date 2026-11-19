@@ -1,0 +1,723 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "empty-doc",
+   "description": "A document nobody wrote to",
+   "gc": true,
+   "clientIds": [
+    1
+   ],
+   "roots": {
+    "t": "text",
+    "m": "map"
+   },
+   "ops": [],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [],
+     "stateVector": "AA==",
+     "update": "AAA=",
+     "updateV2": "AAAAAAAAAQAAAAAAAA==",
+     "content": {
+      "m": {},
+      "t": ""
+     },
+     "deltas": {
+      "t": []
+     }
+    }
+   ],
+   "merged": {
+    "v1": "AAA=",
+    "v2": "AAAAAAAAAQAAAAAAAA==",
+    "stateVector": "AA==",
+    "stateVectorV2": "AA==",
+    "v1ToV2": "AAAAAAAAAQAAAAAAAA==",
+    "v2ToV1": "AAA=",
+    "content": {
+     "m": {},
+     "t": ""
+    },
+    "contentV2": {
+     "m": {},
+     "t": ""
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAAAAAAAAQAAAAAAAA==",
+    "v2ToV1": "AAA="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "many-clients",
+   "description": "Five peers with very different client ids (including large ones) edit the same text",
+   "gc": true,
+   "clientIds": [
+    1,
+    255,
+    256,
+    65536,
+    4294967295
+   ],
+   "roots": {
+    "t": "text",
+    "m": "map"
+   },
+   "ops": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": "a"
+    },
+    {
+     "op": "textInsert",
+     "peer": 1,
+     "target": "t",
+     "index": 0,
+     "text": "b"
+    },
+    {
+     "op": "textInsert",
+     "peer": 2,
+     "target": "t",
+     "index": 0,
+     "text": "c"
+    },
+    {
+     "op": "textInsert",
+     "peer": 3,
+     "target": "t",
+     "index": 0,
+     "text": "d"
+    },
+    {
+     "op": "textInsert",
+     "peer": 4,
+     "target": "t",
+     "index": 0,
+     "text": "e"
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "k",
+     "value": 0
+    },
+    {
+     "op": "mapSet",
+     "peer": 1,
+     "target": "m",
+     "key": "k",
+     "value": 1
+    },
+    {
+     "op": "mapSet",
+     "peer": 2,
+     "target": "m",
+     "key": "k",
+     "value": 2
+    },
+    {
+     "op": "mapSet",
+     "peer": 3,
+     "target": "m",
+     "key": "k",
+     "value": 3
+    },
+    {
+     "op": "mapSet",
+     "peer": 4,
+     "target": "m",
+     "key": "k",
+     "value": 4
+    },
+    {
+     "op": "checkpoint",
+     "peer": 2,
+     "id": "c2"
+    },
+    {
+     "op": "syncAll"
+    },
+    {
+     "op": "textDelete",
+     "peer": 4,
+     "target": "t",
+     "index": 1,
+     "length": 3
+    },
+    {
+     "op": "syncAll"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [
+      {
+       "v1": "AQEBAAQBAXQBYQA=",
+       "v2": "AAABAQAAAQQFAnRhQQABAQAAAQEAAA=="
+      },
+      {
+       "v1": "AQEBASgBAW0BawF9AAA=",
+       "v2": "AAABAQAAASgFAm1rQQABAQABAQEBAX0AAA=="
+      }
+     ],
+     "stateVector": "Bf////8PAoCABAKAAgL/AQIBAg==",
+     "update": "BQL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAEBAXQBIQEBbQFrAQKAAgABAQF0ASEBAW0BawEC/wEAAQEBdAEhAQFtAWsBAgEABAEBdAFhIQEBbQFrAQSAgAQBAAKAAgEAAv8BAQACAQEBAQ==",
+     "updateV2": "AAANv////x+AgAiABL8DAQAAEwQAKAABACEAAQAhAAEAIQAEACEUEXRlbWt0bWt0bWt0bWt0YW1rQQ8BAQACQQYFAgB9BAIAAgACAAIABICABAEAAYACAQAB/wEBAAEBAQEA",
+     "content": {
+      "m": {
+       "k": 4
+      },
+      "t": "ae"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "ae"
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 255,
+     "updates": [
+      {
+       "v1": "AQH/AQAEAQF0AWIA",
+       "v2": "AAACvwMAAAEEBQJ0YkEAAQEAAAEBAAA="
+      },
+      {
+       "v1": "AQH/AQEoAQFtAWsBfQEA",
+       "v2": "AAACvwMAAAEoBQJta0EAAQEAAQEBAQF9AQA="
+      }
+     ],
+     "stateVector": "Bf////8PAoCABAKAAgL/AQIBAg==",
+     "update": "BQL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAEBAXQBIQEBbQFrAQKAAgABAQF0ASEBAW0BawEC/wEAAQEBdAEhAQFtAWsBAgEABAEBdAFhIQEBbQFrAQSAgAQBAAKAAgEAAv8BAQACAQEBAQ==",
+     "updateV2": "AAANv////x+AgAiABL8DAQAAEwQAKAABACEAAQAhAAEAIQAEACEUEXRlbWt0bWt0bWt0bWt0YW1rQQ8BAQACQQYFAgB9BAIAAgACAAIABICABAEAAYACAQAB/wEBAAEBAQEA",
+     "content": {
+      "m": {
+       "k": 4
+      },
+      "t": "ae"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "ae"
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 256,
+     "updates": [
+      {
+       "v1": "AQGAAgAEAQF0AWMA",
+       "v2": "AAACgAQAAAEEBQJ0Y0EAAQEAAAEBAAA="
+      },
+      {
+       "v1": "AQGAAgEoAQFtAWsBfQIA",
+       "v2": "AAACgAQAAAEoBQJta0EAAQEAAQEBAQF9AgA="
+      }
+     ],
+     "stateVector": "Bf////8PAoCABAKAAgL/AQIBAg==",
+     "update": "BQL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAEBAXQBIQEBbQFrAQKAAgABAQF0ASEBAW0BawEC/wEAAQEBdAEhAQFtAWsBAgEABAEBdAFhIQEBbQFrAQSAgAQBAAKAAgEAAv8BAQACAQEBAQ==",
+     "updateV2": "AAANv////x+AgAiABL8DAQAAEwQAKAABACEAAQAhAAEAIQAEACEUEXRlbWt0bWt0bWt0bWt0YW1rQQ8BAQACQQYFAgB9BAIAAgACAAIABICABAEAAYACAQAB/wEBAAEBAQEA",
+     "content": {
+      "m": {
+       "k": 4
+      },
+      "t": "ae"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "ae"
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 65536,
+     "updates": [
+      {
+       "v1": "AQGAgAQABAEBdAFkAA==",
+       "v2": "AAADgIAIAAABBAUCdGRBAAEBAAABAQAA"
+      },
+      {
+       "v1": "AQGAgAQBKAEBbQFrAX0DAA==",
+       "v2": "AAADgIAIAAABKAUCbWtBAAEBAAEBAQEBfQMA"
+      }
+     ],
+     "stateVector": "Bf////8PAoCABAKAAgL/AQIBAg==",
+     "update": "BQL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAEBAXQBIQEBbQFrAQKAAgABAQF0ASEBAW0BawEC/wEAAQEBdAEhAQFtAWsBAgEABAEBdAFhIQEBbQFrAQSAgAQBAAKAAgEAAv8BAQACAQEBAQ==",
+     "updateV2": "AAANv////x+AgAiABL8DAQAAEwQAKAABACEAAQAhAAEAIQAEACEUEXRlbWt0bWt0bWt0bWt0YW1rQQ8BAQACQQYFAgB9BAIAAgACAAIABICABAEAAYACAQAB/wEBAAEBAQEA",
+     "content": {
+      "m": {
+       "k": 4
+      },
+      "t": "ae"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "ae"
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 4294967295,
+     "updates": [
+      {
+       "v1": "AQH/////DwAEAQF0AWUA",
+       "v2": "AAAFv////x8AAAEEBQJ0ZUEAAQEAAAEBAAA="
+      },
+      {
+       "v1": "AQH/////DwEoAQFtAWsBfQQA",
+       "v2": "AAAFv////x8AAAEoBQJta0EAAQEAAQEBAQF9BAA="
+      },
+      {
+       "v1": "AAOAgAQBAAGAAgEAAf8BAQAB",
+       "v2": "AAAAAAAAAQAAAAAAA4CABAEAAIACAQAA/wEBAAA="
+      }
+     ],
+     "stateVector": "Bf////8PAoCABAKAAgL/AQIBAg==",
+     "update": "BQL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAEBAXQBIQEBbQFrAQKAAgABAQF0ASEBAW0BawEC/wEAAQEBdAEhAQFtAWsBAgEABAEBdAFhIQEBbQFrAQSAgAQBAAKAAgEAAv8BAQACAQEBAQ==",
+     "updateV2": "AAANv////x+AgAiABL8DAQAAEwQAKAABACEAAQAhAAEAIQAEACEUEXRlbWt0bWt0bWt0bWt0YW1rQQ8BAQACQQYFAgB9BAIAAgACAAIABICABAEAAYACAQAB/wEBAAEBAQEA",
+     "content": {
+      "m": {
+       "k": 4
+      },
+      "t": "ae"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "ae"
+       }
+      ]
+     }
+    }
+   ],
+   "merged": {
+    "v1": "BQL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAQBAXQBZCgBAW0BawF9AwKAAgAEAQF0AWMoAQFtAWsBfQIC/wEABAEBdAFiKAEBbQFrAX0BAgEABAEBdAFhKAEBbQFrAX0AA4CABAEAAYACAQAB/wEBAAE=",
+    "v2": "AAANv////x+AgAiABL8DAQAAEwQAKAAEACgABAAoAAQAKAAEACgXFHRlbWt0ZG1rdGNta3RibWt0YW1rQRIBAQACQQMFAgB9BAIAfQMCAH0CAgB9AQIAfQADgIAEAQAAgAIBAAD/AQEAAA==",
+    "stateVector": "Bf////8PAoCABAKAAgL/AQIBAg==",
+    "stateVectorV2": "Bf////8PAoCABAKAAgL/AQIBAg==",
+    "v1ToV2": "AAANv////x+AgAiABL8DAQAAEwQAKAAEACgABAAoAAQAKAAEACgXFHRlbWt0ZG1rdGNta3RibWt0YW1rQRIBAQACQQMFAgB9BAIAfQMCAH0CAgB9AQIAfQADgIAEAQAAgAIBAAD/AQEAAA==",
+    "v2ToV1": "BQL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAQBAXQBZCgBAW0BawF9AwKAAgAEAQF0AWMoAQFtAWsBfQIC/wEABAEBdAFiKAEBbQFrAX0BAgEABAEBdAFhKAEBbQFrAX0AA4CABAEAAYACAQAB/wEBAAE=",
+    "content": {
+     "m": {
+      "k": 4
+     },
+     "t": "ae"
+    },
+    "contentV2": {
+     "m": {
+      "k": 4
+     },
+     "t": "ae"
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAANv////x+AgAiABL8DAQAAEwQAKAABACEAAQAhAAEAIQAEACEUEXRlbWt0bWt0bWt0bWt0YW1rQQ8BAQACQQYFAgB9BAIAAgACAAIABICABAEAAYACAQAB/wEBAAEBAQEA",
+    "v2ToV1": "BQL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAEBAXQBIQEBbQFrAQKAAgABAQF0ASEBAW0BawEC/wEAAQEBdAEhAQFtAWsBAgEABAEBdAFhIQEBbQFrAQSAgAQBAAKAAgEAAv8BAQACAQEBAQ=="
+   },
+   "diffs": [
+    {
+     "id": "c2",
+     "peer": 2,
+     "stateVector": "AYACAg==",
+     "v1": "BAL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAQBAXQBZCgBAW0BawF9AwL/AQAEAQF0AWIoAQFtAWsBfQECAQAEAQF0AWEoAQFtAWsBfQADgIAEAQABgAIBAAH/AQEAAQ==",
+     "v2": "AAALv////x+AgAi/AwEAAA8EACgABAAoAAQAKAAEACgTEHRlbWt0ZG1rdGJta3RhbWtBDgEBAAJBAgQCAH0EAgB9AwIAfQECAH0AA4CABAEAAIACAQAA/wEBAAA=",
+     "fromDoc": "BAL/////DwAEAQF0AWUoAQFtAWsBfQQCgIAEAAEBAXQBIQEBbQFrAQL/AQABAQF0ASEBAW0BawECAQAEAQF0AWEhAQFtAWsBBICABAEAAoACAQAC/wEBAAIBAQEB",
+     "fromDocV2": "AAALv////x+AgAi/AwEAAA8EACgAAQAhAAEAIQAEACERDnRlbWt0bWt0bWt0YW1rQQwBAQACQQQEAgB9BAIAAgACAASAgAQBAAGAAgEAAf8BAQABAQEBAA=="
+    }
+   ],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "multiple-roots",
+   "description": "Several root types of every kind in one document",
+   "gc": true,
+   "clientIds": [
+    31
+   ],
+   "roots": {
+    "t": "text",
+    "a": "array",
+    "m": "map",
+    "x": "xmlFragment",
+    "Ünïcödé root": "text"
+   },
+   "ops": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": "text"
+    },
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      "array"
+     ]
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "map",
+     "value": true
+    },
+    {
+     "op": "xmlInsert",
+     "peer": 0,
+     "target": "x",
+     "index": 0,
+     "nodes": [
+      {
+       "$y": "xmlElement",
+       "name": "h1"
+      }
+     ]
+    },
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "Ünïcödé root",
+     "index": 0,
+     "text": "root with a unicode name"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 31,
+     "updates": [
+      {
+       "v1": "AQEfAAQBAXQEdGV4dAA=",
+       "v2": "AAABHwAAAQQIBXR0ZXh0AQQBAQAAAQEAAA=="
+      },
+      {
+       "v1": "AQEfBAgBAWEBdwVhcnJheQA=",
+       "v2": "AAABHwAAAQgDAWEBAQEAAQEBAQR3BWFycmF5AA=="
+      },
+      {
+       "v1": "AQEfBSgBAW0DbWFwAXgA",
+       "v2": "AAABHwAAASgHBG1tYXABAwEBAAEBAQEFeAA="
+      },
+      {
+       "v1": "AQEfBgcBAXgDAmgxAA==",
+       "v2": "AAEAAR8AAAEHBgN4aDEBAgEBAQMAAQEGAA=="
+      },
+      {
+       "v1": "AQEfBwQBEMOcbsOvY8O2ZMOpIHJvb3QYcm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAA==",
+       "v2": "AAABHwAAAQQrKMOcbsOvY8O2ZMOpIHJvb3Ryb290IHdpdGggYSB1bmljb2RlIG5hbWUMGAEBAAABAQcA"
+      }
+     ],
+     "stateVector": "AR8f",
+     "update": "AQUfAAQBAXQEdGV4dAgBAWEBdwVhcnJheSgBAW0DbWFwAXgHAQF4AwJoMQQBEMOcbsOvY8O2ZMOpIHJvb3QYcm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAA==",
+     "updateV2": "AAEAAR8AAAkEAAgAKAAHAAQ/NXR0ZXh0YW1tYXB4aDHDnG7Dr2PDtmTDqSByb290cm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAQRBAAMBAgwYAQEBAwJBAAEFAHcFYXJyYXl4AA==",
+     "content": {
+      "a": [
+       "array"
+      ],
+      "m": {
+       "map": true
+      },
+      "t": "text",
+      "x": "<h1></h1>",
+      "Ünïcödé root": "root with a unicode name"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "text"
+       }
+      ],
+      "Ünïcödé root": [
+       {
+        "insert": "root with a unicode name"
+       }
+      ]
+     }
+    }
+   ],
+   "merged": {
+    "v1": "AQUfAAQBAXQEdGV4dAgBAWEBdwVhcnJheSgBAW0DbWFwAXgHAQF4AwJoMQQBEMOcbsOvY8O2ZMOpIHJvb3QYcm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAA==",
+    "v2": "AAEAAR8AAAkEAAgAKAAHAAQ/NXR0ZXh0YW1tYXB4aDHDnG7Dr2PDtmTDqSByb290cm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAQRBAAMBAgwYAQEBAwJBAAEFAHcFYXJyYXl4AA==",
+    "stateVector": "AR8f",
+    "stateVectorV2": "AR8f",
+    "v1ToV2": "AAEAAR8AAAkEAAgAKAAHAAQ/NXR0ZXh0YW1tYXB4aDHDnG7Dr2PDtmTDqSByb290cm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAQRBAAMBAgwYAQEBAwJBAAEFAHcFYXJyYXl4AA==",
+    "v2ToV1": "AQUfAAQBAXQEdGV4dAgBAWEBdwVhcnJheSgBAW0DbWFwAXgHAQF4AwJoMQQBEMOcbsOvY8O2ZMOpIHJvb3QYcm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAA==",
+    "content": {
+     "a": [
+      "array"
+     ],
+     "m": {
+      "map": true
+     },
+     "t": "text",
+     "x": "<h1></h1>",
+     "Ünïcödé root": "root with a unicode name"
+    },
+    "contentV2": {
+     "a": [
+      "array"
+     ],
+     "m": {
+      "map": true
+     },
+     "t": "text",
+     "x": "<h1></h1>",
+     "Ünïcödé root": "root with a unicode name"
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAEAAR8AAAkEAAgAKAAHAAQ/NXR0ZXh0YW1tYXB4aDHDnG7Dr2PDtmTDqSByb290cm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAQRBAAMBAgwYAQEBAwJBAAEFAHcFYXJyYXl4AA==",
+    "v2ToV1": "AQUfAAQBAXQEdGV4dAgBAWEBdwVhcnJheSgBAW0DbWFwAXgHAQF4AwJoMQQBEMOcbsOvY8O2ZMOpIHJvb3QYcm9vdCB3aXRoIGEgdW5pY29kZSBuYW1lAA=="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "gc-merge-deleted",
+   "description": "Content deleted by several peers then merged; merged update contains GC structs",
+   "gc": true,
+   "clientIds": [
+    1,
+    2,
+    3
+   ],
+   "roots": {
+    "t": "text",
+    "a": "array"
+   },
+   "ops": [
+    {
+     "op": "textInsert",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "text": "aaaa"
+    },
+    {
+     "op": "textInsert",
+     "peer": 1,
+     "target": "t",
+     "index": 0,
+     "text": "bbbb"
+    },
+    {
+     "op": "textInsert",
+     "peer": 2,
+     "target": "t",
+     "index": 0,
+     "text": "cccc"
+    },
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      1,
+      2
+     ]
+    },
+    {
+     "op": "arrayPush",
+     "peer": 1,
+     "target": "a",
+     "values": [
+      3,
+      4
+     ]
+    },
+    {
+     "op": "syncAll"
+    },
+    {
+     "op": "checkpoint",
+     "peer": 0,
+     "id": "after-insert"
+    },
+    {
+     "op": "textDelete",
+     "peer": 0,
+     "target": "t",
+     "index": 0,
+     "length": 6
+    },
+    {
+     "op": "arrayDelete",
+     "peer": 2,
+     "target": "a",
+     "index": 0,
+     "length": 3
+    },
+    {
+     "op": "textDelete",
+     "peer": 1,
+     "target": "t",
+     "index": 4,
+     "length": 2
+    },
+    {
+     "op": "syncAll"
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [
+      {
+       "v1": "AQEBAAQBAXQEYWFhYQA=",
+       "v2": "AAABAQAAAQQIBXRhYWFhAQQBAQAAAQEAAA=="
+      },
+      {
+       "v1": "AQEBBAgBAWECfQF9AgA=",
+       "v2": "AAABAQAAAQgDAWEBAQEAAQIBAQR9AX0CAA=="
+      },
+      {
+       "v1": "AAICAQACAQEABA==",
+       "v2": "AAAAAAAAAQAAAAAAAgIBAAEBAQAD"
+      }
+     ],
+     "stateVector": "AwMEAgYBBg==",
+     "update": "AwEDAAQBAXQEY2NjYwQCAAEBAXQChAIBAmJiAQEBYQGIAgQBfQQCAQABAQF0BAEBAWECAgICAAIEAQEBAAY=",
+     "updateV2": "AAAEA0IBAQICBgALBAABAIQAAQCIAAESC3RjY2NjdGJiYXRhAQQBAkEBAQEABQJBAAQCAwEABAB9BAIAAgICAAECAAEBAAU=",
+     "content": {
+      "a": [
+       4
+      ],
+      "t": "bbcccc"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "bbcccc"
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 2,
+     "updates": [
+      {
+       "v1": "AQECAAQBAXQEYmJiYgA=",
+       "v2": "AAABAgAAAQQIBXRiYmJiAQQBAQAAAQEAAA=="
+      },
+      {
+       "v1": "AQECBAgBAWECfQN9BAA=",
+       "v2": "AAABAgAAAQgDAWEBAQEAAQIBAQR9A30EAA=="
+      },
+      {
+       "v1": "AAECAQAC",
+       "v2": "AAAAAAAAAQAAAAAAAQIBAAE="
+      }
+     ],
+     "stateVector": "AwMEAgYBBg==",
+     "update": "AwEDAAQBAXQEY2NjYwQCAAEBAXQChAIBAmJiAQEBYQGIAgQBfQQCAQABAQF0BAEBAWECAgICAAIEAQEBAAY=",
+     "updateV2": "AAAEA0IBAQICBgALBAABAIQAAQCIAAESC3RjY2NjdGJiYXRhAQQBAkEBAQEABQJBAAQCAwEABAB9BAIAAgICAAECAAEBAAU=",
+     "content": {
+      "a": [
+       4
+      ],
+      "t": "bbcccc"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "bbcccc"
+       }
+      ]
+     }
+    },
+    {
+     "clientId": 3,
+     "updates": [
+      {
+       "v1": "AQEDAAQBAXQEY2NjYwA=",
+       "v2": "AAABAwAAAQQIBXRjY2NjAQQBAQAAAQEAAA=="
+      },
+      {
+       "v1": "AAICAQQBAQEEAg==",
+       "v2": "AAAAAAAAAQAAAAAAAgIBBAABAQQB"
+      }
+     ],
+     "stateVector": "AwMEAgYBBg==",
+     "update": "AwEDAAQBAXQEY2NjYwQCAAEBAXQChAIBAmJiAQEBYQGIAgQBfQQCAQABAQF0BAEBAWECAgICAAIEAQEBAAY=",
+     "updateV2": "AAAEA0IBAQICBgALBAABAIQAAQCIAAESC3RjY2NjdGJiYXRhAQQBAkEBAQEABQJBAAQCAwEABAB9BAIAAgICAAECAAEBAAU=",
+     "content": {
+      "a": [
+       4
+      ],
+      "t": "bbcccc"
+     },
+     "deltas": {
+      "t": [
+       {
+        "insert": "bbcccc"
+       }
+      ]
+     }
+    }
+   ],
+   "merged": {
+    "v1": "AwEDAAQBAXQEY2NjYwICAAQBAXQEYmJiYggBAWECfQN9BAIBAAQBAXQEYWFhYQgBAWECfQF9AgICAgACBAEBAQAG",
+    "v2": "AAADAwIBAAAHBAEIAAQACBoRdGNjY2N0YmJiYmF0YWFhYWEBBAEEQQAEAQEBAAJCAAMBAAIAfQN9BAIAfQF9AgICAgABAgABAQAF",
+    "stateVector": "AwMEAgYBBg==",
+    "stateVectorV2": "AwMEAgYBBg==",
+    "v1ToV2": "AAADAwIBAAAHBAEIAAQACBoRdGNjY2N0YmJiYmF0YWFhYWEBBAEEQQAEAQEBAAJCAAMBAAIAfQN9BAIAfQF9AgICAgABAgABAQAF",
+    "v2ToV1": "AwEDAAQBAXQEY2NjYwICAAQBAXQEYmJiYggBAWECfQN9BAIBAAQBAXQEYWFhYQgBAWECfQF9AgICAgACBAEBAQAG",
+    "content": {
+     "a": [
+      4
+     ],
+     "t": "bbcccc"
+    },
+    "contentV2": {
+     "a": [
+      4
+     ],
+     "t": "bbcccc"
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAAEA0IBAQICBgALBAABAIQAAQCIAAESC3RjY2NjdGJiYXRhAQQBAkEBAQEABQJBAAQCAwEABAB9BAIAAgICAAECAAEBAAU=",
+    "v2ToV1": "AwEDAAQBAXQEY2NjYwQCAAEBAXQChAIBAmJiAQEBYQGIAgQBfQQCAQABAQF0BAEBAWECAgICAAIEAQEBAAY="
+   },
+   "diffs": [
+    {
+     "id": "after-insert",
+     "peer": 0,
+     "stateVector": "AwMEAgYBBg==",
+     "v1": "AAICAgACBAEBAQAG",
+     "v2": "AAAAAAAAAQAAAAAAAgICAAECAAEBAAU=",
+     "fromDoc": "AAICAgACBAEBAQAG",
+     "fromDocV2": "AAAAAAAAAQAAAAAAAgICAAECAAEBAAU="
+    }
+   ],
+   "snapshots": [],
+   "relPositions": []
+  }
+ ]
+}

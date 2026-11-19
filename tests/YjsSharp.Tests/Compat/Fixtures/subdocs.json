@@ -1,0 +1,220 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "subdoc-in-map",
+   "description": "Subdocuments with guid, meta and autoLoad stored in a map",
+   "gc": true,
+   "clientIds": [
+    1,
+    2
+   ],
+   "roots": {
+    "m": "map"
+   },
+   "ops": [
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "a",
+     "value": {
+      "$y": "doc",
+      "guid": "sub-a"
+     }
+    },
+    {
+     "op": "mapSet",
+     "peer": 0,
+     "target": "m",
+     "key": "b",
+     "value": {
+      "$y": "doc",
+      "guid": "sub-b",
+      "meta": {
+       "title": "B"
+      },
+      "autoLoad": true
+     }
+    },
+    {
+     "op": "sync",
+     "from": 0,
+     "to": 1
+    },
+    {
+     "op": "mapDelete",
+     "peer": 1,
+     "target": "m",
+     "key": "a"
+    },
+    {
+     "op": "sync",
+     "from": 1,
+     "to": 0
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 1,
+     "updates": [
+      {
+       "v1": "AQEBACkBAW0BYQVzdWItYXYAAA==",
+       "v2": "AAABAQAAASkLB21hc3ViLWFBAAUBAQAAAQEAdgAA"
+      },
+      {
+       "v1": "AQEBASkBAW0BYgVzdWItYnYCCGF1dG9Mb2FkeARtZXRhdgEFdGl0bGV3AUIA",
+       "v2": "AAABAQAAASkLB21ic3ViLWJBAAUBAQAAAQEBdgIIYXV0b0xvYWR4BG1ldGF2AQV0aXRsZXcBQgA="
+      }
+     ],
+     "stateVector": "AQEC",
+     "update": "AQIBACEBAW0BYQEpAQFtAWIFc3ViLWJ2AghhdXRvTG9hZHgEbWV0YXYBBXRpdGxldwFCAQEBAAE=",
+     "updateV2": "AAABAQAAAyEAKQ0JbWFtYnN1Yi1iQQIFAQEAAQEBAgB2AghhdXRvTG9hZHgEbWV0YXYBBXRpdGxldwFCAQEBAAA=",
+     "content": {
+      "m": {
+       "b": {
+        "$doc": "sub-b"
+       }
+      }
+     },
+     "deltas": {}
+    },
+    {
+     "clientId": 2,
+     "updates": [
+      {
+       "v1": "AAEBAQAB",
+       "v2": "AAAAAAAAAQAAAAAAAQEBAAA="
+      }
+     ],
+     "stateVector": "AQEC",
+     "update": "AQIBACEBAW0BYQEpAQFtAWIFc3ViLWJ2AghhdXRvTG9hZHgEbWV0YXYBBXRpdGxldwFCAQEBAAE=",
+     "updateV2": "AAABAQAAAyEAKQ0JbWFtYnN1Yi1iQQIFAQEAAQEBAgB2AghhdXRvTG9hZHgEbWV0YXYBBXRpdGxldwFCAQEBAAA=",
+     "content": {
+      "m": {
+       "b": {
+        "$doc": "sub-b"
+       }
+      }
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AQIBACkBAW0BYQVzdWItYXYAKQEBbQFiBXN1Yi1idgIIYXV0b0xvYWR4BG1ldGF2AQV0aXRsZXcBQgEBAQAB",
+    "v2": "AAABAQAAASkVDm1hc3ViLWFtYnN1Yi1iQQAFQQAFAQEAAAECAHYAdgIIYXV0b0xvYWR4BG1ldGF2AQV0aXRsZXcBQgEBAQAA",
+    "stateVector": "AQEC",
+    "stateVectorV2": "AQEC",
+    "v1ToV2": "AAABAQAAASkVDm1hc3ViLWFtYnN1Yi1iQQAFQQAFAQEAAAECAHYAdgIIYXV0b0xvYWR4BG1ldGF2AQV0aXRsZXcBQgEBAQAA",
+    "v2ToV1": "AQIBACkBAW0BYQVzdWItYXYAKQEBbQFiBXN1Yi1idgIIYXV0b0xvYWR4BG1ldGF2AQV0aXRsZXcBQgEBAQAB",
+    "content": {
+     "m": {
+      "b": {
+       "$doc": "sub-b"
+      }
+     }
+    },
+    "contentV2": {
+     "m": {
+      "b": {
+       "$doc": "sub-b"
+      }
+     }
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAABAQAAAyEAKQ0JbWFtYnN1Yi1iQQIFAQEAAQEBAgB2AghhdXRvTG9hZHgEbWV0YXYBBXRpdGxldwFCAQEBAAA=",
+    "v2ToV1": "AQIBACEBAW0BYQEpAQFtAWIFc3ViLWJ2AghhdXRvTG9hZHgEbWV0YXYBBXRpdGxldwFCAQEBAAE="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  },
+  {
+   "name": "subdoc-in-array",
+   "description": "Subdocuments in an array next to plain values",
+   "gc": true,
+   "clientIds": [
+    21
+   ],
+   "roots": {
+    "a": "array"
+   },
+   "ops": [
+    {
+     "op": "arrayPush",
+     "peer": 0,
+     "target": "a",
+     "values": [
+      "x",
+      {
+       "$y": "doc",
+       "guid": "array-sub"
+      },
+      1
+     ]
+    }
+   ],
+   "peers": [
+    {
+     "clientId": 21,
+     "updates": [
+      {
+       "v1": "AQMVAAgBAWEBdwF4iRUACWFycmF5LXN1YnYAiBUBAX0BAA==",
+       "v2": "AAACVQECAAIABQgAiQCIDQphYXJyYXktc3ViAQkBAQACQQABAwB3AXh2AH0BAA=="
+      }
+     ],
+     "stateVector": "ARUD",
+     "update": "AQMVAAgBAWEBdwF4iRUACWFycmF5LXN1YnYAiBUBAX0BAA==",
+     "updateV2": "AAACVQECAAIABQgAiQCIDQphYXJyYXktc3ViAQkBAQACQQABAwB3AXh2AH0BAA==",
+     "content": {
+      "a": [
+       "x",
+       {
+        "$doc": "array-sub"
+       },
+       1
+      ]
+     },
+     "deltas": {}
+    }
+   ],
+   "merged": {
+    "v1": "AQMVAAgBAWEBdwF4iRUACWFycmF5LXN1YnYAiBUBAX0BAA==",
+    "v2": "AAACVQECAAIABQgAiQCIDQphYXJyYXktc3ViAQkBAQACQQABAwB3AXh2AH0BAA==",
+    "stateVector": "ARUD",
+    "stateVectorV2": "ARUD",
+    "v1ToV2": "AAACVQECAAIABQgAiQCIDQphYXJyYXktc3ViAQkBAQACQQABAwB3AXh2AH0BAA==",
+    "v2ToV1": "AQMVAAgBAWEBdwF4iRUACWFycmF5LXN1YnYAiBUBAX0BAA==",
+    "content": {
+     "a": [
+      "x",
+      {
+       "$doc": "array-sub"
+      },
+      1
+     ]
+    },
+    "contentV2": {
+     "a": [
+      "x",
+      {
+       "$doc": "array-sub"
+      },
+      1
+     ]
+    }
+   },
+   "conversions": {
+    "v1ToV2": "AAACVQECAAIABQgAiQCIDQphYXJyYXktc3ViAQkBAQACQQABAwB3AXh2AH0BAA==",
+    "v2ToV1": "AQMVAAgBAWEBdwF4iRUACWFycmF5LXN1YnYAiBUBAX0BAA=="
+   },
+   "diffs": [],
+   "snapshots": [],
+   "relPositions": []
+  }
+ ]
+}

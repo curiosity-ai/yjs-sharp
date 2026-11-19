@@ -1,0 +1,17 @@
+{
+ "generator": {
+  "yjs": "13.6.33",
+  "y-protocols": "1.0.7"
+ },
+ "scenarios": [
+  {
+   "name": "framing",
+   "queryAwareness": "Aw==",
+   "permissionDenied": "AgAVcm9vbSBpcyByZWFkLW9ubHkg4pyL",
+   "permissionDeniedReason": "room is read-only ✋",
+   "awareness": "AR0BCwEZeyJ1c2VyIjp7Im5hbWUiOiJBbGljZSJ9fQ==",
+   "awarenessClientId": 11,
+   "awarenessState": "{\"user\":{\"name\":\"Alice\"}}"
+  }
+ ]
+}
