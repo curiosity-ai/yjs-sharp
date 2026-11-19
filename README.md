@@ -58,6 +58,123 @@ Values stored in shared types are the Yjs "Any" values - `null`, `bool`, `double
 `IList<object?>` and `IDictionary<string, object?>` - plus nested shared types and subdocuments (`Doc`).
 See [docs/API.md](docs/API.md) for the public surface.
 
+## Working with the shared types
+
+### Values
+
+Shared types hold the Yjs "Any" values: `null`, `bool`, numbers, `string`, `byte[]`, lists (`IList`) and string keyed
+dictionaries (`IDictionary<string, object?>`), plus nested shared types and subdocuments. Values are encoded exactly
+like JavaScript would encode them (an integral number up to 2^31 as an integer, `float` precision when it is
+lossless, `BigInteger` as a BigInt, `Undefined.Value` for `undefined`), and decoded as `long`, `double`, `string`,
+`List<object?>`, `Dictionary<string, object?>`, `byte[]` and `BigInteger`. `System.Text.Json.JsonElement` values can be
+stored directly.
+
+```csharp
+var doc  = new Doc();
+var map  = doc.GetMap("settings");
+var list = doc.GetArray("items");
+
+map.Set("title", "Draft");
+map.Set("limits", new Dictionary<string, object?> { ["max"] = 10, ["tags"] = new List<object?> { "a", "b" } });
+list.Push(1, 2, 3);                       // three elements
+list.Insert(0, new List<object?> { 0 });  // a list of elements to insert
+list.Push(new object?[] { new List<object?> { 7, 8 } }); // one element that is a list
+
+// Nested types: create them unattached, then insert them. They become live once integrated.
+var todo = new YMap();
+todo.Set("done", false);
+list.Push(todo);
+var notes = map.Set("notes", new Text("first line"));
+notes.Insert(notes.Length, "\nsecond line");
+
+Console.WriteLine(YjsSharp.Encoding.JsJson.Stringify(doc.ToJson()));
+```
+
+### Transactions and origins
+
+Every mutating call runs in a transaction. Without an explicit one, each call opens its own (one update event per
+call, like Yjs); `Doc.Transact` groups calls, and nested `Transact` calls join the outer transaction. The origin is
+passed to the update event, the observers (`e.Transaction.Origin`) and the undo manager.
+
+```csharp
+doc.Transact(t =>
+{
+    var text = doc.GetText("body");
+    text.Insert(t, 0, "Hello");                     // explicit-transaction overloads are optional
+    text.Format(0, 5, new Dictionary<string, object?> { ["bold"] = true });
+}, origin: "toolbar");
+```
+
+### Observing changes
+
+```csharp
+var text = doc.GetText("body");
+using var sub = text.Observe(e =>
+{
+    foreach (var d in e.Delta)                  // Quill-style delta: insert / retain / delete with attributes
+        Console.WriteLine(d);
+});
+using var deep = doc.GetMap("settings").ObserveDeep(events =>
+{
+    foreach (var e in events)                   // one event per changed type, top-level types first
+        Console.WriteLine($"{string.Join("/", e.Path)}: {e.GetType().Name}");
+});
+doc.AfterTransaction += (_, e) => Console.WriteLine($"changed {e.Transaction.Changed.Count()} types");
+```
+
+`ArrayEvent.Delta` lists inserted elements, `MapEvent.Keys` (and `XmlEvent.Keys` for attributes) say per key whether
+it was added, updated or deleted with the old and new value. Observers run when the outermost transaction ends; an
+exception in one observer does not prevent the others or the update event, and is rethrown afterwards.
+
+### Rich text and XML
+
+`Text` supports formatting attributes, embeds (`InsertEmbed`), `ApplyDelta` / `ToDelta`, and attributes of the type
+itself (`SetAttribute`). `XmlFragment`, `XmlElement` (node name and attributes), `XmlText` and `XmlHook` model the
+trees used by editors such as ProseMirror / TipTap (y-prosemirror) and render as XML strings with `ToString()`.
+
+### History: snapshots, relative positions, undo
+
+```csharp
+var doc  = new Doc(new DocOptions { GC = false });     // keep deleted content to restore snapshots
+var text = doc.GetText("body");
+text.Insert(0, "v1");
+var snapshot = Y.Snapshot(doc);
+text.Insert(2, " and v2");
+var old   = Y.CreateDocFromSnapshot(doc, snapshot);    // a new Doc with the old state
+var diff  = text.ToDelta(Y.Snapshot(doc), snapshot);   // changes marked with a "ychange" attribute
+
+// A cursor that survives concurrent edits (encoded like Y.encodeRelativePosition)
+var cursor = RelativePosition.FromTypeIndex(text, 2);
+var bytes  = cursor.Encode();
+var index  = RelativePosition.Decode(bytes).ToAbsolute(doc)?.Index;
+
+var undo = new UndoManager(text, new UndoManagerOptions { CaptureTimeout = 500 });
+text.Insert(0, "x");
+undo.Undo();
+undo.Redo();
+```
+
+### Updates without a document
+
+`Y.MergeUpdates`, `Y.DiffUpdate`, `Y.EncodeStateVectorFromUpdate`, `Y.ParseUpdateMeta`, the format conversions and
+`Y.DecodeUpdate` work on encoded updates directly, which is how a server can store and compact a document's history
+without loading it. Updates whose dependencies are missing are kept pending by `Doc` (like Yjs) and applied once the
+missing updates arrive; `Doc.HasPendingUpdates`, `PendingMissing` and `PrunePending` expose that state.
+
+### Threading
+
+A `Doc` is single-writer, like the JavaScript implementation: callers must serialize access (for example one lock or
+one message loop per document). Starting a transaction while another thread is inside one throws
+`ConcurrentDocumentAccessException` instead of corrupting the document. Reads while another thread writes are not
+detected and must be avoided as well.
+
+### Differences from yrs
+
+The core follows Yjs 13.6 wherever Yjs and yrs differ observably: updates with missing predecessors stay pending
+instead of being integrated behind a skip, a client id is a JavaScript-safe 32-bit number, text indices are UTF-16
+code units, and `InsertEmbed` without attributes does not inherit surrounding formatting. yrs' move operations and
+weak links, which Yjs 13.6 cannot decode, are not implemented.
+
 ## Sync and awareness protocols
 
 `YjsSharp.Sync` implements y-protocols' `sync.js` and `awareness.js` and is byte-compatible with them:
@@ -202,5 +319,8 @@ YjsSharp is a port of the work of others:
   [lib0](https://github.com/dmonad/lib0) by Kevin Jahns and contributors (MIT).
 - [y-crdt / yrs](https://github.com/y-crdt/y-crdt), the Rust port by Bartosz Sypytkowski and contributors (MIT),
   whose v0.28 test suite and sync protocol implementation were ported here.
+- [Ycs](https://github.com/yjs/ycs), an earlier C# port of Yjs (MIT), used as a reference for C# idioms.
+
+See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for their license notices.
 
 Maintained by [Curiosity GmbH](https://curiosity.ai). Released under the MIT license.
