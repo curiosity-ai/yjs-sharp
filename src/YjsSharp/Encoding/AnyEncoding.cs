@@ -227,8 +227,8 @@ internal static class AnyEncoding
                 return decoder.ReadVarString();
             case TypeObject:
                 {
-                    var len = (int)decoder.ReadVarUInt();
-                    var obj = new Dictionary<string, object?>(len);
+                    var len = decoder.ReadVarLength();
+                    var obj = new Dictionary<string, object?>(Math.Min(len, 1024));
                     for (var i = 0; i < len; i++)
                     {
                         var key = decoder.ReadVarString();
@@ -238,7 +238,7 @@ internal static class AnyEncoding
                 }
             case TypeArray:
                 {
-                    var len = (int)decoder.ReadVarUInt();
+                    var len = decoder.ReadVarLength();
                     var arr = new List<object?>(Math.Min(len, 1024));
                     for (var i = 0; i < len; i++)
                     {

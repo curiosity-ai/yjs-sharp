@@ -46,6 +46,20 @@ public static class Y
         return (from, to);
     }
 
+    /// <summary>Decodes an update (v1) into its structs and delete set without applying it (for inspection).</summary>
+    public static (IReadOnlyList<Structs.AbstractStruct> Structs, DeleteSet DeleteSet) DecodeUpdate(byte[] update)
+    {
+        var (structs, ds) = UpdateUtils.DecodeUpdate(update, false);
+        return (structs, ds);
+    }
+
+    /// <summary>Decodes an update (v2) into its structs and delete set without applying it (for inspection).</summary>
+    public static (IReadOnlyList<Structs.AbstractStruct> Structs, DeleteSet DeleteSet) DecodeUpdateV2(byte[] update)
+    {
+        var (structs, ds) = UpdateUtils.DecodeUpdate(update, true);
+        return (structs, ds);
+    }
+
     /// <summary>Takes a snapshot of a document.</summary>
     public static Snapshot Snapshot(Doc doc) => YjsSharp.Snapshot.Create(doc);
 

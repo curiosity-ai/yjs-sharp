@@ -157,14 +157,24 @@ public sealed class Snapshot : IEquatable<Snapshot>
     /// <summary>Restores the state captured by the snapshot into a new document. The origin must have GC disabled.</summary>
     public static Doc CreateDocFromSnapshot(Doc originDoc, Snapshot snapshot, Doc? newDoc = null)
     {
+        newDoc ??= new Doc();
+        newDoc.ApplyUpdateV2(EncodeStateFromSnapshot(originDoc, snapshot, true), "snapshot");
+        return newDoc;
+    }
+
+    /// <summary>
+    /// Encodes the state of <paramref name="originDoc"/> as it was when the snapshot was taken, as an update
+    /// (format v2 when <paramref name="v2"/> is set). The origin must have GC disabled.
+    /// </summary>
+    public static byte[] EncodeStateFromSnapshot(Doc originDoc, Snapshot snapshot, bool v2)
+    {
         if (originDoc.GcEnabled)
         {
             throw new InvalidOperationException("Garbage-collection must be disabled in `originDoc`!");
         }
-        newDoc ??= new Doc();
-        var sv      = snapshot.StateVectorInternal;
-        var ds      = snapshot.Ds;
-        var encoder = new UpdateEncoderV2();
+        var sv = snapshot.StateVectorInternal;
+        var ds = snapshot.Ds;
+        IUpdateEncoder encoder = v2 ? new UpdateEncoderV2() : new UpdateEncoderV1();
         originDoc.Transact(transaction =>
         {
             var size = 0;
@@ -201,8 +211,7 @@ public sealed class Snapshot : IEquatable<Snapshot>
             }
             ds.Write(encoder);
         });
-        newDoc.ApplyUpdateV2(encoder.ToArray(), "snapshot");
-        return newDoc;
+        return encoder.ToArray();
     }
 
     /// <summary>Whether the snapshot contains everything in the (v1) update.</summary>

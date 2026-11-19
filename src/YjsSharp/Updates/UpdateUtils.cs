@@ -36,7 +36,7 @@ internal sealed class LazyStructReader
                 return null;
             }
             _stateUpdateIndex++;
-            _structsLeft = (long)_decoder.RestDecoder.ReadVarUInt();
+            _structsLeft = _decoder.RestDecoder.ReadVarLength();
             _client      = _decoder.ReadClient();
             _clock       = _decoder.RestDecoder.ReadVarUInt32();
         }

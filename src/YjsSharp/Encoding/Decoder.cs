@@ -146,6 +146,17 @@ public sealed class Decoder
         return (uint)v;
     }
 
+    /// <summary>Reads a variable length unsigned integer used as a length or count (must fit into an int).</summary>
+    public int ReadVarLength()
+    {
+        var v = ReadVarUInt();
+        if (v > int.MaxValue)
+        {
+            throw new FormatException("Length out of range");
+        }
+        return (int)v;
+    }
+
     /// <summary>Reads a lib0 variable length signed integer.</summary>
     public long ReadVarInt()
     {
@@ -187,7 +198,7 @@ public sealed class Decoder
     /// <summary>Reads a length prefixed UTF-8 string.</summary>
     public string ReadVarString()
     {
-        var len = (int)ReadVarUInt();
+        var len = ReadVarLength();
         Need(len);
         var s = len == 0 ? string.Empty : System.Text.Encoding.UTF8.GetString(_buffer, _position, len);
         _position += len;
@@ -197,6 +208,10 @@ public sealed class Decoder
     /// <summary>Reads <paramref name="length"/> raw bytes (copied).</summary>
     public byte[] ReadUInt8Array(int length)
     {
+        if (length < 0)
+        {
+            throw new FormatException("Length out of range");
+        }
         Need(length);
         var result = new byte[length];
         Buffer.BlockCopy(_buffer, _position, result, 0, length);
@@ -216,13 +231,13 @@ public sealed class Decoder
     /// <summary>Reads length prefixed bytes (copied).</summary>
     public byte[] ReadVarUInt8Array()
     {
-        return ReadUInt8Array((int)ReadVarUInt());
+        return ReadUInt8Array(ReadVarLength());
     }
 
     /// <summary>Reads length prefixed bytes and returns a decoder over them (no copy).</summary>
     public Decoder ReadVarUInt8ArrayAsDecoder()
     {
-        var len = (int)ReadVarUInt();
+        var len = ReadVarLength();
         Need(len);
         var d = new Decoder(_buffer, _position, len);
         _position += len;

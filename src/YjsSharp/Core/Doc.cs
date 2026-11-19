@@ -418,6 +418,35 @@ public sealed class Doc : IDisposable
     /// <summary>Applies an update (v2).</summary>
     public void ApplyUpdateV2(byte[] update, object? origin = null) => UpdateCodec.ApplyUpdate(this, update, origin, true);
 
+    /// <summary>Encodes the state of the document at the time of the snapshot as an update (v1). Requires GC to be disabled.</summary>
+    public byte[] EncodeStateFromSnapshot(Snapshot snapshot) => Snapshot.EncodeStateFromSnapshot(this, snapshot, false);
+
+    /// <summary>Encodes the state of the document at the time of the snapshot as an update (v2). Requires GC to be disabled.</summary>
+    public byte[] EncodeStateFromSnapshotV2(Snapshot snapshot) => Snapshot.EncodeStateFromSnapshot(this, snapshot, true);
+
+    /// <summary>
+    /// Garbage collects deleted content now, even when GC is disabled for the document: the deleted items in
+    /// <paramref name="deleteSet"/> (all deleted items when null) lose their content. Items kept by an undo manager are
+    /// skipped. Snapshots taken before the collected deletions can no longer be restored.
+    /// </summary>
+    public void ForceGc(DeleteSet? deleteSet = null)
+    {
+        TransactInternal<object?>(_ =>
+        {
+            var ds = deleteSet?.Clone() ?? DeleteSet.FromStructStore(Store);
+            ds.SortAndMerge();
+            foreach (var client in new List<ulong>(ds.Clients.Keys))
+            {
+                if (!Store.Clients.ContainsKey(client))
+                {
+                    ds.Clients.Remove(client);
+                }
+            }
+            Transaction.TryGc(ds, Store, GcFilter);
+            return null;
+        }, null, true);
+    }
+
     /// <summary>Whether the document holds updates that could not be applied yet (missing dependencies).</summary>
     public bool HasPendingUpdates => Store.PendingStructs != null || Store.PendingDs != null;
 

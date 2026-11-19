@@ -66,7 +66,7 @@ internal static class UpdateCodec
         var numOfStateUpdates = decoder.RestDecoder.ReadVarUInt();
         for (ulong i = 0; i < numOfStateUpdates; i++)
         {
-            var numberOfStructs = (int)decoder.RestDecoder.ReadVarUInt();
+            var numberOfStructs = decoder.RestDecoder.ReadVarLength();
             var refs            = new List<AbstractStruct>(Math.Min(numberOfStructs, 4096));
             var client          = decoder.ReadClient();
             var clock           = decoder.RestDecoder.ReadVarUInt32();
@@ -353,6 +353,21 @@ internal static class UpdateCodec
     {
         ydoc.TransactInternal<object?>(transaction =>
         {
+            try
+            {
+                ReadUpdateBody(transaction, structDecoder);
+            }
+            catch (Exception e) when (e is not FormatException && e is not ConcurrentDocumentAccessException)
+            {
+                throw new FormatException("Malformed update: " + e.Message, e);
+            }
+            return null;
+        }, transactionOrigin, false);
+    }
+
+    private static void ReadUpdateBody(Transaction transaction, IUpdateDecoder structDecoder)
+    {
+        {
             transaction._local = false;
             var retry       = false;
             var doc         = transaction.Doc;
@@ -411,8 +426,7 @@ internal static class UpdateCodec
                 store.PendingStructs = null;
                 ApplyUpdate(transaction.Doc, update, null, true);
             }
-            return null;
-        }, transactionOrigin, false);
+        }
     }
 
     internal static void ApplyUpdate(Doc doc, byte[] update, object? origin, bool v2)
