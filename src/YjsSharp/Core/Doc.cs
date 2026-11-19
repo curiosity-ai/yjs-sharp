@@ -442,25 +442,32 @@ public sealed class Doc : IDisposable
         if (item != null)
         {
             _item = null;
-            var content = (ContentDoc)item.ContentField;
+            // A subdocument removed in the same transaction is destroyed after the delete set was garbage
+            // collected, so its item may already hold ContentDeleted (Yjs assigns content.doc on it regardless).
+            var content = item.ContentField as ContentDoc;
             var options = new DocOptions { Guid = Guid, ShouldLoad = false };
-            if (content.Opts.TryGetValue("gc", out var gc) && gc is bool g)
+            var opts    = content?.Opts ?? new Dictionary<string, object?>();
+            if (opts.TryGetValue("gc", out var gc) && gc is bool g)
             {
                 options.GC = g;
             }
-            if (content.Opts.TryGetValue("autoLoad", out var al) && al is bool a)
+            if (opts.TryGetValue("autoLoad", out var al) && al is bool a)
             {
                 options.AutoLoad = a;
             }
-            if (content.Opts.TryGetValue("meta", out var meta))
+            if (opts.TryGetValue("meta", out var meta))
             {
                 options.Meta = meta;
             }
-            content.DocField       = new Doc(options);
-            content.DocField._item = item;
+            var replacement = new Doc(options);
+            replacement._item = item;
+            if (content != null)
+            {
+                content.DocField = replacement;
+            }
             item.Parent!.Doc!.TransactInternal<object?>(transaction =>
             {
-                var doc = content.DocField;
+                var doc = replacement;
                 if (!item.Deleted)
                 {
                     transaction._subdocsAdded.Add(doc);
